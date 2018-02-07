@@ -8,7 +8,7 @@ Recomender system in CSharp (a student project)
 
 # Libraries
 
-1. [Nancy](http://nancyfx.org/). [Getting started in .NAT and MONO](http://getting-started.md/guides/4-dotnet-nancy). [Short introduction](https://github.com/NancyFx/Nancy/wiki/Introduction). [Simple Nancy PRoject in Monodevelop](http://littlegists.blogspot.ru/2012/12/building-simple-nancy-app-from-scratch.html).
+1. [Nancy](http://nancyfx.org/). [Getting started in .NAT and MONO](http://getting-started.md/guides/4-dotnet-nancy). [Short introduction](https://github.com/NancyFx/Nancy/wiki/Introduction). [Simple Nancy PRoject in Monodevelop](http://littlegists.blogspot.ru/2012/12/building-simple-nancy-app-from-scratch.html). [Hosting Nancy with NGinx](https://github.com/NancyFx/Nancy/wiki/Hosting-Nancy-with-Nginx-on-Ubuntu).
 
 # Other
 
