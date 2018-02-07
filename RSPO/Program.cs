@@ -1,13 +1,13 @@
 ﻿using System;
+using Nancy;
 
 namespace RSPO
 {
-    class MainClass
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-            Console.WriteLine("Forewell, Hell!");
-        }
-    }
+	public class HelloModule : NancyModule
+	{
+		public HelloModule()
+		{
+			Get["/"] = parameters => "Hello World";
+		}
+	}
 }
