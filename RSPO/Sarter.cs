@@ -10,7 +10,7 @@ namespace RSPO
         static void Main(string[] args)
         {
             var uri = "http://localhost:8888";
-            Console.WriteLine("Starting Nancy on " + uri);
+            Console.WriteLine("Starting Nancy on " + uri + "\n Ctrl-C to Stop.");
 
             // initialize an instance of NancyHost
             var host = new NancyHost(new Uri(uri));
