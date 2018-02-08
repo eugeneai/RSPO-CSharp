@@ -1,6 +1,7 @@
 ﻿using System;
 using Mono.Unix;
 using Mono.Unix.Native;
+using Nancy;
 using Nancy.Hosting.Self;
 
 namespace RSPO
@@ -13,7 +14,13 @@ namespace RSPO
             Console.WriteLine("Starting Nancy on " + uri + "\n Ctrl-C to Stop.");
 
             // initialize an instance of NancyHost
-            var host = new NancyHost(new Uri(uri));
+            HostConfiguration hostConfigs = new HostConfiguration();
+            hostConfigs.UrlReservations.CreateAutomatically = true;
+            var host = new NancyHost(new Uri(uri), 
+                new DefaultNancyBootstrapper(), 
+                hostConfigs);
+
+
             host.Start();  // start hosting
 
             // check if we're running on mono
