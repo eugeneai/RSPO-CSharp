@@ -53,6 +53,7 @@
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.1.4.4\lib\net40\Nancy.dll</HintPath>
@@ -82,7 +83,6 @@
     <Reference Include="SharpTAL">
       <HintPath>..\packages\SharpTAL.3.0.0\lib\net40\SharpTAL.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
