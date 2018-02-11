@@ -1,6 +1,6 @@
 ﻿using System;
-using Mono.Unix;
-using Mono.Unix.Native;
+//using Mono.Unix;
+//using Mono.Unix.Native;
 using Nancy;
 using Nancy.Hosting.Self;
 
@@ -28,12 +28,14 @@ namespace RSPO
             {
                 // on mono, processes will usually run as daemons - this allows you to listen
                 // for termination signals (ctrl+c, shutdown, etc) and finalize correctly
+                /*
                 UnixSignal.WaitAny(new[] {
                     new UnixSignal(Signum.SIGINT),
                     new UnixSignal(Signum.SIGTERM),
                     new UnixSignal(Signum.SIGQUIT),
                     new UnixSignal(Signum.SIGHUP)
                 });
+                */
             }
             else
             {
