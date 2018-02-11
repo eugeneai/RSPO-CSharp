@@ -31,10 +31,9 @@ namespace RSPO
 			};
 			Get["/hello/{Name}"] = parameters =>
 			{
-                dynamic name = parameters.Name;
-				var testModel = new TestModel(name); // Взял у тебя в коде
-                return View["Hello.html", testModel];
-            };
+				var testModel = new TestModel(parameters.Name);
+				return View["Hello.html", testModel];
+			};
 		}
 	}
 }
