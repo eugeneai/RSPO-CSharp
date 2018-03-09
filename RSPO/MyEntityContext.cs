@@ -36,6 +36,10 @@ namespace RSPO
         public static void InitializeEntityMappingStore()
         {
     		var provider = new ReflectionMappingProvider();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IActor));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IActor, RSPO.Actor>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IFilm));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IFilm, RSPO.Film>();
     	}
     	
     	/// <summary>
@@ -101,13 +105,83 @@ namespace RSPO
     	
     	private void InitializeContext() 
     	{
+    		Actors = 	new BrightstarEntitySet<RSPO.IActor>(this);
+    		Films = 	new BrightstarEntitySet<RSPO.IFilm>(this);
+    	}
+    	
+    	public IEntitySet<RSPO.IActor> Actors
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IFilm> Films
+    	{
+    		get; private set;
     	}
     	
         public IEntitySet<T> EntitySet<T>() where T : class {
             var itemType = typeof(T);
+            if (typeof(T).Equals(typeof(RSPO.IActor))) {
+                return (IEntitySet<T>)this.Actors;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IFilm))) {
+                return (IEntitySet<T>)this.Films;
+            }
             throw new InvalidOperationException(typeof(T).FullName + " is not a recognized entity interface type.");
         }
     
         } // end class MyEntityContext
         
+}
+namespace RSPO 
+{
+    
+    public partial class Actor : BrightstarEntityObject, IActor 
+    {
+    	public Actor(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Actor(BrightstarEntityContext context) : base(context, typeof(Actor)) { }
+    	public Actor() : base() { }
+    	#region Implementation of RSPO.IActor
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.DateTime DateOfBirth
+    	{
+            		get { return GetRelatedProperty<System.DateTime>("DateOfBirth"); }
+            		set { SetRelatedProperty("DateOfBirth", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IFilm> Films
+    	{
+    		get { return GetRelatedObjects<RSPO.IFilm>("Films"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Films", value); }
+    								}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Film : BrightstarEntityObject, IFilm 
+    {
+    	public Film(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Film(BrightstarEntityContext context) : base(context, typeof(Film)) { }
+    	public Film() : base() { }
+    	#region Implementation of RSPO.IFilm
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IActor> Actors
+    	{
+    		get { return GetRelatedObjects<RSPO.IActor>("Actors"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Actors", value); }
+    								}
+    	#endregion
+    }
 }

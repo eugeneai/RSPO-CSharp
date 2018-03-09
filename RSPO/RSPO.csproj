@@ -91,6 +91,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IActor.cs" />
+    <Compile Include="IFilm.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MyEntityContext.cs">
       <AutoGen>True</AutoGen>
