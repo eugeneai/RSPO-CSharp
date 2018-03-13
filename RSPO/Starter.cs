@@ -34,6 +34,7 @@ namespace RSPO
                     new UnixSignal(Signum.SIGQUIT),
                     new UnixSignal(Signum.SIGHUP)
                 });
+                // Русский коментарий.
 				// Console.ReadLine();
 			}
 			else

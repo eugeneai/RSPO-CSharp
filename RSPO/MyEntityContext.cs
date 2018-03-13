@@ -14,6 +14,8 @@ using System.Linq;
 using BrightstarDB.Client;
 using BrightstarDB.EntityFramework;
 
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RSPO 
 {
@@ -40,6 +42,8 @@ namespace RSPO
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IActor, RSPO.Actor>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IFilm));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IFilm, RSPO.Film>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IUser));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IUser, RSPO.User>();
     	}
     	
     	/// <summary>
@@ -107,6 +111,7 @@ namespace RSPO
     	{
     		Actors = 	new BrightstarEntitySet<RSPO.IActor>(this);
     		Films = 	new BrightstarEntitySet<RSPO.IFilm>(this);
+    		Users = 	new BrightstarEntitySet<RSPO.IUser>(this);
     	}
     	
     	public IEntitySet<RSPO.IActor> Actors
@@ -119,6 +124,11 @@ namespace RSPO
     		get; private set;
     	}
     	
+    	internal IEntitySet<RSPO.IUser> Users
+    	{
+    		get; private set;
+    	}
+    	
         public IEntitySet<T> EntitySet<T>() where T : class {
             var itemType = typeof(T);
             if (typeof(T).Equals(typeof(RSPO.IActor))) {
@@ -126,6 +136,9 @@ namespace RSPO
             }
             if (typeof(T).Equals(typeof(RSPO.IFilm))) {
                 return (IEntitySet<T>)this.Films;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IUser))) {
+                return (IEntitySet<T>)this.Users;
             }
             throw new InvalidOperationException(typeof(T).FullName + " is not a recognized entity interface type.");
         }
@@ -182,6 +195,42 @@ namespace RSPO
     		get { return GetRelatedObjects<RSPO.IActor>("Actors"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Actors", value); }
     								}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    internal partial class User : BrightstarEntityObject, IUser 
+    {
+    	public User(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public User(BrightstarEntityContext context) : base(context, typeof(User)) { }
+    	public User() : base() { }
+    	#region Implementation of RSPO.IUser
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String NickName
+    	{
+            		get { return GetRelatedProperty<System.String>("NickName"); }
+            		set { SetRelatedProperty("NickName", value); }
+    	}
+    
+    	public System.String PasswordHash
+    	{
+            		get { return GetRelatedProperty<System.String>("PasswordHash"); }
+            		set { SetRelatedProperty("PasswordHash", value); }
+    	}
+    
+    	public System.String Email
+    	{
+            		get { return GetRelatedProperty<System.String>("Email"); }
+            		set { SetRelatedProperty("Email", value); }
+    	}
     	#endregion
     }
 }
