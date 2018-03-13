@@ -38,10 +38,8 @@ namespace RSPO
         public static void InitializeEntityMappingStore()
         {
     		var provider = new ReflectionMappingProvider();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IActor));
-    		EntityMappingStore.Instance.SetImplMapping<RSPO.IActor, RSPO.Actor>();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IFilm));
-    		EntityMappingStore.Instance.SetImplMapping<RSPO.IFilm, RSPO.Film>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IRole));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IRole, RSPO.Role>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IUser));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IUser, RSPO.User>();
     	}
@@ -109,17 +107,11 @@ namespace RSPO
     	
     	private void InitializeContext() 
     	{
-    		Actors = 	new BrightstarEntitySet<RSPO.IActor>(this);
-    		Films = 	new BrightstarEntitySet<RSPO.IFilm>(this);
+    		Roles = 	new BrightstarEntitySet<RSPO.IRole>(this);
     		Users = 	new BrightstarEntitySet<RSPO.IUser>(this);
     	}
     	
-    	public IEntitySet<RSPO.IActor> Actors
-    	{
-    		get; private set;
-    	}
-    	
-    	public IEntitySet<RSPO.IFilm> Films
+    	internal IEntitySet<RSPO.IRole> Roles
     	{
     		get; private set;
     	}
@@ -131,11 +123,8 @@ namespace RSPO
     	
         public IEntitySet<T> EntitySet<T>() where T : class {
             var itemType = typeof(T);
-            if (typeof(T).Equals(typeof(RSPO.IActor))) {
-                return (IEntitySet<T>)this.Actors;
-            }
-            if (typeof(T).Equals(typeof(RSPO.IFilm))) {
-                return (IEntitySet<T>)this.Films;
+            if (typeof(T).Equals(typeof(RSPO.IRole))) {
+                return (IEntitySet<T>)this.Roles;
             }
             if (typeof(T).Equals(typeof(RSPO.IUser))) {
                 return (IEntitySet<T>)this.Users;
@@ -149,12 +138,12 @@ namespace RSPO
 namespace RSPO 
 {
     
-    public partial class Actor : BrightstarEntityObject, IActor 
+    internal partial class Role : BrightstarEntityObject, IRole 
     {
-    	public Actor(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public Actor(BrightstarEntityContext context) : base(context, typeof(Actor)) { }
-    	public Actor() : base() { }
-    	#region Implementation of RSPO.IActor
+    	public Role(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Role(BrightstarEntityContext context) : base(context, typeof(Role)) { }
+    	public Role() : base() { }
+    	#region Implementation of RSPO.IRole
     
     	public System.String Name
     	{
@@ -162,38 +151,15 @@ namespace RSPO
             		set { SetRelatedProperty("Name", value); }
     	}
     
-    	public System.DateTime DateOfBirth
+    	public System.String Description
     	{
-            		get { return GetRelatedProperty<System.DateTime>("DateOfBirth"); }
-            		set { SetRelatedProperty("DateOfBirth", value); }
+            		get { return GetRelatedProperty<System.String>("Description"); }
+            		set { SetRelatedProperty("Description", value); }
     	}
-    	public System.Collections.Generic.ICollection<RSPO.IFilm> Films
+    	public System.Collections.Generic.ICollection<RSPO.IUser> Users
     	{
-    		get { return GetRelatedObjects<RSPO.IFilm>("Films"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Films", value); }
-    								}
-    	#endregion
-    }
-}
-namespace RSPO 
-{
-    
-    public partial class Film : BrightstarEntityObject, IFilm 
-    {
-    	public Film(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public Film(BrightstarEntityContext context) : base(context, typeof(Film)) { }
-    	public Film() : base() { }
-    	#region Implementation of RSPO.IFilm
-    
-    	public System.String Name
-    	{
-            		get { return GetRelatedProperty<System.String>("Name"); }
-            		set { SetRelatedProperty("Name", value); }
-    	}
-    	public System.Collections.Generic.ICollection<RSPO.IActor> Actors
-    	{
-    		get { return GetRelatedObjects<RSPO.IActor>("Actors"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Actors", value); }
+    		get { return GetRelatedObjects<RSPO.IUser>("Users"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Users", value); }
     								}
     	#endregion
     }
@@ -231,6 +197,11 @@ namespace RSPO
             		get { return GetRelatedProperty<System.String>("Email"); }
             		set { SetRelatedProperty("Email", value); }
     	}
+    	public System.Collections.Generic.ICollection<RSPO.IRole> Roles
+    	{
+    		get { return GetRelatedObjects<RSPO.IRole>("Roles"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Roles", value); }
+    								}
     	#endregion
     }
 }
