@@ -94,7 +94,7 @@
     <Compile Include="IObject.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IPropertyType.cs" />
-    <Compile Include="IRoleI.cs" />
+    <Compile Include="IRole.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MyEntityContext.cs">
