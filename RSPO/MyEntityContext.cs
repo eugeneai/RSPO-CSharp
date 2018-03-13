@@ -38,6 +38,12 @@ namespace RSPO
         public static void InitializeEntityMappingStore()
         {
     		var provider = new ReflectionMappingProvider();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IObject));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IObject, RSPO.Object>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IProperty));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IProperty, RSPO.Property>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IPropertyType));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IPropertyType, RSPO.PropertyType>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IRole));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IRole, RSPO.Role>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IUser));
@@ -107,8 +113,26 @@ namespace RSPO
     	
     	private void InitializeContext() 
     	{
+    		Objects = 	new BrightstarEntitySet<RSPO.IObject>(this);
+    		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
+    		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
     		Roles = 	new BrightstarEntitySet<RSPO.IRole>(this);
     		Users = 	new BrightstarEntitySet<RSPO.IUser>(this);
+    	}
+    	
+    	internal IEntitySet<RSPO.IObject> Objects
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IProperty> Properties
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IPropertyType> PropertyTypes
+    	{
+    		get; private set;
     	}
     	
     	internal IEntitySet<RSPO.IRole> Roles
@@ -123,6 +147,15 @@ namespace RSPO
     	
         public IEntitySet<T> EntitySet<T>() where T : class {
             var itemType = typeof(T);
+            if (typeof(T).Equals(typeof(RSPO.IObject))) {
+                return (IEntitySet<T>)this.Objects;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IProperty))) {
+                return (IEntitySet<T>)this.Properties;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IPropertyType))) {
+                return (IEntitySet<T>)this.PropertyTypes;
+            }
             if (typeof(T).Equals(typeof(RSPO.IRole))) {
                 return (IEntitySet<T>)this.Roles;
             }
@@ -134,6 +167,105 @@ namespace RSPO
     
         } // end class MyEntityContext
         
+}
+namespace RSPO 
+{
+    
+    internal partial class Object : BrightstarEntityObject, IObject 
+    {
+    	public Object(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Object(BrightstarEntityContext context) : base(context, typeof(Object)) { }
+    	public Object() : base() { }
+    	#region Implementation of RSPO.IObject
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String Address
+    	{
+            		get { return GetRelatedProperty<System.String>("Address"); }
+            		set { SetRelatedProperty("Address", value); }
+    	}
+    
+    	public System.Single Area
+    	{
+            		get { return GetRelatedProperty<System.Single>("Area"); }
+            		set { SetRelatedProperty("Area", value); }
+    	}
+    
+    	public System.Int32 Rooms
+    	{
+            		get { return GetRelatedProperty<System.Int32>("Rooms"); }
+            		set { SetRelatedProperty("Rooms", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IUser> Users
+    	{
+    		get { return GetRelatedObjects<RSPO.IUser>("Users"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Users", value); }
+    								}
+    	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
+    	{
+    		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
+    								}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Property : BrightstarEntityObject, IProperty 
+    {
+    	public Property(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Property(BrightstarEntityContext context) : base(context, typeof(Property)) { }
+    	public Property() : base() { }
+    	#region Implementation of RSPO.IProperty
+    
+    	public RSPO.IPropertyType Type
+    	{
+            get { return GetRelatedObject<RSPO.IPropertyType>("Type"); }
+            set { SetRelatedObject<RSPO.IPropertyType>("Type", value); }
+    	}
+    
+    	public System.String Value
+    	{
+            		get { return GetRelatedProperty<System.String>("Value"); }
+            		set { SetRelatedProperty("Value", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class PropertyType : BrightstarEntityObject, IPropertyType 
+    {
+    	public PropertyType(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public PropertyType(BrightstarEntityContext context) : base(context, typeof(PropertyType)) { }
+    	public PropertyType() : base() { }
+    	#region Implementation of RSPO.IPropertyType
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.Single Significance
+    	{
+            		get { return GetRelatedProperty<System.Single>("Significance"); }
+            		set { SetRelatedProperty("Significance", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
+    	{
+    		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
+    								}
+    	#endregion
+    }
 }
 namespace RSPO 
 {
@@ -201,6 +333,11 @@ namespace RSPO
     	{
     		get { return GetRelatedObjects<RSPO.IRole>("Roles"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Roles", value); }
+    								}
+    	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
+    	{
+    		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
     								}
     	#endregion
     }

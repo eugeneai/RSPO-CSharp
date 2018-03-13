@@ -14,6 +14,7 @@ namespace RSPO
         string NickName { get; set; }
         string PasswordHash { get; set; }
         string Email { get; set; }
-        ICollection<IRole> Roles { get; set; }
+        ICollection <IRole> Roles { get; set; }
+        ICollection <IProperty> Properties { get; set; }
     }
 }
