@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RSPO
 {
     [Entity]
-    interface IRole
+    public interface IRole
     {
         string Name { get; set; }
         string Description { get; set; }

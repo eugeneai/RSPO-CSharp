@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RSPO
 {
     [Entity]
-    interface IUser
+    public interface IUser
     {
         string Name { get; set; }
         string NickName { get; set; }
