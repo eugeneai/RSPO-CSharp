@@ -8,8 +8,12 @@ namespace RSPO
 {
 	class Program
 	{
-		static void Main(string[] args)
+        static MyEntityContext Context = null;
+        static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
+
+        static void Main(string[] args)
         {
+            InitializeEntityContext();
             var uri = "http://localhost:8888";
             Console.WriteLine("Starting Nancy on " + uri + "\n Ctrl-C to Stop.");
 
@@ -23,10 +27,27 @@ namespace RSPO
 
             host.Start();  // start hosting
 
-            RunWithoutInterface();
+            // RunWithoutInterface();
+            RunWindowsFormUI();
 
             Console.WriteLine("Stopping Nancy");
             host.Stop();  // stop hosting
+        }
+
+        private static void InitializeEntityContext()
+        {
+            Context = new MyEntityContext(ConnectionString);
+        }
+
+        private static void RunWindowsFormUI()
+        {
+            IUser testUser = Context.Users.Create();
+            UserForm view = new UserForm
+            {
+                Context = testUser,
+                Visible = false
+            };
+            view.ShowDialog();
         }
 
         private static void RunWithoutInterface()
