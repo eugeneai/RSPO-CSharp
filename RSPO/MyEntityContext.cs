@@ -120,7 +120,7 @@ namespace RSPO
     		Users = 	new BrightstarEntitySet<RSPO.IUser>(this);
     	}
     	
-    	internal IEntitySet<RSPO.IObject> Objects
+    	public IEntitySet<RSPO.IObject> Objects
     	{
     		get; private set;
     	}
@@ -135,12 +135,12 @@ namespace RSPO
     		get; private set;
     	}
     	
-    	internal IEntitySet<RSPO.IRole> Roles
+    	public IEntitySet<RSPO.IRole> Roles
     	{
     		get; private set;
     	}
     	
-    	internal IEntitySet<RSPO.IUser> Users
+    	public IEntitySet<RSPO.IUser> Users
     	{
     		get; private set;
     	}
@@ -171,7 +171,7 @@ namespace RSPO
 namespace RSPO 
 {
     
-    internal partial class Object : BrightstarEntityObject, IObject 
+    public partial class Object : BrightstarEntityObject, IObject 
     {
     	public Object(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
         public Object(BrightstarEntityContext context) : base(context, typeof(Object)) { }
@@ -270,7 +270,7 @@ namespace RSPO
 namespace RSPO 
 {
     
-    internal partial class Role : BrightstarEntityObject, IRole 
+    public partial class Role : BrightstarEntityObject, IRole 
     {
     	public Role(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
         public Role(BrightstarEntityContext context) : base(context, typeof(Role)) { }
@@ -299,7 +299,7 @@ namespace RSPO
 namespace RSPO 
 {
     
-    internal partial class User : BrightstarEntityObject, IUser 
+    public partial class User : BrightstarEntityObject, IUser 
     {
     	public User(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
         public User(BrightstarEntityContext context) : base(context, typeof(User)) { }

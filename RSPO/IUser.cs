@@ -16,5 +16,7 @@ namespace RSPO
         string Email { get; set; }
         ICollection <IRole> Roles { get; set; }
         ICollection <IProperty> Properties { get; set; }
+
+        void GenerateHash(string password);
     }
 }

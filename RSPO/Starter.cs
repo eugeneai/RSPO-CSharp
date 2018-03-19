@@ -6,9 +6,9 @@ using Nancy.Hosting.Self;
 
 namespace RSPO
 {
-	class Program
+	class Application
 	{
-        static MyEntityContext Context = null;
+        static public MyEntityContext Context = null;
         static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
 
         static void Main(string[] args)
@@ -42,12 +42,23 @@ namespace RSPO
         private static void RunWindowsFormUI()
         {
             IUser testUser = Context.Users.Create();
+            testUser.Email = "vano@gnail.ru";
+            testUser.Name = "Цискаридзе Вано ибн Петро аглы";
+            testUser.NickName = "hottubych";
             UserForm view = new UserForm
             {
                 Context = testUser,
                 Visible = false
             };
             view.ShowDialog();
+
+            String msg = String.Format("<{0}:{1}> {2} #{3}", 
+                testUser.Name, 
+                testUser.NickName,
+                testUser.Email,
+                testUser.PasswordHash);
+            Console.WriteLine(msg);
+            Console.ReadLine();
         }
 
         private static void RunWithoutInterface()

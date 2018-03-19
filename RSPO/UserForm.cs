@@ -36,7 +36,10 @@ namespace RSPO
         private IUser context;
         private void UpdateToContext()
         {
-            Console.WriteLine("Updated");
+            emailBox.Text = Context.Email;
+            nickNameBox.Text = Context.NickName;
+            nameBox.Text = Context.Name;
+            passwordBox.Text = "**********";
         }
 
         private void UserForm_Load(object sender, EventArgs e)
@@ -44,9 +47,38 @@ namespace RSPO
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void okButton_Click(object sender, EventArgs e)
         {
+            // Console.WriteLine("Saving");
+            Application.Context.Add(this.Context);
+            Application.Context.SaveChanges();
+            Context.GenerateHash(passwordBox.Text);
+            Close();
+        }
 
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void genButton_Click(object sender, EventArgs e)
+        {
+            passwordBox.Text = "783745683475fjks-df";
+        }
+
+        private void emailBox_TextChanged(object sender, EventArgs e)
+        {
+            Context.Email = emailBox.Text;
+        }
+
+        private void nickNameBox_TextChanged(object sender, EventArgs e)
+        {
+            Context.NickName = nickNameBox.Text;
+        }
+
+        private void nameBox_TextChanged(object sender, EventArgs e)
+        {
+            Context.Name = nameBox.Text;
         }
     }
 }
