@@ -1,4 +1,5 @@
 ﻿using BrightstarDB.EntityFramework;
+using HashLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace RSPO
     public partial class User : BrightstarEntityObject, IUser
     {
         public void GenerateHash(string password) {
-            PasswordHash = password;
+            var hasher = new Hasher(); // https://github.com/tallesl/net-Hash
+
+            PasswordHash = hasher.HashPassword(password).Hash;
         }   
     }
 }
