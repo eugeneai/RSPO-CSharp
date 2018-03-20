@@ -14,7 +14,7 @@ namespace RSPO
         public void GenerateHash(string password) {
             var hasher = new Hasher(); // https://github.com/tallesl/net-Hash
 
-            PasswordHash = hasher.HashPassword(password).Hash;
+            PasswordHash = hasher.HashPassword(password).Hash; // FIXME: Convert to Base64 or hex.
         }   
     }
 }
