@@ -37,5 +37,28 @@ namespace RSPO
                 testUser.PasswordHash);
             Console.WriteLine(msg);
         }
+
+        private void quitMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void importMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                InitialDirectory=".",
+                Filter = "Yandex XML files (*.xml)|*.xml|Yandex Zipped XML files (*.xml.zip)|*.xml.zip|All files (*.*)|*.*",
+                Title = "Select Yandex XML file for import"
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+
+                ImportFromAtlcomru import = new ImportFromAtlcomru()
+                {
+                    FileName = openFileDialog.SafeFileName
+                };
+                import.Import();
+            }
+        }
     }
 }

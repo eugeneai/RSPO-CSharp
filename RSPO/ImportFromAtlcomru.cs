@@ -56,7 +56,7 @@ namespace RSPO
             {
                 try
                 {
-                    using (ZipArchive archive = ZipFile.OpenRead(FileName))
+                    using (ZipArchive archive = ZipFile.Open(FileName, ZipArchiveMode.Read))
                     {
                         foreach (ZipArchiveEntry entry in archive.Entries)
                         {
@@ -83,5 +83,12 @@ namespace RSPO
         }
 
         private XDocument _document = null;
+
+        public void Import()
+        {
+            XDocument doc = document; // Загружает XML, еще не обработанный, дерево.
+            Console.WriteLine("Processing doc!");
+        }
     }
+
 }

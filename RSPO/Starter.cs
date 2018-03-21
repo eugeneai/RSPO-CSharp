@@ -11,6 +11,7 @@ namespace RSPO
         static public MyEntityContext Context = null;
         static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
 
+        [STAThread]
         static void Main(string[] args)
         {
             InitializeEntityContext();
