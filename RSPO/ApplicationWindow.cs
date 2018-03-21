@@ -55,7 +55,7 @@ namespace RSPO
 
                 ImportFromAtlcomru import = new ImportFromAtlcomru()
                 {
-                    FileName = openFileDialog.SafeFileName
+                    FileName = openFileDialog.FileName
                 };
                 import.Import();
             }
