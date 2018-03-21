@@ -106,6 +106,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationWindow.Designer.cs">
+      <DependentUpon>ApplicationWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportFromAtlcomru.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserForm.cs">
@@ -170,6 +176,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ApplicationWindow.resx">
+      <DependentUpon>ApplicationWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserForm.resx">
       <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -41,24 +41,8 @@ namespace RSPO
 
         private static void RunWindowsFormUI()
         {
-            IUser testUser = Context.Users.Create();
-            testUser.Email = "vano@gnail.ru";
-            testUser.Name = "Цискаридзе Вано ибн Петро аглы";
-            testUser.NickName = "hottubych";
-            UserForm view = new UserForm
-            {
-                Context = testUser,
-                Visible = false
-            };
-            view.ShowDialog();
-
-            String msg = String.Format("<{0}:{1}> {2} #{3}", 
-                testUser.Name, 
-                testUser.NickName,
-                testUser.Email,
-                testUser.PasswordHash);
-            Console.WriteLine(msg);
-            Console.ReadLine();
+            ApplicationWindow applicationWindow = new ApplicationWindow();
+            applicationWindow.ShowDialog();
         }
 
         private static void RunWithoutInterface()
