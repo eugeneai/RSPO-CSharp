@@ -14,6 +14,8 @@ namespace RSPO
         string NickName { get; set; }
         string PasswordHash { get; set; }
         string Email { get; set; }
+        string Telephone { get; set; }
+        // Добавь сюда телефон.
         ICollection <IRole> Roles { get; set; }
         ICollection <IProperty> Properties { get; set; }
 

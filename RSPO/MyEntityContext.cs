@@ -329,6 +329,12 @@ namespace RSPO
             		get { return GetRelatedProperty<System.String>("Email"); }
             		set { SetRelatedProperty("Email", value); }
     	}
+    
+    	public System.String Telephone
+    	{
+            		get { return GetRelatedProperty<System.String>("Telephone"); }
+            		set { SetRelatedProperty("Telephone", value); }
+    	}
     	public System.Collections.Generic.ICollection<RSPO.IRole> Roles
     	{
     		get { return GetRelatedObjects<RSPO.IRole>("Roles"); }

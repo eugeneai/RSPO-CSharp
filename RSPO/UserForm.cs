@@ -34,6 +34,8 @@ namespace RSPO
         }
 
         private IUser context;
+        private object telephoneBox;
+
         private void UpdateToContext()
         {
             emailBox.Text = Context.Email;
@@ -79,6 +81,19 @@ namespace RSPO
         private void nameBox_TextChanged(object sender, EventArgs e)
         {
             Context.Name = nameBox.Text;
+        }
+        private void telephoneBox_TextChanged(object sender, EventArgs e)
+        {
+            Context.Telephone = telephoneBox.Text;
+        }
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
