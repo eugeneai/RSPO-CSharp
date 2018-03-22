@@ -48,11 +48,12 @@ namespace RSPO
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
                 InitialDirectory=".",
-                Filter = "Yandex XML files (*.xml)|*.xml|Yandex Zipped XML files (*.xml.zip)|*.xml.zip|All files (*.*)|*.*",
+                Filter = "Yandex Zipped XML files (*.xml.zip)|*.xml.zip|Yandex XML files (*.xml)|*.xml|All files (*.*)|*.*",
                 Title = "Select Yandex XML file for import"
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
 
+                Console.WriteLine(String.Format("Open File: '{0}'", openFileDialog.FileName));
                 ImportFromAtlcomru import = new ImportFromAtlcomru()
                 {
                     FileName = openFileDialog.FileName

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 
@@ -34,6 +29,7 @@ namespace RSPO
     public class ImportFromAtlcomru
     {
         public string FileName { get; set; } = null;
+        public Stream InputStream { get; set; } = null;
         public XDocument document {
             get
             {
@@ -47,39 +43,45 @@ namespace RSPO
 
         private void LoadDocument()
         {
-            if (FileName == null)
+            if (FileName == null && InputStream == null)
             {
-                throw new RCNoFileSuppliedException("no file supplied for import");
+                throw new RCNoFileSuppliedException("no file nor a stream supplied for import");
             }
-            Stream stream = null;
-            if (Path.GetExtension(FileName).ToUpper() == ".ZIP")
+            if (FileName != null && InputStream == null)
             {
-                try
+                if (Path.GetExtension(FileName).ToUpper() == ".ZIP")
                 {
-                    using (ZipArchive archive = ZipFile.Open(FileName, ZipArchiveMode.Read))
+                    try
                     {
-                        foreach (ZipArchiveEntry entry in archive.Entries)
+                        using (ZipArchive archive = ZipFile.Open(FileName, ZipArchiveMode.Read))
                         {
-                            if (Path.GetExtension(entry.FullName).ToUpper() == ".XML")
+                            foreach (ZipArchiveEntry entry in archive.Entries)
                             {
-                                stream = entry.Open();
-                                break;
+                                if (Path.GetExtension(entry.FullName).ToUpper() == ".XML")
+                                {
+                                    InputStream = entry.Open();
+                                    break;
+                                }
+                            }
+                            if (InputStream == null)
+                            {
+                                throw new RCFormatException("could not find XML inside archive");
                             }
                         }
-                        if (stream == null)
-                        {
-                            throw new RCFormatException("could not find XML inside archive");
-                        }
                     }
-                } catch (InvalidDataException) {
-                    // Doing nothing as this in not ZIP archive.
+                    catch (InvalidDataException e)
+                    {
+                        // Doing nothing as this in not ZIP archive.
+                        Console.WriteLine(String.Format("Trying ZIP: '{0}'", e));
+                    }
+                    if (InputStream == null)
+                    {
+                        // Open file directly
+                        InputStream = File.Open(FileName, FileMode.Open);
+                    }
                 }
-                if (stream == null) {
-                    // Open file directly
-                    stream = File.Open(FileName, FileMode.Open);
-                }
-            }
-            XDocument doc = XDocument.Load(stream);
+            };
+            XDocument doc = XDocument.Load(InputStream);
         }
 
         private XDocument _document = null;
