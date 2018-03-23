@@ -44,7 +44,7 @@ namespace RSPO
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-
+            Console.WriteLine(value: "Loading form of users.");
         }
 
         private void okButton_Click(object sender, EventArgs e)
