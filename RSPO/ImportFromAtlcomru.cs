@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Xml.Linq;
+using SharpCompress.Common;
+using SharpCompress.Readers;
 
 
 namespace RSPO
@@ -22,6 +23,13 @@ namespace RSPO
     public class RCFormatException: RCException
     {
         public RCFormatException(string message) : base(message)
+        {
+        }
+    }
+
+    public class RCOperationException: RCException
+    {
+        public RCOperationException(string message) : base(message)
         {
         }
     }
@@ -47,41 +55,51 @@ namespace RSPO
             {
                 throw new RCNoFileSuppliedException("no file nor a stream supplied for import");
             }
-            if (FileName != null && InputStream == null)
+
+            if (FileName != null && InputStream != null)
             {
-                if (Path.GetExtension(FileName).ToUpper() == ".ZIP")
+                throw new RCNoFileSuppliedException("file and a stream supplied for import");
+            }
+
+            if (FileName != null)
+            {
+                InputStream=File.Open(FileName, FileMode.Open);
+            }
+
+            // Check wether InputStream is an archive
+
+            Stream actualStream = null;
+            try
+            {
+                IReader reader = ReaderFactory.Open(InputStream);
+                while (reader.MoveToNextEntry())
                 {
-                    try
+                    if (!reader.Entry.IsDirectory)
                     {
-                        using (ZipArchive archive = ZipFile.Open(FileName, ZipArchiveMode.Read))
-                        {
-                            foreach (ZipArchiveEntry entry in archive.Entries)
-                            {
-                                if (Path.GetExtension(entry.FullName).ToUpper() == ".XML")
-                                {
-                                    InputStream = entry.Open();
-                                    break;
-                                }
-                            }
-                            if (InputStream == null)
-                            {
-                                throw new RCFormatException("could not find XML inside archive");
-                            }
-                        }
-                    }
-                    catch (InvalidDataException e)
-                    {
-                        // Doing nothing as this in not ZIP archive.
-                        Console.WriteLine(String.Format("Trying ZIP: '{0}'", e));
-                    }
-                    if (InputStream == null)
-                    {
-                        // Open file directly
-                        InputStream = File.Open(FileName, FileMode.Open);
+                        Console.WriteLine(String.Format("Entry:{0}", reader.Entry));
+                        actualStream=reader.OpenEntryStream();
+                        break;
                     }
                 }
-            };
-            XDocument doc = XDocument.Load(InputStream);
+                if (actualStream == null)
+                {
+                    throw new RCFormatException("cannot find a file in archive");
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                actualStream=InputStream;
+                if (actualStream.CanSeek)
+                {
+                    actualStream.Seek(0, SeekOrigin.Begin);
+                }
+                else
+                {
+                    throw new RCOperationException("cannot seek file to reset reading");
+                }
+            }
+
+            XDocument doc = XDocument.Load(actualStream);
         }
 
         private XDocument _document = null;

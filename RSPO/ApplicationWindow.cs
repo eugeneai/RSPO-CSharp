@@ -48,7 +48,7 @@ namespace RSPO
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
                 InitialDirectory=".",
-                Filter = "Yandex Zipped XML files (*.xml.zip)|*.xml.zip|Yandex XML files (*.xml)|*.xml|All files (*.*)|*.*",
+                Filter = "All files (*.*)|*.*|Yandex Zipped XML files (*.xml.zip)|*.xml.zip|Yandex XML files (*.xml)|*.xml",
                 Title = "Select Yandex XML file for import"
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
