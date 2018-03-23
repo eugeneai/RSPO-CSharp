@@ -14,8 +14,8 @@ namespace RSPO
         }
     }
 
-    public class RCNoFileSuppliedException: RCException {
-        public RCNoFileSuppliedException(string message): base(message)
+    public class RCFileException: RCException {
+        public RCFileException(string message): base(message)
         {
         }
     }
@@ -53,12 +53,12 @@ namespace RSPO
         {
             if (FileName == null && InputStream == null)
             {
-                throw new RCNoFileSuppliedException("no file nor a stream supplied for import");
+                throw new RCFileException("no file nor a stream supplied for import");
             }
 
             if (FileName != null && InputStream != null)
             {
-                throw new RCNoFileSuppliedException("file and a stream supplied for import");
+                throw new RCFileException("file and a stream supplied for import");
             }
 
             if (FileName != null)
