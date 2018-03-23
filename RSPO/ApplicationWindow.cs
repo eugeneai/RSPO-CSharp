@@ -49,7 +49,7 @@ namespace RSPO
             {
                 InitialDirectory=".",
                 Filter = "All files (*.*)|*.*|Yandex Zipped XML files (*.xml.zip)|*.xml.zip|Yandex XML files (*.xml)|*.xml",
-                Title = "Select Yandex XML file for import"
+                Title = "Select Yandex XML file or an archive containing it for import"
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
 

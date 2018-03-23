@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Linq;
-using SharpCompress.Common;
 using SharpCompress.Readers;
-
 
 namespace RSPO
 {
