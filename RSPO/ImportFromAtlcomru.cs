@@ -38,7 +38,7 @@ namespace RSPO
     {
         public string FileName { get; set; } = null;
         public Stream InputStream { get; set; } = null;
-        public XDocument document {
+        public XDocument Document {
             get
             {
                 if (_document == null)
@@ -99,16 +99,15 @@ namespace RSPO
                 }
             }
 
-            XDocument doc = XDocument.Load(actualStream);
+            _document = XDocument.Load(actualStream);
         }
 
         private XDocument _document = null;
 
         public void Import()
         {
-            XDocument doc = document; // Загружает XML, еще не обработанный, дерево.
+            XDocument doc = Document; // Загружает XML, еще необработанный, дерево.
             Console.WriteLine("Processing doc!");
         }
     }
-
 }
