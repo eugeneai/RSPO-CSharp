@@ -21,7 +21,7 @@ namespace RSPO
         {
             IUser testUser = Application.Context.Users.Create();
             testUser.Email = "vano@gnail.ru";
-            testUser.Name = "Цискаридзе Вано ибн Петро аглы";
+            testUser.Name = "Цискаридзе Вано ибн Петро оглы";
             testUser.NickName = "hottubych";
             UserForm view = new UserForm
             {
