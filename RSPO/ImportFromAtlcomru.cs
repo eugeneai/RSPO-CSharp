@@ -5,33 +5,6 @@ using SharpCompress.Readers;
 
 namespace RSPO
 {
-    public class RCException: Exception
-    {
-        public RCException(string message) : base(message)
-        {
-        }
-    }
-
-    public class RCFileException: RCException {
-        public RCFileException(string message): base(message)
-        {
-        }
-    }
-
-    public class RCFormatException: RCException
-    {
-        public RCFormatException(string message) : base(message)
-        {
-        }
-    }
-
-    public class RCOperationException: RCException
-    {
-        public RCOperationException(string message) : base(message)
-        {
-        }
-    }
-
     public class ImportFromAtlcomru
     {
         public string FileName { get; set; } = null;
@@ -106,6 +79,36 @@ namespace RSPO
         {
             XDocument doc = Document; // Загружает XML, еще необработанный, дерево.
             Console.WriteLine("Processing doc!");
+        }
+    }
+
+
+    // Exceptions
+
+    public class RCException: Exception
+    {
+        public RCException(string message) : base(message)
+        {
+        }
+    }
+
+    public class RCFileException: RCException {
+        public RCFileException(string message): base(message)
+        {
+        }
+    }
+
+    public class RCFormatException: RCException
+    {
+        public RCFormatException(string message) : base(message)
+        {
+        }
+    }
+
+    public class RCOperationException: RCException
+    {
+        public RCOperationException(string message) : base(message)
+        {
         }
     }
 }
