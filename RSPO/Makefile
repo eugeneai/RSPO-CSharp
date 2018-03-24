@@ -18,4 +18,4 @@ run: compile
 
 tests: compile
 	TERM=xterm \
-	mono ../packages/xunit.runner.console.$(RUNNERVER)/tools/$(RUNTIME)/xunit.console.exe RSPO/bin/$(VAR)/RSPO.exe
+	mono ../packages/xunit.runner.console.$(RUNNERVER)/tools/$(RUNTIME)/xunit.console.exe bin/$(VAR)/RSPO.exe

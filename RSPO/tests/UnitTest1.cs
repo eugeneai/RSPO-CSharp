@@ -14,13 +14,21 @@ namespace RSPO.tests
 
         public UnitTest1()
         {
-            basePath = 
+            basePath =
             Path.GetDirectoryName(
                 Path.GetDirectoryName(
                     Path.GetDirectoryName(
                         Path.GetDirectoryName(
                             System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase))));
-            basePath = basePath.Replace("file:\\","");
+            if (Type.GetType("Mono.Runtime") != null)
+            {
+                basePath = basePath.Replace("file:","");
+            }
+            else
+            {
+                basePath = basePath.Replace("file:\\", "");
+            }
+
         }
 
         [Fact]
@@ -61,6 +69,7 @@ namespace RSPO.tests
             string dataDir = Path.Combine(basePath, "DATA");
             dataDir = Path.Combine(dataDir, "Import");
             string fileName = Path.Combine(dataDir, importName);
+
             ImportFromAtlcomru import = new ImportFromAtlcomru()
             {
                 FileName = fileName
