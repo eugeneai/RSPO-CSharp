@@ -56,7 +56,8 @@ namespace RSPO
                 Console.WriteLine(String.Format("Open File: '{0}'", openFileDialog.FileName));
                 ImportFromAtlcomru import = new ImportFromAtlcomru()
                 {
-                    FileName = openFileDialog.FileName
+                    // FileName = openFileDialog.FileName
+                    InputStream = openFileDialog.OpenFile()
                 };
                 import.Import();
             }
