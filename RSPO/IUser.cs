@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 namespace RSPO
 {
     [Entity]
-    public interface IUser
+    public interface IAgent
     {
         string Name { get; set; }
         string NickName { get; set; }
         string PasswordHash { get; set; }
+        string Phone { get; set; }
         string Email { get; set; }
         ICollection <IRole> Roles { get; set; }
         ICollection <IProperty> Properties { get; set; }

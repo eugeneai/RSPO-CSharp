@@ -13,8 +13,7 @@ compile:
 	$(BUILD)
 
 run: compile
-	TERM=xterm \
-	cd bin/$(VAR) && mono $(TARGET)
+	cd bin/$(VAR) && (TERM=xterm mono $(TARGET))
 
 tests: compile
 	TERM=xterm \
