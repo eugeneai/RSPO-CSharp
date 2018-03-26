@@ -25,6 +25,7 @@ namespace RSPO
         int FloorTotal { get; set; }
         int TotalFloors { get; set; }
         BuildingEnum BuildingType { get; set; }
+        BuildingSeriesEnum BuildingSeries { get; set; }
         PropertyEnum PropertyType { get; set; }
         CategoryEnum Category { get; set; }
         string Description { get; set; }
@@ -114,6 +115,11 @@ namespace RSPO
         Panel,
         FoamConcrete
         // FIXME: Add more ...
+    }
+
+    public enum BuildingSeriesEnum
+    {
+
     }
 
     public enum PropertyEnum

@@ -139,13 +139,18 @@ namespace RSPO
             obj.Floor=int.Parse(GetText(input, "floor"));
             obj.FloorTotal=int.Parse(GetText(input, "floor-total"));
             obj.BuildingType=GetBuildingType(input);
-            obj.BuildingSeries=GetBuildigSeries(input);
+            obj.BuildingSeries=GetBuildingSeries(input);
             obj.Description=GetText(input, "description");
 
             ctx.Add(obj);
             ctx.Add(offer);
 
             ctx.SaveChanges();
+        }
+
+        protected void GetSalesAgent(IObject obj, XElement input, string tagName="sales-agent")
+        {
+            // FIXME: Implement
         }
 
         protected void GetPrice(IObject obj, XElement input, string tagName="price")
@@ -239,7 +244,19 @@ namespace RSPO
             return categoryTypes[GetText(i, tagName)];
         }
 
+        private Dictionary<string, BuildingSeriesEnum> buildingSeries = new Dictionary<string, BuildingSeriesEnum>
+        {
+        };
 
+        protected BuildingSeriesEnum GetBuildingSeries(XElement i, string tagName = "category")
+        {
+            return buildingSeries[GetText(i, tagName)];
+        }
+
+        protected CurrencyEnum GetCurrencyType(XElement input)
+        {
+            return CurrencyEnum.Dollar; //FIXME: Implement
+        }
 
         // Auxiliary methods working with XML tree
 
