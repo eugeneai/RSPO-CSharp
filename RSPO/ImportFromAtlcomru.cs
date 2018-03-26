@@ -203,7 +203,7 @@ namespace RSPO
 
         private string GetText(XElement e, string tagName)
         {
-            return GetFirst(e, tagName).Value;
+            return GetFirstElement(e, tagName).Value;
         }
 
         private XElement GetFirstElement(XElement e, string tagName)

@@ -18,7 +18,7 @@ namespace RSPO
         float Area { get; set; }
         AreaUnits AreaUnit { get; set; }
         string ImageURL { get; set; }
-        string URL {get;set;}
+        string URL { get; set; }
         int Rooms { get; set; }
         int Floors { get; set; }
         int TotalFloors { get; set; }

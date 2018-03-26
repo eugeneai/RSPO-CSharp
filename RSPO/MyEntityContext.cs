@@ -333,6 +333,12 @@ namespace RSPO
             		set { SetRelatedProperty("ImageURL", value); }
     	}
     
+    	public System.String URL
+    	{
+            		get { return GetRelatedProperty<System.String>("URL"); }
+            		set { SetRelatedProperty("URL", value); }
+    	}
+    
     	public System.Int32 Rooms
     	{
             		get { return GetRelatedProperty<System.Int32>("Rooms"); }
@@ -355,6 +361,18 @@ namespace RSPO
     	{
             		get { return GetRelatedProperty<RSPO.BuildingEnum>("BuildingType"); }
             		set { SetRelatedProperty("BuildingType", value); }
+    	}
+    
+    	public RSPO.PropertyEnum PropertyType
+    	{
+            		get { return GetRelatedProperty<RSPO.PropertyEnum>("PropertyType"); }
+            		set { SetRelatedProperty("PropertyType", value); }
+    	}
+    
+    	public RSPO.CategoryEnum Category
+    	{
+            		get { return GetRelatedProperty<RSPO.CategoryEnum>("Category"); }
+            		set { SetRelatedProperty("Category", value); }
     	}
     
     	public System.String Description
