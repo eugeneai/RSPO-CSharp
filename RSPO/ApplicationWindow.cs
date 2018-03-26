@@ -19,7 +19,7 @@ namespace RSPO
 
         private void userButton_Click(object sender, EventArgs e)
         {
-            IAgent testUser = Application.Context.Users.Create();
+            IAgent testUser = Application.Context.Agents.Create();
             testUser.Email = "vano@gnail.ru";
             testUser.Name = "Цискаридзе Вано ибн Петро оглы";
             testUser.NickName = "hottubych";
