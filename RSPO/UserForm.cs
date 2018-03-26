@@ -17,7 +17,7 @@ namespace RSPO
             InitializeComponent();
         }
 
-        public IUser Context
+        public IAgent Context
         {
             get => context;
             set
@@ -27,13 +27,13 @@ namespace RSPO
             }
         }
 
-        public IUser SetContext(IUser value)
+        public IAgent SetContext(IAgent value)
         {
             context = value;
             return value;
         }
 
-        private IUser context;
+        private IAgent context;
         private void UpdateToContext()
         {
             emailBox.Text = Context.Email;

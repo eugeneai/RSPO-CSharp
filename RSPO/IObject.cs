@@ -32,7 +32,7 @@ namespace RSPO
     {
         IObject Object { get; set; }
         OfferEnum OfferType { get; set; }
-        string ID { get; set; }
+        string SiteId { get; set; }
         ISite Site { get; set; } // FIXME: Can be null if it is local data
         // FIXME: Creation and update time
     }
@@ -40,10 +40,41 @@ namespace RSPO
     [Entity]
     public interface ILocation
     {
-        ICountry Country { get; set; }
+        [Ignore]
+        ICountry Country { get; } // As Region defines the Country it is in.
         IRegion Region { get; set; }
         string Name { get; set; }
         string Locality { get; set; }
+    }
+
+    public partial class Location : BrightstarEntityObject, ILocation
+    {
+        public ICountry Country {
+            get
+            {
+                return Region.Country;
+            }
+        }
+    }
+
+    [Entity]
+    public interface ICountry
+    {
+        string Name { get; set; }
+    }
+
+    [Entity]
+    public interface IRegion
+    {
+        ICountry Country { get; set; }
+        string Name { get; set; }
+    }
+
+    [Entity]
+    public interface ISite
+    {
+        string Name { get; set; }
+        string URL { get; set; }
     }
 
     public enum OfferEnum

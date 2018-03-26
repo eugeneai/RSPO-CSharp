@@ -46,6 +46,12 @@ namespace RSPO
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IOffer, RSPO.Offer>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ILocation));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.ILocation, RSPO.Location>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ICountry));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.ICountry, RSPO.Country>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IRegion));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IRegion, RSPO.Region>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ISite));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.ISite, RSPO.Site>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IProperty));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IProperty, RSPO.Property>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IPropertyType));
@@ -121,6 +127,9 @@ namespace RSPO
     		Objects = 	new BrightstarEntitySet<RSPO.IObject>(this);
     		Offers = 	new BrightstarEntitySet<RSPO.IOffer>(this);
     		Locations = 	new BrightstarEntitySet<RSPO.ILocation>(this);
+    		Countries = 	new BrightstarEntitySet<RSPO.ICountry>(this);
+    		Regions = 	new BrightstarEntitySet<RSPO.IRegion>(this);
+    		Sites = 	new BrightstarEntitySet<RSPO.ISite>(this);
     		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
     		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
     		Roles = 	new BrightstarEntitySet<RSPO.IRole>(this);
@@ -142,6 +151,21 @@ namespace RSPO
     	}
     	
     	public IEntitySet<RSPO.ILocation> Locations
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.ICountry> Countries
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IRegion> Regions
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.ISite> Sites
     	{
     		get; private set;
     	}
@@ -174,6 +198,15 @@ namespace RSPO
             }
             if (typeof(T).Equals(typeof(RSPO.ILocation))) {
                 return (IEntitySet<T>)this.Locations;
+            }
+            if (typeof(T).Equals(typeof(RSPO.ICountry))) {
+                return (IEntitySet<T>)this.Countries;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IRegion))) {
+                return (IEntitySet<T>)this.Regions;
+            }
+            if (typeof(T).Equals(typeof(RSPO.ISite))) {
+                return (IEntitySet<T>)this.Sites;
             }
             if (typeof(T).Equals(typeof(RSPO.IProperty))) {
                 return (IEntitySet<T>)this.Properties;
@@ -350,7 +383,6 @@ namespace RSPO
     	public Offer(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
         public Offer(BrightstarEntityContext context) : base(context, typeof(Offer)) { }
     	public Offer() : base() { }
-    	public System.String ID { get {return GetKey(); } set { SetKey(value); } }
     	#region Implementation of RSPO.IOffer
     
     	public RSPO.IObject Object
@@ -364,3 +396,196 @@ namespace RSPO
             		get { return GetRelatedProperty<RSPO.OfferEnum>("OfferType"); }
             		set { SetRelatedProperty("OfferType", value); }
     	}
+    
+    	public System.String SiteId
+    	{
+            		get { return GetRelatedProperty<System.String>("SiteId"); }
+            		set { SetRelatedProperty("SiteId", value); }
+    	}
+    
+    	public RSPO.ISite Site
+    	{
+            get { return GetRelatedObject<RSPO.ISite>("Site"); }
+            set { SetRelatedObject<RSPO.ISite>("Site", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Location : BrightstarEntityObject, ILocation 
+    {
+    	public Location(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Location(BrightstarEntityContext context) : base(context, typeof(Location)) { }
+    	public Location() : base() { }
+    	#region Implementation of RSPO.ILocation
+    
+    	public RSPO.IRegion Region
+    	{
+            get { return GetRelatedObject<RSPO.IRegion>("Region"); }
+            set { SetRelatedObject<RSPO.IRegion>("Region", value); }
+    	}
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String Locality
+    	{
+            		get { return GetRelatedProperty<System.String>("Locality"); }
+            		set { SetRelatedProperty("Locality", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Country : BrightstarEntityObject, ICountry 
+    {
+    	public Country(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Country(BrightstarEntityContext context) : base(context, typeof(Country)) { }
+    	public Country() : base() { }
+    	#region Implementation of RSPO.ICountry
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Region : BrightstarEntityObject, IRegion 
+    {
+    	public Region(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Region(BrightstarEntityContext context) : base(context, typeof(Region)) { }
+    	public Region() : base() { }
+    	#region Implementation of RSPO.IRegion
+    
+    	public RSPO.ICountry Country
+    	{
+            get { return GetRelatedObject<RSPO.ICountry>("Country"); }
+            set { SetRelatedObject<RSPO.ICountry>("Country", value); }
+    	}
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Site : BrightstarEntityObject, ISite 
+    {
+    	public Site(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Site(BrightstarEntityContext context) : base(context, typeof(Site)) { }
+    	public Site() : base() { }
+    	#region Implementation of RSPO.ISite
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String URL
+    	{
+            		get { return GetRelatedProperty<System.String>("URL"); }
+            		set { SetRelatedProperty("URL", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Property : BrightstarEntityObject, IProperty 
+    {
+    	public Property(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Property(BrightstarEntityContext context) : base(context, typeof(Property)) { }
+    	public Property() : base() { }
+    	#region Implementation of RSPO.IProperty
+    
+    	public RSPO.IPropertyType Type
+    	{
+            get { return GetRelatedObject<RSPO.IPropertyType>("Type"); }
+            set { SetRelatedObject<RSPO.IPropertyType>("Type", value); }
+    	}
+    
+    	public System.String Value
+    	{
+            		get { return GetRelatedProperty<System.String>("Value"); }
+            		set { SetRelatedProperty("Value", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class PropertyType : BrightstarEntityObject, IPropertyType 
+    {
+    	public PropertyType(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public PropertyType(BrightstarEntityContext context) : base(context, typeof(PropertyType)) { }
+    	public PropertyType() : base() { }
+    	#region Implementation of RSPO.IPropertyType
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.Single Significance
+    	{
+            		get { return GetRelatedProperty<System.Single>("Significance"); }
+            		set { SetRelatedProperty("Significance", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
+    	{
+    		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
+    								}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Role : BrightstarEntityObject, IRole 
+    {
+    	public Role(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Role(BrightstarEntityContext context) : base(context, typeof(Role)) { }
+    	public Role() : base() { }
+    	#region Implementation of RSPO.IRole
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String Description
+    	{
+            		get { return GetRelatedProperty<System.String>("Description"); }
+            		set { SetRelatedProperty("Description", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IAgent> Agents
+    	{
+    		get { return GetRelatedObjects<RSPO.IAgent>("Agents"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Agents", value); }
+    								}
+    	#endregion
+    }
+}
