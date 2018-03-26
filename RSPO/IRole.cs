@@ -13,6 +13,6 @@ namespace RSPO
         string Name { get; set; }
         string Description { get; set; }
         [InverseProperty("Roles")]
-        ICollection<IUser> Users { get; set; }
+        ICollection<IAgent> Agents{ get; set; }
     }
 }

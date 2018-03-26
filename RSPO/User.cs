@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace RSPO
 {
 
-    public partial class User : BrightstarEntityObject, IUser
+    public partial class Agent : BrightstarEntityObject, IAgent
     {
         public void GenerateHash(string password) {
             var hasher = new Hasher(); // https://github.com/tallesl/net-Hash

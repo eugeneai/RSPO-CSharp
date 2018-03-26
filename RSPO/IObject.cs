@@ -11,42 +11,39 @@ namespace RSPO
     public interface IObject
     {
         string Name { get; set; }
-        string Address { get; set; }
-        float Area { get; set; }
-        int Rooms { get; set; }
         ILocation Location { get; set; }
-        string Address;
-        float Price; // FIXME: Use as Currency type.
-        CurrencyEnum CurType;
-        float Area;
-        AreaUnits AreaUnit;
-        string ImageURL;
-        int Rooms;
-        int Floors;
-        int TotalFloors;
-        BuildingEnum BuildingType;
-        string Description;
-        ICollection<IUser> Users { get; set; }
+        string Address { get; set; }
+        float Price { get; set; } // FIXME: Use as Currency type.
+        CurrencyEnum CurType { get; set; }
+        float Area { get; set; }
+        AreaUnits AreaUnit { get; set; }
+        string ImageURL { get; set; }
+        int Rooms { get; set; }
+        int Floors { get; set; }
+        int TotalFloors { get; set; }
+        BuildingEnum BuildingType { get; set; }
+        string Description { get; set; }
+        ICollection<IAgent> Agents { get; set; }
         ICollection<IProperty> Properties { get; set; }
     }
 
     [Entity]
-    public interface Offer
+    public interface IOffer
     {
-        IObject Object;
-        OfferEnum OfferType;
-        string ID;
-        ISite Site; // FIXME: Can be null if it is local data
+        IObject Object { get; set; }
+        OfferEnum OfferType { get; set; }
+        string ID { get; set; }
+        ISite Site { get; set; } // FIXME: Can be null if it is local data
         // FIXME: Creation and update time
     }
 
     [Entity]
     public interface ILocation
     {
-        ICountry Country;
-        IRegion Region;
-        string Name;
-        string Locality
+        ICountry Country { get; set; }
+        IRegion Region { get; set; }
+        string Name { get; set; }
+        string Locality { get; set; }
     }
 
     public enum OfferEnum
