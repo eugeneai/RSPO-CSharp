@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using SharpCompress.Readers;
 
@@ -47,7 +49,7 @@ namespace RSPO
                 {
                     if (!reader.Entry.IsDirectory)
                     {
-                        Console.WriteLine(String.Format("Entry:{0}", reader.Entry));
+                        // Console.WriteLine(String.Format("Entry:{0}", reader.Entry));
                         actualStream=reader.OpenEntryStream();
                         break;
                     }
@@ -71,17 +73,44 @@ namespace RSPO
             }
 
             _document = XDocument.Load(actualStream);
+            actualStream.Close();
         }
 
         private XDocument _document = null;
 
-        public void Import()
+        public void Import(bool onlyLoad=false)
         {
             XDocument doc = Document; // Загружает XML, еще необработанный, дерево.
-            Console.WriteLine("Processing doc!");
-        }
-    }
+            if (! onlyLoad) 
+            {
+                Console.WriteLine("Processing doc!");
+                /*
+                IEnumerable<XElement> proposals =
+                    from p in doc.Elements()
+                    select p;
+                    */
 
+                IEnumerable<XElement> proposals =
+                    doc.Descendants(YName("offer"));
+
+                XName internalId = YName("internal-id");
+                foreach (XElement p in proposals)
+                {
+                    Console.WriteLine(
+                        p.Attribute("internal-id").Value);
+                    //Console.WriteLine(p.Name);
+                }
+            }
+        }
+
+        protected XName YName(string name)
+        {
+            return XName.Get(name, YandexNS);
+        }
+
+        protected readonly string YandexNS = @"http://webmaster.yandex.ru/schemas/feed/realty/2010-06";
+
+    }
 
     // Exceptions
 

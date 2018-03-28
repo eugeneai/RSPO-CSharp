@@ -66,10 +66,29 @@ namespace RSPO.tests
         [InlineData("all.xml.zip")]
         public void ImportTest(string importName)
         {
+            string fileName = CombineWithDataPath(importName);
+
+            ImportFromAtlcomru import = new ImportFromAtlcomru()
+            {
+                FileName = fileName
+            };
+            import.Import(onlyLoad: true);
+            Assert.True(true);
+        }
+
+        private string CombineWithDataPath(string importName)
+        {
             string dataDir = Path.Combine(basePath, "DATA");
             dataDir = Path.Combine(dataDir, "Import");
             string fileName = Path.Combine(dataDir, importName);
+            return fileName;
+        }
 
+        [Theory]
+        [InlineData("all.xml")]
+        public void LongImportTest(string importName) 
+        {
+            string fileName = CombineWithDataPath(importName);
             ImportFromAtlcomru import = new ImportFromAtlcomru()
             {
                 FileName = fileName
