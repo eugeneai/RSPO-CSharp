@@ -94,9 +94,14 @@ namespace RSPO
                 IEnumerable<XElement> proposals =
                     doc.Descendants(YName("offer"));
 
+                ISite site = Application.Context.Sites.Create(); // FIXME: Must Be Query/Create
+
+                site.Name =  "Атлант-Недвижимость";
+                site.URL  = @"http://atlantnt.ru";
+
                 foreach (XElement p in proposals)
                 {
-                    ProcessProposal(p);
+                    ProcessProposal(p, site);
                 }
             }
         }
@@ -106,7 +111,7 @@ namespace RSPO
             Console.WriteLine("---> "+msg);
         }
 
-        protected void ProcessProposal(XElement input)
+        protected void ProcessProposal(XElement input, ISite site)
         {
             MyEntityContext ctx = Application.Context;
             XAttribute internalId = input.Attribute("internal-id");  // Value
@@ -116,30 +121,94 @@ namespace RSPO
 
             offer.Object = obj;
             offer.SiteId = internalId.Value;
-            offer.OfferType = GetOfferType(input, "type");
+            offer.OfferType = GetOfferType(input);
+            offer.Site = site;
+
+            obj.PropertyType = GetPropertyType(input);
+            obj.Category = GetCategoryType(input);
+            obj.URL = GetText(input, "url");
+            // FIXME: Accept Dates into offer
+            // FIXME: ManuallyAdded
+
+            XElement location = GetFirstElement(input, "location");
+
             ctx.Add(obj);
             ctx.Add(offer);
 
             ctx.SaveChanges();
         }
 
-        private Dictionary<string,OfferEnum> offerType = new Dictionary<string,OfferEnum>
+        private Dictionary<string,OfferEnum> offerTypes = new Dictionary<string,OfferEnum>
         {
             {"продажа", OfferEnum.Sale},
             {"аренда" , OfferEnum.Rent},
             {"покупка", OfferEnum.Purchase}
         };
 
-        protected OfferEnum GetOfferType(XElement i, string tagName)
+        protected OfferEnum GetOfferType(XElement i, string tagName="type")
         {
-            return offerType[GetText(i, tagName)];
+            return offerTypes[GetText(i, tagName)];
         }
+
+        private Dictionary<string,AreaUnits> areaUnits = new Dictionary<string,AreaUnits>
+        {
+            {"кв.м", AreaUnits.SquaredMeters}
+        };
+
+        protected AreaUnits GetAreaUnit(XElement i, string tagName="area")
+        {
+            return areaUnits[GetText(i, tagName)];
+        }
+
+
+        private Dictionary<string,BuildingEnum> buildingTypes = new Dictionary<string,BuildingEnum>
+        {
+            {"кирпичный"          , BuildingEnum.Brick},
+            {"кирпично-монолитный", BuildingEnum.BrickMonolyth},
+            {"монолитный"         , BuildingEnum.Monolythn},
+            {"панельный"          , BuildingEnum.Panel},
+            {"пенобетонный"       , BuildingEnum.FoamConcrete}
+        };
+
+        protected BuildingEnum GetBuildingType(XElement i, string tagName="building-type")
+        {
+            return buildingTypes[GetText(i, tagName)];
+        }
+
+        private Dictionary<string,PropertyEnum> propertyTypes = new Dictionary<string,PropertyEnum>
+        {
+            {"жилая"      , PropertyEnum.Living},
+        };
+
+        protected PropertyEnum GetPropertyType(XElement i, string tagName="property-type")
+        {
+            return propertyTypes[GetText(i, tagName)];
+        }
+
+        private Dictionary<string,CategoryEnum> categoryTypes = new Dictionary<string,CategoryEnum>
+        {
+            {"Комната" , CategoryEnum.Room},
+            {"Квартира", CategoryEnum.Flat},
+            {"Дом"     , CategoryEnum.House}
+        };
+
+        protected CategoryEnum GetCategoryType(XElement i, string tagName="category")
+        {
+            return categoryTypes[GetText(i, tagName)];
+        }
+
+
 
         // Auxiliary methods working with XML tree
 
-        private string GetText(XElement i, string tagName)
+        private string GetText(XElement e, string tagName)
         {
-            return i.Descendants(YName(tagName)).First().Value;
+            return GetFirst(e, tagName).Value;
+        }
+
+        private XElement GetFirstElement(XElement e, string tagName)
+        {
+            return e.Descendants(YName(tagName)).First();
         }
 
         protected XName YName(string name)

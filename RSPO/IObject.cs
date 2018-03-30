@@ -18,10 +18,13 @@ namespace RSPO
         float Area { get; set; }
         AreaUnits AreaUnit { get; set; }
         string ImageURL { get; set; }
+        string URL {get;set;}
         int Rooms { get; set; }
         int Floors { get; set; }
         int TotalFloors { get; set; }
         BuildingEnum BuildingType { get; set; }
+        PropertyEnum PropertyType { get; set; }
+        CategoryEnum Category { get; set; }
         string Description { get; set; }
         ICollection<IAgent> Agents { get; set; }
         ICollection<IProperty> Properties { get; set; }
@@ -102,9 +105,23 @@ namespace RSPO
     public enum BuildingEnum
     {
         Brick,
+        BrickMonolyth,
         Monolythn,
-        Panel
+        Panel,
+        FoamConcrete
         // FIXME: Add more ...
+    }
+
+    public enum PropertyEnum
+    {
+        Living
+    }
+
+    public enum CategoryEnum
+    {
+        Room,
+        Flat,
+        House
     }
 
     public partial class MyEntityContext : BrightstarEntityContext
