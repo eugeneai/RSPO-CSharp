@@ -106,4 +106,9 @@ namespace RSPO
         Panel
         // FIXME: Add more ...
     }
+
+    public partial class MyEntityContext : BrightstarEntityContext
+    {
+
+    }
 }

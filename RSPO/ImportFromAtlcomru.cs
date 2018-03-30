@@ -94,14 +94,52 @@ namespace RSPO
                 IEnumerable<XElement> proposals =
                     doc.Descendants(YName("offer"));
 
-                XName internalId = YName("internal-id");
                 foreach (XElement p in proposals)
                 {
-                    Console.WriteLine(
-                        p.Attribute("internal-id").Value);
-                    //Console.WriteLine(p.Name);
+                    ProcessProposal(p);
                 }
             }
+        }
+
+        private void dbg(string msg)
+        {
+            Console.WriteLine("---> "+msg);
+        }
+
+        protected void ProcessProposal(XElement input)
+        {
+            MyEntityContext ctx = Application.Context;
+            XAttribute internalId = input.Attribute("internal-id");  // Value
+
+            IOffer offer = ctx.Offers.Create();
+            IObject obj = ctx.Objects.Create();
+
+            offer.Object = obj;
+            offer.SiteId = internalId.Value;
+            offer.OfferType = GetOfferType(input, "type");
+            ctx.Add(obj);
+            ctx.Add(offer);
+
+            ctx.SaveChanges();
+        }
+
+        private Dictionary<string,OfferEnum> offerType = new Dictionary<string,OfferEnum>
+        {
+            {"продажа", OfferEnum.Sale},
+            {"аренда" , OfferEnum.Rent},
+            {"покупка", OfferEnum.Purchase}
+        };
+
+        protected OfferEnum GetOfferType(XElement i, string tagName)
+        {
+            return offerType[GetText(i, tagName)];
+        }
+
+        // Auxiliary methods working with XML tree
+
+        private string GetText(XElement i, string tagName)
+        {
+            return i.Descendants(YName(tagName)).First().Value;
         }
 
         protected XName YName(string name)
