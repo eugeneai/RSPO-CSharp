@@ -177,7 +177,9 @@ namespace RSPO
 
         private Dictionary<string,PropertyEnum> propertyTypes = new Dictionary<string,PropertyEnum>
         {
-            {"жилая"      , PropertyEnum.Living},
+            {"жилая"   , PropertyEnum.Residental},
+            {"нежилая" , PropertyEnum.NonResidental},
+            {"коммерческая" , PropertyEnum.Commerсial},
         };
 
         protected PropertyEnum GetPropertyType(XElement i, string tagName="property-type")
@@ -189,6 +191,11 @@ namespace RSPO
         {
             {"Комната" , CategoryEnum.Room},
             {"Квартира", CategoryEnum.Flat},
+            {"Участок" , CategoryEnum.Area},
+            {"Нежилое" , CategoryEnum.NonResidental},
+            {"Торговое", CategoryEnum.Trading},
+            {"Гараж"   , CategoryEnum.Garage},
+            {"Офис"    , CategoryEnum.Office},
             {"Дом"     , CategoryEnum.House}
         };
 

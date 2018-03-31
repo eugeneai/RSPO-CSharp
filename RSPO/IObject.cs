@@ -114,14 +114,21 @@ namespace RSPO
 
     public enum PropertyEnum
     {
-        Living
+        Residental,
+        NonResidental,
+        Commerсial
     }
 
     public enum CategoryEnum
     {
         Room,
         Flat,
-        House
+        House,
+        Area,
+        Garage,
+        Trading,
+        Office,
+        NonResidental
     }
 
     public partial class MyEntityContext : BrightstarEntityContext
