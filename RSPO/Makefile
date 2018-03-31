@@ -3,8 +3,9 @@
 TARGET=RSPO.exe
 VAR=Debug
 #BUILD=msbuild
-BUILD=xbuild
-TRM="TERM=xterm"
+BUILD=dotnet build /p:MonoReferenceAssemblies=/usr/lib/mono /property:Configuration="Debug" /verbosity:normal /nologo
+#BUILD=xbuild /property:Configuration="Debug" /verbosity:normal /nologo
+TRM="TERM=xterm XBUILD_COLORS=disable"
 RUNNERVER=2.3.1
 RUNTIME=net452
 
