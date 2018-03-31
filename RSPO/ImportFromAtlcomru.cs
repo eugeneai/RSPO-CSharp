@@ -130,12 +130,47 @@ namespace RSPO
             // FIXME: Accept Dates into offer
             // FIXME: ManuallyAdded
 
-            XElement location = GetFirstElement(input, "location");
+            GetLocationData(obj, input);
+            GetSalesAgent(obj, input);
+            GetPrice(obj, input);
+            obj.ImageURL=GetText(input, "image");
+            obj.Rooms=int.Parse(GetText(input, "rooms"));
+            obj.RoomsOffered=int.Parse(GetText(input, "rooms-offered"));
+            obj.Floor=int.Parse(GetText(input, "floor"));
+            obj.FloorTotal=int.Parse(GetText(input, "floor-total"));
+            obj.BuildingType=GetBuildingType(input);
+            obj.BuildingSeries=GetBuildigSeries(input);
+            obj.Description=GetText(input, "description");
 
             ctx.Add(obj);
             ctx.Add(offer);
 
             ctx.SaveChanges();
+        }
+
+        protected void GetPrice(IObject obj, XElement input, string tagName="price")
+        {
+            obj.Price=float.Parse(GetText(input, "value"));
+            obj.CurrencyType = GetCurrencyType(input);
+        }
+
+        protected void GetLocationData(IObject obj, XElement input, string tagName="location")
+        {
+            XElement locInput = GetFirstElement(input, tagName);
+            ILocation loc=Application.Context.Locations.Create(); // FIXME: TryGet.
+            IRegion reg=Application.Context.Regions.Create(); // FIXME: TryGet.
+            ICountry co=Application.Context.Countries.Create(); // .....
+
+            co.Name = GetText(locInput, "country");
+
+            reg.Country = co;
+            reg.Name = GetText(locInput, "region");
+
+            loc.Region = reg;
+            loc.LocalityName = GetText(locInput, "locality-name");
+            loc.SubLocalityName = GetText(locInput, "sub-locality-name");
+
+            obj.Address = GetText(locInput, "address");
         }
 
         private Dictionary<string,OfferEnum> offerTypes = new Dictionary<string,OfferEnum>

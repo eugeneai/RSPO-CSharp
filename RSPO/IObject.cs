@@ -14,13 +14,15 @@ namespace RSPO
         ILocation Location { get; set; }
         string Address { get; set; }
         float Price { get; set; } // FIXME: Use as Currency type.
-        CurrencyEnum CurType { get; set; }
+        CurrencyEnum CurrencyType { get; set; }
         float Area { get; set; }
         AreaUnits AreaUnit { get; set; }
         string ImageURL { get; set; }
         string URL { get; set; }
         int Rooms { get; set; }
-        int Floors { get; set; }
+        int RoomsOffered { get; set; }
+        int Floor { get; set; }
+        int FloorTotal { get; set; }
         int TotalFloors { get; set; }
         BuildingEnum BuildingType { get; set; }
         PropertyEnum PropertyType { get; set; }
@@ -43,11 +45,13 @@ namespace RSPO
     [Entity]
     public interface ILocation
     {
-        [Ignore]
-        ICountry Country { get; } // As Region defines the Country it is in.
         IRegion Region { get; set; }
         string Name { get; set; }
-        string Locality { get; set; }
+        string LocalityName { get; set; }
+        string SubLocalityName { get; set; }
+
+        [Ignore]
+        ICountry Country { get; } // As Region defines the Country it is in.
     }
 
     public partial class Location : BrightstarEntityObject, ILocation
