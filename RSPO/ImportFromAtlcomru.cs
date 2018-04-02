@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -81,7 +82,7 @@ namespace RSPO
         public void Import(bool onlyLoad=false)
         {
             XDocument doc = Document; // Загружает XML, еще необработанный, дерево.
-            if (! onlyLoad) 
+            if (! onlyLoad)
             {
                 Console.WriteLine("Processing doc!");
                 /*
