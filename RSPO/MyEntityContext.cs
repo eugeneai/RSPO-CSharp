@@ -309,10 +309,10 @@ namespace RSPO
             		set { SetRelatedProperty("Price", value); }
     	}
     
-    	public RSPO.CurrencyEnum CurType
+    	public RSPO.CurrencyEnum CurrencyType
     	{
-            		get { return GetRelatedProperty<RSPO.CurrencyEnum>("CurType"); }
-            		set { SetRelatedProperty("CurType", value); }
+            		get { return GetRelatedProperty<RSPO.CurrencyEnum>("CurrencyType"); }
+            		set { SetRelatedProperty("CurrencyType", value); }
     	}
     
     	public System.Single Area
@@ -333,16 +333,34 @@ namespace RSPO
             		set { SetRelatedProperty("ImageURL", value); }
     	}
     
+    	public System.String URL
+    	{
+            		get { return GetRelatedProperty<System.String>("URL"); }
+            		set { SetRelatedProperty("URL", value); }
+    	}
+    
     	public System.Int32 Rooms
     	{
             		get { return GetRelatedProperty<System.Int32>("Rooms"); }
             		set { SetRelatedProperty("Rooms", value); }
     	}
     
-    	public System.Int32 Floors
+    	public System.Int32 RoomsOffered
     	{
-            		get { return GetRelatedProperty<System.Int32>("Floors"); }
-            		set { SetRelatedProperty("Floors", value); }
+            		get { return GetRelatedProperty<System.Int32>("RoomsOffered"); }
+            		set { SetRelatedProperty("RoomsOffered", value); }
+    	}
+    
+    	public System.Int32 Floor
+    	{
+            		get { return GetRelatedProperty<System.Int32>("Floor"); }
+            		set { SetRelatedProperty("Floor", value); }
+    	}
+    
+    	public System.Int32 FloorTotal
+    	{
+            		get { return GetRelatedProperty<System.Int32>("FloorTotal"); }
+            		set { SetRelatedProperty("FloorTotal", value); }
     	}
     
     	public System.Int32 TotalFloors
@@ -355,6 +373,24 @@ namespace RSPO
     	{
             		get { return GetRelatedProperty<RSPO.BuildingEnum>("BuildingType"); }
             		set { SetRelatedProperty("BuildingType", value); }
+    	}
+    
+    	public RSPO.BuildingSeriesEnum BuildingSeries
+    	{
+            		get { return GetRelatedProperty<RSPO.BuildingSeriesEnum>("BuildingSeries"); }
+            		set { SetRelatedProperty("BuildingSeries", value); }
+    	}
+    
+    	public RSPO.PropertyEnum PropertyType
+    	{
+            		get { return GetRelatedProperty<RSPO.PropertyEnum>("PropertyType"); }
+            		set { SetRelatedProperty("PropertyType", value); }
+    	}
+    
+    	public RSPO.CategoryEnum Category
+    	{
+            		get { return GetRelatedProperty<RSPO.CategoryEnum>("Category"); }
+            		set { SetRelatedProperty("Category", value); }
     	}
     
     	public System.String Description
@@ -433,10 +469,16 @@ namespace RSPO
             		set { SetRelatedProperty("Name", value); }
     	}
     
-    	public System.String Locality
+    	public System.String LocalityName
     	{
-            		get { return GetRelatedProperty<System.String>("Locality"); }
-            		set { SetRelatedProperty("Locality", value); }
+            		get { return GetRelatedProperty<System.String>("LocalityName"); }
+            		set { SetRelatedProperty("LocalityName", value); }
+    	}
+    
+    	public System.String SubLocalityName
+    	{
+            		get { return GetRelatedProperty<System.String>("SubLocalityName"); }
+            		set { SetRelatedProperty("SubLocalityName", value); }
     	}
     	#endregion
     }

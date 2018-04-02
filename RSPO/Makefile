@@ -2,19 +2,24 @@
 
 TARGET=RSPO.exe
 VAR=Debug
+TRM="TERM=xterm XBUILD_COLORS=disable"
 #BUILD=msbuild
-BUILD=xbuild
-TRM="TERM=xterm"
+#BUILD=dotnet build /property:Configuration="Debug" /verbosity:normal /nologo
+BUILD=xbuild /property:Configuration="Debug" /verbosity:normal /nologo
 RUNNERVER=2.3.1
 RUNTIME=net452
 
+compile: export TERM=xterm
+compile: export XBUILD_COLORS=disable
 compile:
-	TERM=xterm \
 	$(BUILD)
 
+run: export TERM=xterm
+run: export MONO_COLORS=disable
 run: compile
-	cd bin/$(VAR) && (TERM=xterm mono $(TARGET))
+	cd bin/$(VAR) && mono $(TARGET)
 
+tests: export TERM=xterm
+tests: export MONO_COLORS=disable
 tests: compile
-	TERM=xterm \
-	mono ../packages/xunit.runner.console.$(RUNNERVER)/tools/$(RUNTIME)/xunit.console.exe bin/$(VAR)/RSPO.exe
+	mono ../packages/xunit.runner.console.$(RUNNERVER)/tools/$(RUNTIME)/xunit.console.exe bin/$(VAR)/RSPO.exe -nologo -nocolor

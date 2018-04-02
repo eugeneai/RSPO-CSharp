@@ -35,7 +35,7 @@ namespace RSPO
             host.Stop();  // stop hosting
         }
 
-        private static void InitializeEntityContext()
+        public static void InitializeEntityContext()
         {
             Context = new MyEntityContext(ConnectionString);
         }

@@ -29,6 +29,8 @@ namespace RSPO.tests
                 basePath = basePath.Replace("file:\\", "");
             }
 
+            Application.InitializeEntityContext();
+
         }
 
         [Fact]
@@ -86,9 +88,10 @@ namespace RSPO.tests
 
         [Theory]
         [InlineData("all.xml")]
-        public void LongImportTest(string importName) 
+        public void LongImportTest(string importName)
         {
             string fileName = CombineWithDataPath(importName);
+            MyEntityContext ctx = Application.Context;
             ImportFromAtlcomru import = new ImportFromAtlcomru()
             {
                 FileName = fileName
