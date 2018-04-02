@@ -7,6 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{68DE17E9-0587-4181-8D73-FA5F707C38E6}</ProjectGuid>
+    <OutputPath>bin\Release</OutputPath>
     <OutputType>Exe</OutputType>
     <RootNamespace>RSPO</RootNamespace>
     <AssemblyName>RSPO</AssemblyName>
