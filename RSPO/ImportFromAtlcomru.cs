@@ -98,10 +98,28 @@ namespace RSPO
 
                 site.Name =  "Атлант-Недвижимость";
                 site.URL  = @"http://atlantnt.ru";
-
+                int count = proposals.Count(), number = 0;
                 foreach (XElement p in proposals)
                 {
+                    if (number % 100 == 0)
+                    {
+                        Console.Write(String.Format("Rec {0} of {1}    \r", number, count));
+                        Application.Context.SaveChanges();
+                    };
                     ProcessProposal(p, site);
+                    number++;
+                };
+
+                Application.Context.SaveChanges();
+
+
+                if (uKeys.Count!=0)
+                {
+                    Console.WriteLine("Unknown series:");
+                    foreach(string s in uKeys.AsEnumerable())
+                    {
+                        Console.WriteLine(s);
+                    }
                 }
             }
         }
@@ -133,28 +151,48 @@ namespace RSPO
             GetLocationData(obj, input);
             GetSalesAgent(obj, input);
             GetPrice(obj, input);
-            Console.WriteLine("1");
-            obj.ImageURL=GetText(input, "image");
-            Console.WriteLine("2");
-            obj.Rooms=int.Parse(GetText(input, "rooms"));
-            Console.WriteLine("3");
-            obj.RoomsOffered=int.Parse(GetText(input, "rooms-offered"));
-            Console.WriteLine("4");
-            obj.Floor=int.Parse(GetText(input, "floor"));
-            Console.WriteLine("5");
-            obj.FloorTotal=int.Parse(GetText(input, "floors-total"));
-            Console.WriteLine("6");
-            obj.BuildingType=GetBuildingType(input);
-            Console.WriteLine("7");
-            obj.BuildingSeries=GetBuildingSeries(input);
-            Console.WriteLine("8");
+            try {
+                obj.ImageURL=GetText(input, "image");
+            } catch (InvalidOperationException) {
+                obj.ImageURL=null;
+            }
+            try {
+                obj.Rooms=int.Parse(GetText(input, "rooms"));
+            } catch (InvalidOperationException) {
+                obj.Rooms=0;
+            }
+            try {
+                obj.RoomsOffered=int.Parse(GetText(input, "rooms-offered"));
+            } catch (InvalidOperationException) {
+                obj.RoomsOffered=0;
+            }
+            try {
+                obj.Floor=int.Parse(GetText(input, "floor"));
+            } catch (InvalidOperationException) {
+                obj.Floor=-1000;
+            }
+
+            try {
+                obj.FloorTotal=int.Parse(GetText(input, "floors-total"));
+            } catch (InvalidOperationException) {
+                obj.FloorTotal=-1000;
+            }
+
+            try {
+                obj.BuildingType=GetBuildingType(input);
+            } catch (InvalidOperationException) {
+                obj.BuildingType=BuildingEnum.Unknown;
+            };
+            try {
+                obj.BuildingSeries=GetBuildingSeries(input);
+            } catch (InvalidOperationException) {
+                obj.BuildingSeries=BuildingSeriesEnum.Unknown;
+            }
             obj.Description=GetText(input, "description");
-            Console.WriteLine("9");
 
             ctx.Add(obj);
             ctx.Add(offer);
 
-            ctx.SaveChanges();
         }
 
         protected void GetSalesAgent(IObject obj, XElement input, string tagName="sales-agent")
@@ -183,8 +221,11 @@ namespace RSPO
             loc.Region = reg;
             loc.LocalityName = GetText(locInput, "locality-name");
             loc.SubLocalityName = GetText(locInput, "sub-locality-name");
-
-            obj.Address = GetText(locInput, "address");
+            try {
+                obj.Address = GetText(locInput, "address");
+            } catch (InvalidOperationException) {
+                obj.Address = null;
+            }
         }
 
         private Dictionary<string,OfferEnum> offerTypes = new Dictionary<string,OfferEnum>
@@ -216,7 +257,12 @@ namespace RSPO
             {"кирпично-монолитный", BuildingEnum.BrickMonolyth},
             {"монолитный"         , BuildingEnum.Monolythn},
             {"панельный"          , BuildingEnum.Panel},
-            {"пенобетонный"       , BuildingEnum.FoamConcrete}
+            {"пенобетонный"       , BuildingEnum.FoamConcrete},
+            {"деревянный"         , BuildingEnum.Wooden},
+            {"бревенчатый"        , BuildingEnum.Cabin},
+            {"бетоноблочный"      , BuildingEnum.ConcreteBolcks},
+            {"шлакоблочный"       , BuildingEnum.CinderBlock},
+            {"брусовый"           , BuildingEnum.CinderBlock},
         };
 
         protected BuildingEnum GetBuildingType(XElement i, string tagName="building-type")
@@ -255,11 +301,60 @@ namespace RSPO
 
         private Dictionary<string, BuildingSeriesEnum> buildingSeries = new Dictionary<string, BuildingSeriesEnum>
         {
+            {"секционка" , BuildingSeriesEnum.Sectioning},
+            {"новый тип" , BuildingSeriesEnum.NewType},
+            {"новостройка" , BuildingSeriesEnum.NewBuilding},
+            {"хрущевка" , BuildingSeriesEnum.SmallPanel},
+            {"135 серия" , BuildingSeriesEnum.Series135},
+            {"114 серия" , BuildingSeriesEnum.Series114},
+            {"113 серия" , BuildingSeriesEnum.Series113},
+            {"индивидуальная" , BuildingSeriesEnum.Individual},
+            {"благоустроенная" , BuildingSeriesEnum.Comfortable},
+            {"неблагоустроенная" , BuildingSeriesEnum.NotComfortable},
+            {"полублагоустроенная" , BuildingSeriesEnum.SemiComfortable},
+            {"общежитие" , BuildingSeriesEnum.Hostel},
+            {"малосемейка" , BuildingSeriesEnum.SmallFamilyFlat},
+            {"ангарская" , BuildingSeriesEnum.Angarsk},
+            {"сталинка" , BuildingSeriesEnum.Stalin},
+            {"брежневка" , BuildingSeriesEnum.Brezhnev},
+            {"улучшенная" , BuildingSeriesEnum.Improved},
+            {"элитная" , BuildingSeriesEnum.Elite},
+            {"таунхаус" , BuildingSeriesEnum.TownHouse},
+            {"коттедж" , BuildingSeriesEnum.Cottage},
+            {"полуторка" , BuildingSeriesEnum.Polutorka},
+            {"дом с участком" , BuildingSeriesEnum.HouseWithArea},
+            {"дом на участке" , BuildingSeriesEnum.HouseOnArea},
+            {"2-хуровневая" , BuildingSeriesEnum.TwoLevel},
+            {"коммуналка" , BuildingSeriesEnum.Communal},
+            {"доля в кв-ре" , BuildingSeriesEnum.Share},
+            {"комната в кв-ре" , BuildingSeriesEnum.RoomInFlat},
+            {"производство" , BuildingSeriesEnum.Manufacturing},
+            {"под производство" , BuildingSeriesEnum.ForIndustry},
+            {"под строительство" , BuildingSeriesEnum.ForConstruction},
+            {"промназначения" , BuildingSeriesEnum.Industrial},
+            {"коридорного типа" , BuildingSeriesEnum.CorridorType},
+            {"под сельхоз.деят-ть" , BuildingSeriesEnum.Country},
+            {"дача" , BuildingSeriesEnum.Dacha},
+            {"садоводство" , BuildingSeriesEnum.Gardening},
+            {"кооперативный" , BuildingSeriesEnum.Cooperative},
+            {"складское" , BuildingSeriesEnum.Warehouse},
+            {"свободного назначени" , BuildingSeriesEnum.Free},
+            {"торг-администр" , BuildingSeriesEnum.Trade},
+            {"отдельное здание" , BuildingSeriesEnum.Building},
+            {"дом" , BuildingSeriesEnum.House},
         };
 
-        protected BuildingSeriesEnum GetBuildingSeries(XElement i, string tagName = "category")
+        private HashSet<string> uKeys = new HashSet<string>();
+
+        protected BuildingSeriesEnum GetBuildingSeries(XElement i, string tagName = "building-series")
         {
-            return buildingSeries[GetText(i, tagName)];
+            string key = GetText(i, tagName);
+            try {
+                return buildingSeries[key];
+            } catch (KeyNotFoundException) {
+                uKeys.Add(key);
+                return BuildingSeriesEnum.Unknown;
+            }
         }
 
         protected CurrencyEnum GetCurrencyType(XElement input)
