@@ -133,14 +133,23 @@ namespace RSPO
             GetLocationData(obj, input);
             GetSalesAgent(obj, input);
             GetPrice(obj, input);
+            Console.WriteLine("1");
             obj.ImageURL=GetText(input, "image");
+            Console.WriteLine("2");
             obj.Rooms=int.Parse(GetText(input, "rooms"));
+            Console.WriteLine("3");
             obj.RoomsOffered=int.Parse(GetText(input, "rooms-offered"));
+            Console.WriteLine("4");
             obj.Floor=int.Parse(GetText(input, "floor"));
+            Console.WriteLine("5");
             obj.FloorTotal=int.Parse(GetText(input, "floor-total"));
+            Console.WriteLine("6");
             obj.BuildingType=GetBuildingType(input);
+            Console.WriteLine("7");
             obj.BuildingSeries=GetBuildingSeries(input);
+            Console.WriteLine("8");
             obj.Description=GetText(input, "description");
+            Console.WriteLine("9");
 
             ctx.Add(obj);
             ctx.Add(offer);
