@@ -142,7 +142,7 @@ namespace RSPO
             Console.WriteLine("4");
             obj.Floor=int.Parse(GetText(input, "floor"));
             Console.WriteLine("5");
-            obj.FloorTotal=int.Parse(GetText(input, "floor-total"));
+            obj.FloorTotal=int.Parse(GetText(input, "floors-total"));
             Console.WriteLine("6");
             obj.BuildingType=GetBuildingType(input);
             Console.WriteLine("7");
@@ -271,6 +271,7 @@ namespace RSPO
 
         private string GetText(XElement e, string tagName)
         {
+            // Console.WriteLine("GetText: "+tagName);
             return GetFirstElement(e, tagName).Value;
         }
 
