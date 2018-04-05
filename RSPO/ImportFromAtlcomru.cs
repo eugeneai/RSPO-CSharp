@@ -113,14 +113,6 @@ namespace RSPO
                 Application.Context.SaveChanges();
 
 
-                if (uKeys.Count!=0)
-                {
-                    Console.WriteLine("Unknown series:");
-                    foreach(string s in uKeys.AsEnumerable())
-                    {
-                        Console.WriteLine(s);
-                    }
-                }
             }
         }
 
@@ -186,7 +178,7 @@ namespace RSPO
             try {
                 obj.BuildingSeries=GetBuildingSeries(input);
             } catch (InvalidOperationException) {
-                obj.BuildingSeries=BuildingSeriesEnum.Unknown;
+                obj.BuildingSeries = null;
             }
             obj.Description=GetText(input, "description");
 

@@ -199,6 +199,12 @@ namespace RSPO
 
     public partial class MyEntityContext : BrightstarEntityContext
     {
-
+        public IEntitySet<IBuildingSeries> BuildingSeries
+        {
+            get
+            {
+                return BuildingSeriess;
+            }
+        }
     }
 }

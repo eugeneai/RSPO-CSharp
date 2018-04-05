@@ -52,6 +52,8 @@ namespace RSPO
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IRegion, RSPO.Region>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ISite));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.ISite, RSPO.Site>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IBuildingSeries));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IBuildingSeries, RSPO.BuildingSeries>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IProperty));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IProperty, RSPO.Property>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IPropertyType));
@@ -130,6 +132,7 @@ namespace RSPO
     		Countries = 	new BrightstarEntitySet<RSPO.ICountry>(this);
     		Regions = 	new BrightstarEntitySet<RSPO.IRegion>(this);
     		Sites = 	new BrightstarEntitySet<RSPO.ISite>(this);
+    		BuildingSeriess = 	new BrightstarEntitySet<RSPO.IBuildingSeries>(this);
     		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
     		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
     		Roles = 	new BrightstarEntitySet<RSPO.IRole>(this);
@@ -166,6 +169,11 @@ namespace RSPO
     	}
     	
     	public IEntitySet<RSPO.ISite> Sites
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IBuildingSeries> BuildingSeriess
     	{
     		get; private set;
     	}
@@ -207,6 +215,9 @@ namespace RSPO
             }
             if (typeof(T).Equals(typeof(RSPO.ISite))) {
                 return (IEntitySet<T>)this.Sites;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IBuildingSeries))) {
+                return (IEntitySet<T>)this.BuildingSeriess;
             }
             if (typeof(T).Equals(typeof(RSPO.IProperty))) {
                 return (IEntitySet<T>)this.Properties;
@@ -375,10 +386,10 @@ namespace RSPO
             		set { SetRelatedProperty("BuildingType", value); }
     	}
     
-    	public RSPO.BuildingSeriesEnum BuildingSeries
+    	public RSPO.IBuildingSeries BuildingSeries
     	{
-            		get { return GetRelatedProperty<RSPO.BuildingSeriesEnum>("BuildingSeries"); }
-            		set { SetRelatedProperty("BuildingSeries", value); }
+            get { return GetRelatedObject<RSPO.IBuildingSeries>("BuildingSeries"); }
+            set { SetRelatedObject<RSPO.IBuildingSeries>("BuildingSeries", value); }
     	}
     
     	public RSPO.PropertyEnum PropertyType
@@ -545,6 +556,24 @@ namespace RSPO
     	{
             		get { return GetRelatedProperty<System.String>("URL"); }
             		set { SetRelatedProperty("URL", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class BuildingSeries : BrightstarEntityObject, IBuildingSeries 
+    {
+    	public BuildingSeries(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public BuildingSeries(BrightstarEntityContext context) : base(context, typeof(BuildingSeries)) { }
+    	public BuildingSeries() : base() { }
+    	#region Implementation of RSPO.IBuildingSeries
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
     	}
     	#endregion
     }
