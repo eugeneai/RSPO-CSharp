@@ -207,4 +207,8 @@ namespace RSPO
             }
         }
     }
+
+    public partial class Site : BrightstarEntityObject, ISite
+    {
+    }
 }

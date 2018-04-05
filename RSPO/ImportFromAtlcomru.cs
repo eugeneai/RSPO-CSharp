@@ -81,6 +81,7 @@ namespace RSPO
         public void Import(bool onlyLoad=false)
         {
             XDocument doc = Document; // Загружает XML, еще необработанный, дерево.
+            MyEntityContext ctx = Application.Context;
 
             if (! onlyLoad)
             {
@@ -94,10 +95,18 @@ namespace RSPO
                 IEnumerable<XElement> proposals =
                     doc.Descendants(YName("offer"));
 
-                ISite site = Application.Context.Sites.Create(); // FIXME: Must Be Query/Create
 
-                site.Name =  "Атлант-Недвижимость";
-                site.URL  = @"http://atlantnt.ru";
+                string siteName = "Атлант-Недвижимость";
+                string siteURL = @"http://atlantnt.ru";
+                ISite site = ctx.Sites.Where(x=>x.URL.Equals(siteURL)).FirstOrDefault();
+
+                if (site == null) {
+                    site=ctx.Sites.Create();
+                    site.Name = siteName;
+                    site.URL  = siteURL;
+                    ctx.SaveChanges();
+                }
+
                 int count = proposals.Count(), number = 0;
                 foreach (XElement p in proposals)
                 {
@@ -133,6 +142,9 @@ namespace RSPO
             offer.SiteId = internalId.Value;
             offer.OfferType = GetOfferType(input);
             offer.Site = site;
+
+            // FIXME: The code implies the objects are unique.
+            // TODO: Existence check
 
             obj.PropertyType = GetPropertyType(input);
             obj.Category = GetCategoryType(input);
@@ -200,19 +212,47 @@ namespace RSPO
 
         protected void GetLocationData(IObject obj, XElement input, string tagName="location")
         {
+            MyEntityContext ctx=Application.Context;
             XElement locInput = GetFirstElement(input, tagName);
-            ILocation loc=Application.Context.Locations.Create(); // FIXME: TryGet.
-            IRegion reg=Application.Context.Regions.Create(); // FIXME: TryGet.
-            ICountry co=Application.Context.Countries.Create(); // .....
 
-            co.Name = GetText(locInput, "country");
+            Console.WriteLine("1");
 
-            reg.Country = co;
-            reg.Name = GetText(locInput, "region");
+            string coName = GetText(locInput, "country");
+            ICountry co=ctx.Countries.Where(x=>x.Name.Equals(coName)).FirstOrDefault();
+            if (co==null)
+            {
+                co=ctx.Countries.Create();
+                co.Name=coName;
+                ctx.Add(co);
+                ctx.SaveChanges();
+            }
+            Console.WriteLine("2");
 
-            loc.Region = reg;
-            loc.LocalityName = GetText(locInput, "locality-name");
-            loc.SubLocalityName = GetText(locInput, "sub-locality-name");
+            string regName = GetText(locInput, "region");
+            IRegion reg = ctx.Regions.Where(x=>x.Name.Equals(regName))
+                .Where(x=>x.Country.Name.Equals(co.Name)).FirstOrDefault();
+            if (reg==null)
+            {
+                reg=ctx.Regions.Create();
+                reg.Country = co;
+                reg.Name = regName;
+                ctx.SaveChanges();
+            }
+            Console.WriteLine("3");
+
+            string locLN = GetText(locInput, "locality-name");
+            string locSLN = GetText(locInput, "sub-locality-name");
+
+            ILocation loc=ctx.Locations.Where(x=>x.Region.Equals(reg) &&
+                                              x.LocalityName.Equals(locLN) &&
+                                              x.SubLocalityName.Equals(locSLN)).FirstOrDefault();
+            if (loc == null) {
+                loc = ctx.Locations.Create();
+                loc.Region = reg;
+                loc.LocalityName = locLN;
+                loc.SubLocalityName = locSLN;
+            }
+            obj.Location = loc;
             try {
                 obj.Address = GetText(locInput, "address");
             } catch (InvalidOperationException) {
@@ -343,15 +383,20 @@ namespace RSPO
 
         protected IBuildingSeries GetBuildingSeries(XElement i, string tagName = "building-series")
         {
+            MyEntityContext ctx = Application.Context;
             string seriesName = GetText(i, tagName);
-            IBuildingSeries s = Application.Context.BuildingSeries.Create();
-            s.Name = seriesName;
+            IBuildingSeries s = ctx.BuildingSeries.Where(x=>x.Name.Equals(seriesName)).FirstOrDefault();
+            if (s==null)
+            {
+                s = ctx.BuildingSeries.Create();
+                s.Name = seriesName;
+            }
             return s;
         }
 
         protected CurrencyEnum GetCurrencyType(XElement input)
         {
-            return CurrencyEnum.Dollar; //FIXME: Implement
+            return CurrencyEnum.Rouble; //FIXME: Implement
         }
 
         // Auxiliary methods working with XML tree
