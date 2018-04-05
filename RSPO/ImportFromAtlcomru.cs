@@ -299,6 +299,8 @@ namespace RSPO
             return categoryTypes[GetText(i, tagName)];
         }
 
+        /*
+
         private Dictionary<string, BuildingSeriesEnum> buildingSeries = new Dictionary<string, BuildingSeriesEnum>
         {
             {"секционка" , BuildingSeriesEnum.Sectioning},
@@ -345,16 +347,14 @@ namespace RSPO
         };
 
         private HashSet<string> uKeys = new HashSet<string>();
+        */
 
-        protected BuildingSeriesEnum GetBuildingSeries(XElement i, string tagName = "building-series")
+        protected IBuildingSeries GetBuildingSeries(XElement i, string tagName = "building-series")
         {
-            string key = GetText(i, tagName);
-            try {
-                return buildingSeries[key];
-            } catch (KeyNotFoundException) {
-                uKeys.Add(key);
-                return BuildingSeriesEnum.Unknown;
-            }
+            string seriesName = GetText(i, tagName);
+            IBuildingSeries s = Application.Context.BuildingSeries.Create();
+            s.Name = seriesName;
+            return s;
         }
 
         protected CurrencyEnum GetCurrencyType(XElement input)

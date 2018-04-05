@@ -25,7 +25,7 @@ namespace RSPO
         int FloorTotal { get; set; }
         int TotalFloors { get; set; }
         BuildingEnum BuildingType { get; set; }
-        BuildingSeriesEnum BuildingSeries { get; set; }
+        IBuildingSeries BuildingSeries { get; set; }
         PropertyEnum PropertyType { get; set; }
         CategoryEnum Category { get; set; }
         string Description { get; set; }
@@ -85,6 +85,12 @@ namespace RSPO
         string URL { get; set; }
     }
 
+    [Entity]
+    public interface IBuildingSeries
+    {
+        string Name { get; set; }
+    }
+
     public enum OfferEnum
     {
         Sale,      // Продажа
@@ -123,6 +129,7 @@ namespace RSPO
         // FIXME: Add more ...
     }
 
+    /*
     public enum BuildingSeriesEnum
     {
         Unknown,
@@ -169,6 +176,7 @@ namespace RSPO
         Building,
         House,
     }
+    */
 
     public enum PropertyEnum
     {
