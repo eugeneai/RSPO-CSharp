@@ -11,6 +11,9 @@ RUNTIME=net452
 CODEGEN="/home/eugeneai/projects/code/RSPO/RSPO/packages/BrightstarDB.CodeGeneration.Console/tools/BrightstarDB.CodeGeneration.Console.exe"
 GENNS="RSPO"
 
+MONO=mono
+# MONO=mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:55555
+
 compile: export TERM=xterm
 compile: export XBUILD_COLORS=disable
 compile:
@@ -19,15 +22,15 @@ compile:
 run: export TERM=xterm
 run: export MONO_COLORS=disable
 run: compile
-	cd bin/$(VAR) && mono $(TARGET)
+	cd bin/$(VAR) && $(MONO) $(TARGET)
 
 tests: export TERM=xterm
 tests: export MONO_COLORS=disable
 tests: compile
-	mono ../packages/xunit.runner.console.$(RUNNERVER)/tools/$(RUNTIME)/xunit.console.exe bin/$(VAR)/RSPO.exe -nologo -nocolor
+	$(MONO) packages/xunit.runner.console/tools/$(RUNTIME)/xunit.console.exe bin/$(VAR)/RSPO.exe -nologo -nocolor
 
 # FIXME: This does not work
 gen: export TERM=xterm
 gen: export MONO_COLORS=disable
 gen:
-	mono $(CODEGEN) -C $(GENNS) -S ../RSPO.sln -O test.txt
+	$(MONO) $(CODEGEN) -C $(GENNS) -S ../RSPO.sln -O test.txt
