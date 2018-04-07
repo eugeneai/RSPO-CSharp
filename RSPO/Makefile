@@ -8,6 +8,8 @@ TRM="TERM=xterm XBUILD_COLORS=disable"
 BUILD=xbuild /property:Configuration="Debug" /verbosity:normal /nologo
 RUNNERVER=2.3.1
 RUNTIME=net452
+CODEGEN="/home/eugeneai/projects/code/RSPO/RSPO/packages/BrightstarDB.CodeGeneration.Console/tools/BrightstarDB.CodeGeneration.Console.exe"
+GENNS="RSPO"
 
 compile: export TERM=xterm
 compile: export XBUILD_COLORS=disable
@@ -23,3 +25,9 @@ tests: export TERM=xterm
 tests: export MONO_COLORS=disable
 tests: compile
 	mono ../packages/xunit.runner.console.$(RUNNERVER)/tools/$(RUNTIME)/xunit.console.exe bin/$(VAR)/RSPO.exe -nologo -nocolor
+
+# FIXME: This does not work
+gen: export TERM=xterm
+gen: export MONO_COLORS=disable
+gen:
+	mono $(CODEGEN) -C $(GENNS) -S ../RSPO.sln -O test.txt

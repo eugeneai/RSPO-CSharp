@@ -40,3 +40,5 @@ Thumbs.db
 *.dotCover
 .vs/
 *.bs
+/RSPO/paket-files/
+/.vscode/
