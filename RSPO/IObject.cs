@@ -47,7 +47,6 @@ namespace RSPO
     public interface ILocation
     {
         IRegion Region { get; set; }
-        string Name { get; set; }
         string LocalityName { get; set; }
         string SubLocalityName { get; set; }
 
