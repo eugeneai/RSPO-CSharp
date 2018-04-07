@@ -41,6 +41,8 @@ namespace RSPO
         string SiteId { get; set; }
         ISite Site { get; set; } // FIXME: Can be null if it is local data
         // FIXME: Creation and update time
+        DateTime Created { get; set; }
+        DateTime Updated { get; set; }
     }
 
     [Entity]
