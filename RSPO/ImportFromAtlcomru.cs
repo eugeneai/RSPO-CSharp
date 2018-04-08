@@ -229,8 +229,7 @@ namespace RSPO
             Console.WriteLine("2");
 
             string regName = GetText(locInput, "region");
-            IRegion reg = ctx.Regions.Where(x => x.Name.Equals(regName) && x.Country.Name.Equals(co.Name)).FirstOrDefault();
-            // IRegion reg = ctx.Regions.Where(x=>x.Name.Equals(regName)).FirstOrDefault();
+            IRegion reg = ctx.Regions.Where(x => x.Name==regName && x.Country.Name == co.Name).FirstOrDefault();
             if (reg==null)
             {
                 reg=ctx.Regions.Create();
