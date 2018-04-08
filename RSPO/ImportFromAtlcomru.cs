@@ -9,6 +9,8 @@ namespace RSPO
 {
     public class ImportFromAtlcomru
     {
+        private bool DEBUG = false;
+
         public string FileName { get; set; } = null;
         public Stream InputStream { get; set; } = null;
         public XDocument Document {
@@ -127,7 +129,10 @@ namespace RSPO
 
         private void dbg(string msg)
         {
-            Console.WriteLine("---> "+msg);
+            if (DEBUG)
+            {
+                Console.WriteLine("---> "+msg);
+            }
         }
 
         protected void ProcessProposal(XElement input, ISite site)
@@ -215,8 +220,6 @@ namespace RSPO
             MyEntityContext ctx=Application.Context;
             XElement locInput = GetFirstElement(input, tagName);
 
-            Console.WriteLine("1");
-
             string coName = GetText(locInput, "country");
             ICountry co=ctx.Countries.Where(x=>x.Name.Equals(coName)).FirstOrDefault();
             if (co==null)
@@ -226,10 +229,10 @@ namespace RSPO
                 ctx.Add(co);
                 ctx.SaveChanges();
             }
-            Console.WriteLine("2");
 
             string regName = GetText(locInput, "region");
-            IRegion reg = ctx.Regions.Where(x => x.Name==regName && x.Country.Name == co.Name).FirstOrDefault();
+            IRegion reg = ctx.Regions.Where(x => x.Name==regName &&
+                                            x.Country.Name==coName).FirstOrDefault();
             if (reg==null)
             {
                 reg=ctx.Regions.Create();
@@ -237,14 +240,15 @@ namespace RSPO
                 reg.Name = regName;
                 ctx.SaveChanges();
             }
-            Console.WriteLine("3");
 
             string locLN = GetText(locInput, "locality-name");
             string locSLN = GetText(locInput, "sub-locality-name");
 
-            ILocation loc=ctx.Locations.Where(x=>x.Region.Equals(reg) &&
-                                              x.LocalityName.Equals(locLN) &&
-                                              x.SubLocalityName.Equals(locSLN)).FirstOrDefault();
+            ILocation loc=ctx.Locations.Where(x=>
+                                              x.Region.Country.Name==coName &&
+                                              x.Region.Name==regName &&
+                                              x.LocalityName==locLN &&
+                                              x.SubLocalityName==locSLN).FirstOrDefault();
             if (loc == null) {
                 loc = ctx.Locations.Create();
                 loc.Region = reg;
@@ -402,7 +406,7 @@ namespace RSPO
 
         private string GetText(XElement e, string tagName)
         {
-            // Console.WriteLine("GetText: "+tagName);
+            dbg("GetText: "+tagName);
             return GetFirstElement(e, tagName).Value;
         }
 
