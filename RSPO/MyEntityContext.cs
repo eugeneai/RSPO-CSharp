@@ -455,6 +455,18 @@ namespace RSPO
             get { return GetRelatedObject<RSPO.ISite>("Site"); }
             set { SetRelatedObject<RSPO.ISite>("Site", value); }
     	}
+    
+    	public System.DateTime Created
+    	{
+            		get { return GetRelatedProperty<System.DateTime>("Created"); }
+            		set { SetRelatedProperty("Created", value); }
+    	}
+    
+    	public System.DateTime Updated
+    	{
+            		get { return GetRelatedProperty<System.DateTime>("Updated"); }
+            		set { SetRelatedProperty("Updated", value); }
+    	}
     	#endregion
     }
 }
@@ -472,12 +484,6 @@ namespace RSPO
     	{
             get { return GetRelatedObject<RSPO.IRegion>("Region"); }
             set { SetRelatedObject<RSPO.IRegion>("Region", value); }
-    	}
-    
-    	public System.String Name
-    	{
-            		get { return GetRelatedProperty<System.String>("Name"); }
-            		set { SetRelatedProperty("Name", value); }
     	}
     
     	public System.String LocalityName

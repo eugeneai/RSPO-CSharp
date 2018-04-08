@@ -184,8 +184,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1')">
       <ItemGroup>
         <Reference Include="BrightstarDB">
-          <!-- <HintPath>packages\BrightstarDBLibs\lib\net45\BrightstarDB.dll</HintPath> -->
-          <HintPath>\home\eugeneai\projects\code\BrightstarDB\build\sdk\NET40\BrightstarDB.dll</HintPath>
+          <HintPath>packages\BrightstarDBLibs\lib\net45\BrightstarDB.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
