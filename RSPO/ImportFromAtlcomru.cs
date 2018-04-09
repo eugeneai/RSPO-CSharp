@@ -148,6 +148,13 @@ namespace RSPO
             offer.OfferType = GetOfferType(input);
             offer.Site = site;
 
+            /*
+              		<creation-date>2018-03-20T00:00:00+04:00</creation-date>
+                    <last-update-date>2018-03-20T13:56:06+04:00</last-update-date>
+             */
+            offer.Created=GetDateTime(input, "creation-date");
+            offer.Updated=GetDateTime(input, "last-update-date");
+
             // FIXME: The code implies the objects are unique.
             // TODO: Existence check
 
@@ -156,7 +163,8 @@ namespace RSPO
             obj.URL = GetText(input, "url");
             obj.SetGUID();
             // FIXME: Accept Dates into offer
-            // FIXME: Manually Added
+
+
 
             GetLocationData(obj, input);
             GetSalesAgent(obj, input);
@@ -214,6 +222,11 @@ namespace RSPO
         {
             obj.Price=float.Parse(GetText(input, "value"));
             obj.CurrencyType = GetCurrencyType(input);
+        }
+
+        protected DateTime GetDateTime(XElement input, string tagName)
+        {
+            return DateTime.Parse(GetText(input, tagName));
         }
 
         protected void GetLocationData(IObject obj, XElement input, string tagName="location")
