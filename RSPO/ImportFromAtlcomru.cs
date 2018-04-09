@@ -154,8 +154,9 @@ namespace RSPO
             obj.PropertyType = GetPropertyType(input);
             obj.Category = GetCategoryType(input);
             obj.URL = GetText(input, "url");
+            obj.SetGUID();
             // FIXME: Accept Dates into offer
-            // FIXME: ManuallyAdded
+            // FIXME: Manually Added
 
             GetLocationData(obj, input);
             GetSalesAgent(obj, input);
@@ -422,6 +423,15 @@ namespace RSPO
 
         protected readonly string YandexNS = @"http://webmaster.yandex.ru/schemas/feed/realty/2010-06";
 
+    }
+
+    public partial class Object
+    {
+        private void SetGUID()
+        {
+            Guid g = Guid.NewGuid();
+            GUID = g.ToString();
+        }
     }
 
     // Exceptions

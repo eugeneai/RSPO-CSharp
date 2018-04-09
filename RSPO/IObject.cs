@@ -31,6 +31,8 @@ namespace RSPO
         string Description { get; set; }
         ICollection<IAgent> Agents { get; set; }
         ICollection<IProperty> Properties { get; set; }
+        string GUID { get; } // Global ID
+        void SetGUID();
     }
 
     [Entity]
