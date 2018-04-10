@@ -33,7 +33,7 @@ namespace RSPO
 			{
 				IAgent testModel = Application.Context.Agents.Create();
                 testModel.Name = parameters.Name;
-				return View["Hello.html", testModel];
+				return View["hello.html", testModel];
 			};
 		}
 	}

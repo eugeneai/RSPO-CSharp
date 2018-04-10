@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\xunit.runner.console\build\xunit.runner.console.props" Condition="Exists('packages\xunit.runner.console\build\xunit.runner.console.props')" Label="Paket" />
   <Import Project="packages\xunit.core\build\xunit.core.props" Condition="Exists('packages\xunit.core\build\xunit.core.props')" Label="Paket" />
@@ -129,17 +129,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MyEntityContext.cs</LastGenOutput>
     </Content>
-    <Content Include="views\Hello.html" />
-    <Content Include="views\Index.html" />
+    <Content Include="views\hello.html" />
+    <Content Include="views\index.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
     <None Include="paket.references">
     </None>
-    <None Include="views\Hello.html">
+    <None Include="views\hello.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="views\Index.html">
+    <None Include="views\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
