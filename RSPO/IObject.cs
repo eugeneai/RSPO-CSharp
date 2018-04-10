@@ -31,8 +31,7 @@ namespace RSPO
         string Description { get; set; }
         ICollection<IAgent> Agents { get; set; }
         ICollection<IProperty> Properties { get; set; }
-        string GUID { get; } // Global ID
-        void SetGUID();
+        string GUID { get; set; } // Global ID
     }
 
     [Entity]
@@ -45,6 +44,7 @@ namespace RSPO
         // FIXME: Creation and update time
         DateTime Created { get; set; }
         DateTime Updated { get; set; }
+        IAgent Agent { get; set; }
     }
 
     [Entity]

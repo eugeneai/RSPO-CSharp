@@ -58,8 +58,6 @@ namespace RSPO
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IProperty, RSPO.Property>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IPropertyType));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IPropertyType, RSPO.PropertyType>();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IRole));
-    		EntityMappingStore.Instance.SetImplMapping<RSPO.IRole, RSPO.Role>();
     	}
     	
     	/// <summary>
@@ -135,7 +133,6 @@ namespace RSPO
     		BuildingSeriess = 	new BrightstarEntitySet<RSPO.IBuildingSeries>(this);
     		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
     		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
-    		Roles = 	new BrightstarEntitySet<RSPO.IRole>(this);
     	}
     	
     	public IEntitySet<RSPO.IAgent> Agents
@@ -188,11 +185,6 @@ namespace RSPO
     		get; private set;
     	}
     	
-    	public IEntitySet<RSPO.IRole> Roles
-    	{
-    		get; private set;
-    	}
-    	
         public IEntitySet<T> EntitySet<T>() where T : class {
             var itemType = typeof(T);
             if (typeof(T).Equals(typeof(RSPO.IAgent))) {
@@ -224,9 +216,6 @@ namespace RSPO
             }
             if (typeof(T).Equals(typeof(RSPO.IPropertyType))) {
                 return (IEntitySet<T>)this.PropertyTypes;
-            }
-            if (typeof(T).Equals(typeof(RSPO.IRole))) {
-                return (IEntitySet<T>)this.Roles;
             }
             throw new InvalidOperationException(typeof(T).FullName + " is not a recognized entity interface type.");
         }
@@ -273,11 +262,18 @@ namespace RSPO
             		get { return GetRelatedProperty<System.String>("Email"); }
             		set { SetRelatedProperty("Email", value); }
     	}
-    	public System.Collections.Generic.ICollection<RSPO.IRole> Roles
+    
+    	public RSPO.RoleEnum Role
     	{
-    		get { return GetRelatedObjects<RSPO.IRole>("Roles"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Roles", value); }
-    								}
+            		get { return GetRelatedProperty<RSPO.RoleEnum>("Role"); }
+            		set { SetRelatedProperty("Role", value); }
+    	}
+    
+    	public System.String GUID
+    	{
+            		get { return GetRelatedProperty<System.String>("GUID"); }
+            		set { SetRelatedProperty("GUID", value); }
+    	}
     	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
     	{
     		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
@@ -419,6 +415,12 @@ namespace RSPO
     		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
     								}
+    
+    	public System.String GUID
+    	{
+            		get { return GetRelatedProperty<System.String>("GUID"); }
+            		set { SetRelatedProperty("GUID", value); }
+    	}
     	#endregion
     }
 }
@@ -466,6 +468,12 @@ namespace RSPO
     	{
             		get { return GetRelatedProperty<System.DateTime>("Updated"); }
             		set { SetRelatedProperty("Updated", value); }
+    	}
+    
+    	public RSPO.IAgent Agent
+    	{
+            get { return GetRelatedObject<RSPO.IAgent>("Agent"); }
+            set { SetRelatedObject<RSPO.IAgent>("Agent", value); }
     	}
     	#endregion
     }
@@ -633,35 +641,6 @@ namespace RSPO
     	{
     		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
-    								}
-    	#endregion
-    }
-}
-namespace RSPO 
-{
-    
-    public partial class Role : BrightstarEntityObject, IRole 
-    {
-    	public Role(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public Role(BrightstarEntityContext context) : base(context, typeof(Role)) { }
-    	public Role() : base() { }
-    	#region Implementation of RSPO.IRole
-    
-    	public System.String Name
-    	{
-            		get { return GetRelatedProperty<System.String>("Name"); }
-            		set { SetRelatedProperty("Name", value); }
-    	}
-    
-    	public System.String Description
-    	{
-            		get { return GetRelatedProperty<System.String>("Description"); }
-            		set { SetRelatedProperty("Description", value); }
-    	}
-    	public System.Collections.Generic.ICollection<RSPO.IAgent> Agents
-    	{
-    		get { return GetRelatedObjects<RSPO.IAgent>("Agents"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Agents", value); }
     								}
     	#endregion
     }

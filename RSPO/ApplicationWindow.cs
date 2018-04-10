@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrightstarDB.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -63,6 +64,13 @@ namespace RSPO
                 };
                 import.Import();
             }
+        }
+    }
+    public partial class Agent : BrightstarEntityObject, IAgent
+    {
+        public string GenerateHash(string input)
+        {
+            return input;
         }
     }
 }

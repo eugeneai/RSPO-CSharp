@@ -46,6 +46,11 @@ namespace RSPO
             applicationWindow.ShowDialog();
         }
 
+        public static string GenerateHash(string input)
+        {
+            return input;
+        }
+
         private static void RunWithoutInterface()
         {
             // check if we're running on mono

@@ -52,7 +52,7 @@ namespace RSPO
             // Console.WriteLine("Saving");
             Application.Context.Add(this.Context);
             Application.Context.SaveChanges();
-            Context.GenerateHash(passwordBox.Text);
+            Application.GenerateHash(passwordBox.Text);
             Close();
         }
 

@@ -15,9 +15,14 @@ namespace RSPO
         string PasswordHash { get; set; }
         string Phone { get; set; }
         string Email { get; set; }
-        ICollection <IRole> Roles { get; set; }
-        ICollection <IProperty> Properties { get; set; }
+        RoleEnum Role { get; set; }
+        string GUID { get; set; }
+        ICollection<IProperty> Properties { get; set; }
+    }
 
-        void GenerateHash(string password);
+    public enum RoleEnum
+    {
+        Agent,
+        User
     }
 }

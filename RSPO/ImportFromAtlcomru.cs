@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using BrightstarDB.EntityFramework;
 using SharpCompress.Readers;
 
 namespace RSPO
@@ -148,12 +149,10 @@ namespace RSPO
             offer.OfferType = GetOfferType(input);
             offer.Site = site;
 
-            /*
-              		<creation-date>2018-03-20T00:00:00+04:00</creation-date>
-                    <last-update-date>2018-03-20T13:56:06+04:00</last-update-date>
-             */
             offer.Created=GetDateTime(input, "creation-date");
             offer.Updated=GetDateTime(input, "last-update-date");
+
+            GetSalesAgent(offer, input);
 
             // FIXME: The code implies the objects are unique.
             // TODO: Existence check
@@ -161,13 +160,9 @@ namespace RSPO
             obj.PropertyType = GetPropertyType(input);
             obj.Category = GetCategoryType(input);
             obj.URL = GetText(input, "url");
-            obj.SetGUID();
-            // FIXME: Accept Dates into offer
-
-
+            obj.GUID=GetGUID();
 
             GetLocationData(obj, input);
-            GetSalesAgent(obj, input);
             GetPrice(obj, input);
             try {
                 obj.ImageURL=GetText(input, "image");
@@ -213,8 +208,13 @@ namespace RSPO
 
         }
 
-        protected void GetSalesAgent(IObject obj, XElement input, string tagName="sales-agent")
+        protected void GetSalesAgent(IOffer offer, XElement input, string tagName="sales-agent")
         {
+            MyEntityContext ctx = Application.Context;
+            IAgent agent = ctx.Agents.Create();
+            agent.GUID = GetGUID();
+            offer.Agent = agent;
+
             // FIXME: Implement
         }
 
@@ -436,15 +436,11 @@ namespace RSPO
 
         protected readonly string YandexNS = @"http://webmaster.yandex.ru/schemas/feed/realty/2010-06";
 
-    }
-
-    public partial class Object
-    {
-        private void SetGUID()
+        public string GetGUID()
         {
-            Guid g = Guid.NewGuid();
-            GUID = g.ToString();
+            return Guid.NewGuid().ToString();
         }
+
     }
 
     // Exceptions
