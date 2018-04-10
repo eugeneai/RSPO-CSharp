@@ -22,7 +22,9 @@ namespace RSPO
 
     public enum RoleEnum
     {
+        Unknown,
         Agent,
+        Owner,
         User
     }
 }

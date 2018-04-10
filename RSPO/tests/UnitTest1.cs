@@ -30,7 +30,6 @@ namespace RSPO.tests
             }
 
             Application.InitializeEntityContext();
-
         }
 
         [Fact]
@@ -87,7 +86,7 @@ namespace RSPO.tests
         }
 
         [Theory]
-        [InlineData("all.xml")]
+        // [InlineData("all.xml")]
         public void LongImportTest(string importName)
         {
             string fileName = CombineWithDataPath(importName);

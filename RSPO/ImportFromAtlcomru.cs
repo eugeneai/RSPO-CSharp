@@ -210,9 +210,32 @@ namespace RSPO
 
         protected void GetSalesAgent(IOffer offer, XElement input, string tagName="sales-agent")
         {
+            /*
+              		<sales-agent>
+			<category>владелец</category>
+			<name>Атлант-Недвижимость</name>
+			<phone>74993467402</phone>
+		</sales-agent>
+        */
+            XElement sa = GetFirstElement(input, tagName);
+
+            RoleEnum saRole = GetRole(sa);
+            string name = GetText(sa, "name");
+            string phone = GetText(sa, "phone");
+
             MyEntityContext ctx = Application.Context;
-            IAgent agent = ctx.Agents.Create();
-            agent.GUID = GetGUID();
+            IAgent agent = ctx.Agents.Where(x=>x.Name==name &&
+                                            x.Phone==phone).FirstOrDefault();
+            if (agent == null)
+            {
+                agent = ctx.Agents.Create();
+                agent.GUID = GetGUID();
+                agent.Name = name;
+                agent.Phone = phone;
+                agent.Role = saRole;
+                ctx.Add(agent);
+                ctx.SaveChanges();
+            }
             offer.Agent = agent;
 
             // FIXME: Implement
@@ -348,55 +371,18 @@ namespace RSPO
             return categoryTypes[GetText(i, tagName)];
         }
 
-        /*
-
-        private Dictionary<string, BuildingSeriesEnum> buildingSeries = new Dictionary<string, BuildingSeriesEnum>
+        private Dictionary<string, RoleEnum> roles = new Dictionary<string, RoleEnum>
         {
-            {"секционка" , BuildingSeriesEnum.Sectioning},
-            {"новый тип" , BuildingSeriesEnum.NewType},
-            {"новостройка" , BuildingSeriesEnum.NewBuilding},
-            {"хрущевка" , BuildingSeriesEnum.SmallPanel},
-            {"135 серия" , BuildingSeriesEnum.Series135},
-            {"114 серия" , BuildingSeriesEnum.Series114},
-            {"113 серия" , BuildingSeriesEnum.Series113},
-            {"индивидуальная" , BuildingSeriesEnum.Individual},
-            {"благоустроенная" , BuildingSeriesEnum.Comfortable},
-            {"неблагоустроенная" , BuildingSeriesEnum.NotComfortable},
-            {"полублагоустроенная" , BuildingSeriesEnum.SemiComfortable},
-            {"общежитие" , BuildingSeriesEnum.Hostel},
-            {"малосемейка" , BuildingSeriesEnum.SmallFamilyFlat},
-            {"ангарская" , BuildingSeriesEnum.Angarsk},
-            {"сталинка" , BuildingSeriesEnum.Stalin},
-            {"брежневка" , BuildingSeriesEnum.Brezhnev},
-            {"улучшенная" , BuildingSeriesEnum.Improved},
-            {"элитная" , BuildingSeriesEnum.Elite},
-            {"таунхаус" , BuildingSeriesEnum.TownHouse},
-            {"коттедж" , BuildingSeriesEnum.Cottage},
-            {"полуторка" , BuildingSeriesEnum.Polutorka},
-            {"дом с участком" , BuildingSeriesEnum.HouseWithArea},
-            {"дом на участке" , BuildingSeriesEnum.HouseOnArea},
-            {"2-хуровневая" , BuildingSeriesEnum.TwoLevel},
-            {"коммуналка" , BuildingSeriesEnum.Communal},
-            {"доля в кв-ре" , BuildingSeriesEnum.Share},
-            {"комната в кв-ре" , BuildingSeriesEnum.RoomInFlat},
-            {"производство" , BuildingSeriesEnum.Manufacturing},
-            {"под производство" , BuildingSeriesEnum.ForIndustry},
-            {"под строительство" , BuildingSeriesEnum.ForConstruction},
-            {"промназначения" , BuildingSeriesEnum.Industrial},
-            {"коридорного типа" , BuildingSeriesEnum.CorridorType},
-            {"под сельхоз.деят-ть" , BuildingSeriesEnum.Country},
-            {"дача" , BuildingSeriesEnum.Dacha},
-            {"садоводство" , BuildingSeriesEnum.Gardening},
-            {"кооперативный" , BuildingSeriesEnum.Cooperative},
-            {"складское" , BuildingSeriesEnum.Warehouse},
-            {"свободного назначени" , BuildingSeriesEnum.Free},
-            {"торг-администр" , BuildingSeriesEnum.Trade},
-            {"отдельное здание" , BuildingSeriesEnum.Building},
-            {"дом" , BuildingSeriesEnum.House},
+            {"владелец" , RoleEnum.Owner},
+            {"агентство" , RoleEnum.Agent},
         };
 
-        private HashSet<string> uKeys = new HashSet<string>();
-        */
+        // private HashSet<string> uKeys = new HashSet<string>();
+
+        protected RoleEnum GetRole(XElement i, string tagName="category")
+        {
+            return roles[GetText(i, tagName)];
+        }
 
         protected IBuildingSeries GetBuildingSeries(XElement i, string tagName = "building-series")
         {
@@ -411,10 +397,20 @@ namespace RSPO
             return s;
         }
 
-        protected CurrencyEnum GetCurrencyType(XElement input)
+        private Dictionary<string, CurrencyEnum> currens = new Dictionary<string, CurrencyEnum>
         {
-            return CurrencyEnum.Rouble; //FIXME: Implement
+            {"RUR" , CurrencyEnum.RUR},
+            {"USD" , CurrencyEnum.USD},
+            {"EUR" , CurrencyEnum.EUR},
+        };
+
+        // private HashSet<string> uKeys = new HashSet<string>();
+
+        protected CurrencyEnum GetCurrencyType(XElement i, string tagName="currency")
+        {
+            return currens[GetText(i, tagName)];
         }
+
 
         // Auxiliary methods working with XML tree
 

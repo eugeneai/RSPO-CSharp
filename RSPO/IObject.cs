@@ -104,9 +104,9 @@ namespace RSPO
     public enum CurrencyEnum
     {
         None,
-        Rouble,
-        Dollar,
-        Euro
+        RUR,
+        USD,
+        EUR
         // FIXME: Add more ...
     }
 

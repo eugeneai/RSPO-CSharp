@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 
 namespace RSPO
 {
-	public class MainModule : NancyModule
+	public class WebModule : NancyModule
 	{
-		public MainModule()
+		public WebModule()
 		{
 			Get["/"] = parameters =>
 			{
@@ -31,7 +31,8 @@ namespace RSPO
 			};
 			Get["/hello/{Name}"] = parameters =>
 			{
-				var testModel = new TestModel(parameters.Name);
+				IAgent testModel = Application.Context.Agents.Create();
+                testModel.Name = parameters.Name;
 				return View["Hello.html", testModel];
 			};
 		}

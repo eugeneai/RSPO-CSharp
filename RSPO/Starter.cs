@@ -28,8 +28,8 @@ namespace RSPO
 
             host.Start();  // start hosting
 
-            // RunWithoutInterface();
-            RunWindowsFormUI();
+            RunWithoutInterface();
+            // RunWindowsFormUI();
 
             Console.WriteLine("Stopping Nancy");
             host.Stop();  // stop hosting

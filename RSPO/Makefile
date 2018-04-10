@@ -1,4 +1,4 @@
-.PHONY:
+.PHONY: compile run tests gen rmdb
 
 TARGET=RSPO.exe
 VAR=Debug
@@ -37,3 +37,6 @@ gen:
 	# $(MONONODEBUG) $(CODEGEN) /EntityContext:MyEntityContext /Language:CS /InternalEntityClasses ../RSPO.sln RSPO Output.cs
 	$(MONO) $(CODEGEN) -CN MyEntityContext -IE -O Output.cs -C RSPO -S ../RSPO.sln
 	# $(MONONODEBUG) $(CODEGEN) ../RSPO.sln RSPO Output.cs -CN MyEntityContext -IE
+
+rmdb:
+	rm -rf bin/Debug/RSPO
