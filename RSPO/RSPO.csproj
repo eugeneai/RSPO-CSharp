@@ -129,19 +129,21 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MyEntityContext.cs</LastGenOutput>
     </Content>
-    <Content Include="views\hello.html" />
-    <Content Include="views\index.html" />
+    <!-- <Content Include="views\hello.html" /> -->
+    <!-- <Content Include="views\index.html" /> -->
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
     <None Include="paket.references">
     </None>
+    <!--
     <None Include="views\hello.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="views\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+      </None>
+      -->
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

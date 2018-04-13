@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Nancy;
 
 namespace RSPO.tests
 {
@@ -97,6 +98,16 @@ namespace RSPO.tests
             };
             import.Import();
             Assert.True(true);
+        }
+
+        [Fact]
+        public void TestRenderer()
+        {
+            WebModule mod = new WebModule();
+            Request request = new Request("GET","","1.1");
+            string result = mod.Render("index.pt", request: request);
+            Console.WriteLine(result);
+            Assert.Contains(result, "</html>");
         }
     }
 }
