@@ -210,13 +210,7 @@ namespace RSPO
 
         protected void GetSalesAgent(IOffer offer, XElement input, string tagName="sales-agent")
         {
-            /*
-              		<sales-agent>
-			<category>владелец</category>
-			<name>Атлант-Недвижимость</name>
-			<phone>74993467402</phone>
-		</sales-agent>
-        */
+
             XElement sa = GetFirstElement(input, tagName);
 
             RoleEnum saRole = GetRole(sa);

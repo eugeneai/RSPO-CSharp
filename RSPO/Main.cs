@@ -52,9 +52,9 @@ namespace RSPO
         private string TEMPLATE_LOCATION = null;
 
         public string Render(string templateFile,
-                                object context=null,
-                                Request request=null,
-                                View view=null)
+                             object context=null,  // Model
+                             Request request=null, // Request
+                             View view=null)       // View
         {
             string templateString = "";
             bool gotCache = templateCache.TryGetValue(templateFile, out templateString);
@@ -67,17 +67,23 @@ namespace RSPO
 
             var template = new Template(templateString);
             var dict = new Dictionary<string, object>();
+
             if (request==null) {
                 request = this.Request;
+            dict.Add("request", request);
             }
             if (context!=null)
             {
                 dict.Add("context", context);
+                dict.Add("model", context);
             }
-            dict.Add("request", request);
+            if (view==null)
+            {
+                view = new View();
+            }
             dict.Add("view", view);
-            dict.Add("nothing", false);
-            dict.Add("default", true);
+            // dict.Add("nothing", false);
+            // dict.Add("default", true);
 
             return template.Render(dict);
         }
@@ -85,6 +91,10 @@ namespace RSPO
 
     public class View
     {
+        public string Title="An EMPTY PAGE!!!!!";
+    }
 
+    public class StupidView: View {
+        public new string Title="A Stupid EMPTY PAGE!!!!!";
     }
 }
