@@ -11,6 +11,7 @@ namespace RSPO
         static public MyEntityContext Context = null;
         static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
 
+        [STAThread]
         static void Main(string[] args)
         {
             InitializeEntityContext();
@@ -27,38 +28,27 @@ namespace RSPO
 
             host.Start();  // start hosting
 
-            // RunWithoutInterface();
-            RunWindowsFormUI();
+            RunWithoutInterface();
+            // RunWindowsFormUI();
 
             Console.WriteLine("Stopping Nancy");
             host.Stop();  // stop hosting
         }
 
-        private static void InitializeEntityContext()
+        public static void InitializeEntityContext()
         {
             Context = new MyEntityContext(ConnectionString);
         }
 
         private static void RunWindowsFormUI()
         {
-            IUser testUser = Context.Users.Create();
-            testUser.Email = "vano@gnail.ru";
-            testUser.Name = "Цискаридзе Вано ибн Петро аглы";
-            testUser.NickName = "hottubych";
-            UserForm view = new UserForm
-            {
-                Context = testUser,
-                Visible = false
-            };
-            view.ShowDialog();
+            ApplicationWindow applicationWindow = new ApplicationWindow();
+            applicationWindow.ShowDialog();
+        }
 
-            String msg = String.Format("<{0}:{1}> {2} #{3}", 
-                testUser.Name, 
-                testUser.NickName,
-                testUser.Email,
-                testUser.PasswordHash);
-            Console.WriteLine(msg);
-            Console.ReadLine();
+        public static string GenerateHash(string input)
+        {
+            return input;
         }
 
         private static void RunWithoutInterface()

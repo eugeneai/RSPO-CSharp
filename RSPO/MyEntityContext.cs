@@ -38,16 +38,26 @@ namespace RSPO
         public static void InitializeEntityMappingStore()
         {
     		var provider = new ReflectionMappingProvider();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IAgent));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IAgent, RSPO.Agent>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IObject));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IObject, RSPO.Object>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IOffer));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IOffer, RSPO.Offer>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ILocation));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.ILocation, RSPO.Location>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ICountry));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.ICountry, RSPO.Country>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IRegion));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IRegion, RSPO.Region>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ISite));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.ISite, RSPO.Site>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IBuildingSeries));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IBuildingSeries, RSPO.BuildingSeries>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IProperty));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IProperty, RSPO.Property>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IPropertyType));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IPropertyType, RSPO.PropertyType>();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IRole));
-    		EntityMappingStore.Instance.SetImplMapping<RSPO.IRole, RSPO.Role>();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IUser));
-    		EntityMappingStore.Instance.SetImplMapping<RSPO.IUser, RSPO.User>();
     	}
     	
     	/// <summary>
@@ -113,14 +123,54 @@ namespace RSPO
     	
     	private void InitializeContext() 
     	{
+    		Agents = 	new BrightstarEntitySet<RSPO.IAgent>(this);
     		Objects = 	new BrightstarEntitySet<RSPO.IObject>(this);
+    		Offers = 	new BrightstarEntitySet<RSPO.IOffer>(this);
+    		Locations = 	new BrightstarEntitySet<RSPO.ILocation>(this);
+    		Countries = 	new BrightstarEntitySet<RSPO.ICountry>(this);
+    		Regions = 	new BrightstarEntitySet<RSPO.IRegion>(this);
+    		Sites = 	new BrightstarEntitySet<RSPO.ISite>(this);
+    		BuildingSeriess = 	new BrightstarEntitySet<RSPO.IBuildingSeries>(this);
     		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
     		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
-    		Roles = 	new BrightstarEntitySet<RSPO.IRole>(this);
-    		Users = 	new BrightstarEntitySet<RSPO.IUser>(this);
+    	}
+    	
+    	public IEntitySet<RSPO.IAgent> Agents
+    	{
+    		get; private set;
     	}
     	
     	public IEntitySet<RSPO.IObject> Objects
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IOffer> Offers
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.ILocation> Locations
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.ICountry> Countries
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IRegion> Regions
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.ISite> Sites
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.IBuildingSeries> BuildingSeriess
     	{
     		get; private set;
     	}
@@ -135,20 +185,31 @@ namespace RSPO
     		get; private set;
     	}
     	
-    	public IEntitySet<RSPO.IRole> Roles
-    	{
-    		get; private set;
-    	}
-    	
-    	public IEntitySet<RSPO.IUser> Users
-    	{
-    		get; private set;
-    	}
-    	
         public IEntitySet<T> EntitySet<T>() where T : class {
             var itemType = typeof(T);
+            if (typeof(T).Equals(typeof(RSPO.IAgent))) {
+                return (IEntitySet<T>)this.Agents;
+            }
             if (typeof(T).Equals(typeof(RSPO.IObject))) {
                 return (IEntitySet<T>)this.Objects;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IOffer))) {
+                return (IEntitySet<T>)this.Offers;
+            }
+            if (typeof(T).Equals(typeof(RSPO.ILocation))) {
+                return (IEntitySet<T>)this.Locations;
+            }
+            if (typeof(T).Equals(typeof(RSPO.ICountry))) {
+                return (IEntitySet<T>)this.Countries;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IRegion))) {
+                return (IEntitySet<T>)this.Regions;
+            }
+            if (typeof(T).Equals(typeof(RSPO.ISite))) {
+                return (IEntitySet<T>)this.Sites;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IBuildingSeries))) {
+                return (IEntitySet<T>)this.BuildingSeriess;
             }
             if (typeof(T).Equals(typeof(RSPO.IProperty))) {
                 return (IEntitySet<T>)this.Properties;
@@ -156,17 +217,70 @@ namespace RSPO
             if (typeof(T).Equals(typeof(RSPO.IPropertyType))) {
                 return (IEntitySet<T>)this.PropertyTypes;
             }
-            if (typeof(T).Equals(typeof(RSPO.IRole))) {
-                return (IEntitySet<T>)this.Roles;
-            }
-            if (typeof(T).Equals(typeof(RSPO.IUser))) {
-                return (IEntitySet<T>)this.Users;
-            }
             throw new InvalidOperationException(typeof(T).FullName + " is not a recognized entity interface type.");
         }
     
         } // end class MyEntityContext
         
+}
+namespace RSPO 
+{
+    
+    public partial class Agent : BrightstarEntityObject, IAgent 
+    {
+    	public Agent(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Agent(BrightstarEntityContext context) : base(context, typeof(Agent)) { }
+    	public Agent() : base() { }
+    	#region Implementation of RSPO.IAgent
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String NickName
+    	{
+            		get { return GetRelatedProperty<System.String>("NickName"); }
+            		set { SetRelatedProperty("NickName", value); }
+    	}
+    
+    	public System.String PasswordHash
+    	{
+            		get { return GetRelatedProperty<System.String>("PasswordHash"); }
+            		set { SetRelatedProperty("PasswordHash", value); }
+    	}
+    
+    	public System.String Phone
+    	{
+            		get { return GetRelatedProperty<System.String>("Phone"); }
+            		set { SetRelatedProperty("Phone", value); }
+    	}
+    
+    	public System.String Email
+    	{
+            		get { return GetRelatedProperty<System.String>("Email"); }
+            		set { SetRelatedProperty("Email", value); }
+    	}
+    
+    	public RSPO.RoleEnum Role
+    	{
+            		get { return GetRelatedProperty<RSPO.RoleEnum>("Role"); }
+            		set { SetRelatedProperty("Role", value); }
+    	}
+    
+    	public System.String GUID
+    	{
+            		get { return GetRelatedProperty<System.String>("GUID"); }
+            		set { SetRelatedProperty("GUID", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
+    	{
+    		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
+    								}
+    	#endregion
+    }
 }
 namespace RSPO 
 {
@@ -184,10 +298,28 @@ namespace RSPO
             		set { SetRelatedProperty("Name", value); }
     	}
     
+    	public RSPO.ILocation Location
+    	{
+            get { return GetRelatedObject<RSPO.ILocation>("Location"); }
+            set { SetRelatedObject<RSPO.ILocation>("Location", value); }
+    	}
+    
     	public System.String Address
     	{
             		get { return GetRelatedProperty<System.String>("Address"); }
             		set { SetRelatedProperty("Address", value); }
+    	}
+    
+    	public System.Single Price
+    	{
+            		get { return GetRelatedProperty<System.Single>("Price"); }
+            		set { SetRelatedProperty("Price", value); }
+    	}
+    
+    	public RSPO.CurrencyEnum CurrencyType
+    	{
+            		get { return GetRelatedProperty<RSPO.CurrencyEnum>("CurrencyType"); }
+            		set { SetRelatedProperty("CurrencyType", value); }
     	}
     
     	public System.Single Area
@@ -196,21 +328,267 @@ namespace RSPO
             		set { SetRelatedProperty("Area", value); }
     	}
     
+    	public RSPO.AreaUnits AreaUnit
+    	{
+            		get { return GetRelatedProperty<RSPO.AreaUnits>("AreaUnit"); }
+            		set { SetRelatedProperty("AreaUnit", value); }
+    	}
+    
+    	public System.String ImageURL
+    	{
+            		get { return GetRelatedProperty<System.String>("ImageURL"); }
+            		set { SetRelatedProperty("ImageURL", value); }
+    	}
+    
+    	public System.String URL
+    	{
+            		get { return GetRelatedProperty<System.String>("URL"); }
+            		set { SetRelatedProperty("URL", value); }
+    	}
+    
     	public System.Int32 Rooms
     	{
             		get { return GetRelatedProperty<System.Int32>("Rooms"); }
             		set { SetRelatedProperty("Rooms", value); }
     	}
-    	public System.Collections.Generic.ICollection<RSPO.IUser> Users
+    
+    	public System.Int32 RoomsOffered
     	{
-    		get { return GetRelatedObjects<RSPO.IUser>("Users"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Users", value); }
+            		get { return GetRelatedProperty<System.Int32>("RoomsOffered"); }
+            		set { SetRelatedProperty("RoomsOffered", value); }
+    	}
+    
+    	public System.Int32 Floor
+    	{
+            		get { return GetRelatedProperty<System.Int32>("Floor"); }
+            		set { SetRelatedProperty("Floor", value); }
+    	}
+    
+    	public System.Int32 FloorTotal
+    	{
+            		get { return GetRelatedProperty<System.Int32>("FloorTotal"); }
+            		set { SetRelatedProperty("FloorTotal", value); }
+    	}
+    
+    	public System.Int32 TotalFloors
+    	{
+            		get { return GetRelatedProperty<System.Int32>("TotalFloors"); }
+            		set { SetRelatedProperty("TotalFloors", value); }
+    	}
+    
+    	public RSPO.BuildingEnum BuildingType
+    	{
+            		get { return GetRelatedProperty<RSPO.BuildingEnum>("BuildingType"); }
+            		set { SetRelatedProperty("BuildingType", value); }
+    	}
+    
+    	public RSPO.IBuildingSeries BuildingSeries
+    	{
+            get { return GetRelatedObject<RSPO.IBuildingSeries>("BuildingSeries"); }
+            set { SetRelatedObject<RSPO.IBuildingSeries>("BuildingSeries", value); }
+    	}
+    
+    	public RSPO.PropertyEnum PropertyType
+    	{
+            		get { return GetRelatedProperty<RSPO.PropertyEnum>("PropertyType"); }
+            		set { SetRelatedProperty("PropertyType", value); }
+    	}
+    
+    	public RSPO.CategoryEnum Category
+    	{
+            		get { return GetRelatedProperty<RSPO.CategoryEnum>("Category"); }
+            		set { SetRelatedProperty("Category", value); }
+    	}
+    
+    	public System.String Description
+    	{
+            		get { return GetRelatedProperty<System.String>("Description"); }
+            		set { SetRelatedProperty("Description", value); }
+    	}
+    	public System.Collections.Generic.ICollection<RSPO.IAgent> Agents
+    	{
+    		get { return GetRelatedObjects<RSPO.IAgent>("Agents"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Agents", value); }
     								}
     	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
     	{
     		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
     								}
+    
+    	public System.String GUID
+    	{
+            		get { return GetRelatedProperty<System.String>("GUID"); }
+            		set { SetRelatedProperty("GUID", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Offer : BrightstarEntityObject, IOffer 
+    {
+    	public Offer(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Offer(BrightstarEntityContext context) : base(context, typeof(Offer)) { }
+    	public Offer() : base() { }
+    	#region Implementation of RSPO.IOffer
+    
+    	public RSPO.IObject Object
+    	{
+            get { return GetRelatedObject<RSPO.IObject>("Object"); }
+            set { SetRelatedObject<RSPO.IObject>("Object", value); }
+    	}
+    
+    	public RSPO.OfferEnum OfferType
+    	{
+            		get { return GetRelatedProperty<RSPO.OfferEnum>("OfferType"); }
+            		set { SetRelatedProperty("OfferType", value); }
+    	}
+    
+    	public System.String SiteId
+    	{
+            		get { return GetRelatedProperty<System.String>("SiteId"); }
+            		set { SetRelatedProperty("SiteId", value); }
+    	}
+    
+    	public RSPO.ISite Site
+    	{
+            get { return GetRelatedObject<RSPO.ISite>("Site"); }
+            set { SetRelatedObject<RSPO.ISite>("Site", value); }
+    	}
+    
+    	public System.DateTime Created
+    	{
+            		get { return GetRelatedProperty<System.DateTime>("Created"); }
+            		set { SetRelatedProperty("Created", value); }
+    	}
+    
+    	public System.DateTime Updated
+    	{
+            		get { return GetRelatedProperty<System.DateTime>("Updated"); }
+            		set { SetRelatedProperty("Updated", value); }
+    	}
+    
+    	public RSPO.IAgent Agent
+    	{
+            get { return GetRelatedObject<RSPO.IAgent>("Agent"); }
+            set { SetRelatedObject<RSPO.IAgent>("Agent", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Location : BrightstarEntityObject, ILocation 
+    {
+    	public Location(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Location(BrightstarEntityContext context) : base(context, typeof(Location)) { }
+    	public Location() : base() { }
+    	#region Implementation of RSPO.ILocation
+    
+    	public RSPO.IRegion Region
+    	{
+            get { return GetRelatedObject<RSPO.IRegion>("Region"); }
+            set { SetRelatedObject<RSPO.IRegion>("Region", value); }
+    	}
+    
+    	public System.String LocalityName
+    	{
+            		get { return GetRelatedProperty<System.String>("LocalityName"); }
+            		set { SetRelatedProperty("LocalityName", value); }
+    	}
+    
+    	public System.String SubLocalityName
+    	{
+            		get { return GetRelatedProperty<System.String>("SubLocalityName"); }
+            		set { SetRelatedProperty("SubLocalityName", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Country : BrightstarEntityObject, ICountry 
+    {
+    	public Country(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Country(BrightstarEntityContext context) : base(context, typeof(Country)) { }
+    	public Country() : base() { }
+    	#region Implementation of RSPO.ICountry
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Region : BrightstarEntityObject, IRegion 
+    {
+    	public Region(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Region(BrightstarEntityContext context) : base(context, typeof(Region)) { }
+    	public Region() : base() { }
+    	#region Implementation of RSPO.IRegion
+    
+    	public RSPO.ICountry Country
+    	{
+            get { return GetRelatedObject<RSPO.ICountry>("Country"); }
+            set { SetRelatedObject<RSPO.ICountry>("Country", value); }
+    	}
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Site : BrightstarEntityObject, ISite 
+    {
+    	public Site(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Site(BrightstarEntityContext context) : base(context, typeof(Site)) { }
+    	public Site() : base() { }
+    	#region Implementation of RSPO.ISite
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
+    
+    	public System.String URL
+    	{
+            		get { return GetRelatedProperty<System.String>("URL"); }
+            		set { SetRelatedProperty("URL", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class BuildingSeries : BrightstarEntityObject, IBuildingSeries 
+    {
+    	public BuildingSeries(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public BuildingSeries(BrightstarEntityContext context) : base(context, typeof(BuildingSeries)) { }
+    	public BuildingSeries() : base() { }
+    	#region Implementation of RSPO.IBuildingSeries
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
+    	}
     	#endregion
     }
 }
@@ -259,87 +637,6 @@ namespace RSPO
             		get { return GetRelatedProperty<System.Single>("Significance"); }
             		set { SetRelatedProperty("Significance", value); }
     	}
-    	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
-    	{
-    		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
-    								}
-    	#endregion
-    }
-}
-namespace RSPO 
-{
-    
-    public partial class Role : BrightstarEntityObject, IRole 
-    {
-    	public Role(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public Role(BrightstarEntityContext context) : base(context, typeof(Role)) { }
-    	public Role() : base() { }
-    	#region Implementation of RSPO.IRole
-    
-    	public System.String Name
-    	{
-            		get { return GetRelatedProperty<System.String>("Name"); }
-            		set { SetRelatedProperty("Name", value); }
-    	}
-    
-    	public System.String Description
-    	{
-            		get { return GetRelatedProperty<System.String>("Description"); }
-            		set { SetRelatedProperty("Description", value); }
-    	}
-    	public System.Collections.Generic.ICollection<RSPO.IUser> Users
-    	{
-    		get { return GetRelatedObjects<RSPO.IUser>("Users"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Users", value); }
-    								}
-    	#endregion
-    }
-}
-namespace RSPO 
-{
-    
-    public partial class User : BrightstarEntityObject, IUser 
-    {
-    	public User(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public User(BrightstarEntityContext context) : base(context, typeof(User)) { }
-    	public User() : base() { }
-    	#region Implementation of RSPO.IUser
-    
-    	public System.String Name
-    	{
-            		get { return GetRelatedProperty<System.String>("Name"); }
-            		set { SetRelatedProperty("Name", value); }
-    	}
-    
-    	public System.String NickName
-    	{
-            		get { return GetRelatedProperty<System.String>("NickName"); }
-            		set { SetRelatedProperty("NickName", value); }
-    	}
-    
-    	public System.String PasswordHash
-    	{
-            		get { return GetRelatedProperty<System.String>("PasswordHash"); }
-            		set { SetRelatedProperty("PasswordHash", value); }
-    	}
-    
-    	public System.String Email
-    	{
-            		get { return GetRelatedProperty<System.String>("Email"); }
-            		set { SetRelatedProperty("Email", value); }
-    	}
-    
-    	public System.String Telephone
-    	{
-            		get { return GetRelatedProperty<System.String>("Telephone"); }
-            		set { SetRelatedProperty("Telephone", value); }
-    	}
-    	public System.Collections.Generic.ICollection<RSPO.IRole> Roles
-    	{
-    		get { return GetRelatedObjects<RSPO.IRole>("Roles"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Roles", value); }
-    								}
     	public System.Collections.Generic.ICollection<RSPO.IProperty> Properties
     	{
     		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }

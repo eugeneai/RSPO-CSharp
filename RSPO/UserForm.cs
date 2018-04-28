@@ -17,7 +17,7 @@ namespace RSPO
             InitializeComponent();
         }
 
-        public IUser Context
+        public IAgent Context
         {
             get => context;
             set
@@ -27,15 +27,13 @@ namespace RSPO
             }
         }
 
-        public IUser SetContext(IUser value)
+        public IAgent SetContext(IAgent value)
         {
             context = value;
             return value;
         }
 
-        private IUser context;
-        private object telephoneBox;
-
+        private IAgent context;
         private void UpdateToContext()
         {
             emailBox.Text = Context.Email;
@@ -46,7 +44,7 @@ namespace RSPO
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-
+            Console.WriteLine(value: "Loading form of users.");
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -54,7 +52,7 @@ namespace RSPO
             // Console.WriteLine("Saving");
             Application.Context.Add(this.Context);
             Application.Context.SaveChanges();
-            Context.GenerateHash(passwordBox.Text);
+            Application.GenerateHash(passwordBox.Text);
             Close();
         }
 
@@ -81,19 +79,6 @@ namespace RSPO
         private void nameBox_TextChanged(object sender, EventArgs e)
         {
             Context.Name = nameBox.Text;
-        }
-        private void telephoneBox_TextChanged(object sender, EventArgs e)
-        {
-            Context.Telephone = telephoneBox.Text;
-        }
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
