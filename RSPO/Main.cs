@@ -14,7 +14,7 @@ namespace RSPO
             InitializeTemplating();
 			Get["/"] = parameters =>
 			{
-				return Render("index.pt");
+				return Render("index.pt", context: new TestUser());
 			};
 			Get["/hello/{Name}"] = parameters =>
 			{
@@ -43,13 +43,14 @@ namespace RSPO
             }
 
             TEMPLATE_LOCATION = Path.Combine(basePath, DESIGN_DIR);
+            Console.WriteLine("Templates are at " + TEMPLATE_LOCATION);
             templateCache = new Dictionary<string, string>();
         }
 
         private Dictionary<string, string> templateCache = null ;
 
-        private string DESIGN_DIR = "design-studio_one-page-template/build";
-        private string TEMPLATE_LOCATION = null;
+        private string DESIGN_DIR = Path.Combine("design-studio_one-page-template","build");
+                    private string TEMPLATE_LOCATION = null;
 
         public string Render(string templateFile,
                              object context=null,  // Model
@@ -61,7 +62,10 @@ namespace RSPO
 
             if (! gotCache) {
                 string filePath = Path.Combine(TEMPLATE_LOCATION, templateFile);
+                string tempPath123 = Path.Combine(TEMPLATE_LOCATION, "_!123!_").Replace("_!123!_","");
+                Console.WriteLine("Template Path:" + filePath);
                 templateString = File.ReadAllText(filePath);
+                templateString = templateString.Replace("@TEMPLATEDIR@", tempPath123);  // Подстановка местораположения шаблонов в текст шаблона.
                 templateCache.Add(templateFile, templateString);
             }
 
@@ -70,28 +74,41 @@ namespace RSPO
 
             if (request==null) {
                 request = this.Request;
-            dict.Add("request", request);
+                dict.Add("request", request);
             }
             if (context!=null)
             {
                 dict.Add("context", context);
                 dict.Add("model", context);
             }
-            if (view==null)
+            if (view == null)
             {
                 view = new View();
+                Console.WriteLine("created new view");
             }
-            dict.Add("view", view);
+
+            Console.WriteLine(view);
+            // dict.Add("view", view);
+
             // dict.Add("nothing", false);
             // dict.Add("default", true);
-
-            return template.Render(dict);
+            Console.WriteLine(dict);
+            // return template.Render(dict);
+            return "11";
         }
-	}
+    }
 
-    public class View
+    internal class TestUser
     {
-        public string Title="An EMPTY PAGE!!!!!";
+        public string Name = ".... ogly";
+        public TestUser()
+        {
+        }
+    }
+
+    public class View 
+    {
+        public string Title="A Default page!";
     }
 
     public class StupidView: View {
