@@ -3,9 +3,10 @@
 TARGET=RSPO.exe
 VAR=Debug
 TRM="TERM=xterm XBUILD_COLORS=disable"
-#BUILD=msbuild
-#BUILD=dotnet build /property:Configuration="Debug" /verbosity:normal /nologo
-BUILD=xbuild /property:Configuration="Debug" /verbosity:normal /nologo
+BUILDFLAGS=/property:Configuration="Debug" /verbosity:normal /nologo
+#BUILD=msbuild $(BUILDLFAGS)
+#BUILD=dotnet build $(BUILDLFAGS)
+BUILD=xbuild $(BUILDLFAGS)
 RUNNERVER=2.3.1
 RUNTIME=net452
 CODEGEN="/home/eugeneai/projects/code/RSPO/RSPO/packages/BrightstarDB.CodeGeneration.Console/tools/BrightstarDB.CodeGeneration.Console.exe"

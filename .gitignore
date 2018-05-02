@@ -42,3 +42,4 @@ Thumbs.db
 *.bs
 /RSPO/paket-files/
 /.vscode/
+/tmp

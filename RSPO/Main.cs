@@ -78,7 +78,9 @@ namespace RSPO
             }
             if (context!=null)
             {
-                dict.Add("context", context);
+                //dict.Add("context", context);
+                // dict.Add("model", new List<string> { "alien", "star wars", "star trek" });
+                // dict.Add("model", context);
                 dict.Add("model", context);
             }
             if (view == null)
@@ -87,14 +89,17 @@ namespace RSPO
                 Console.WriteLine("created new view");
             }
 
-            Console.WriteLine(view);
             // dict.Add("view", view);
 
             // dict.Add("nothing", false);
             // dict.Add("default", true);
-            Console.WriteLine(dict);
-            // return template.Render(dict);
-            return "11";
+            Console.WriteLine("Dict:");
+            foreach (KeyValuePair<string, object> kvp in dict)
+            {
+                Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
+            }
+            return template.Render(dict);
+            // return "11";
         }
     }
 
@@ -106,7 +111,7 @@ namespace RSPO
         }
     }
 
-    public class View 
+    public class View
     {
         public string Title="A Default page!";
     }
