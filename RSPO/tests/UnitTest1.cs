@@ -86,6 +86,7 @@ namespace RSPO.tests
             return fileName;
         }
 
+        /*
         [Theory]
         [InlineData("all.xml")]
         public void LongImportTest(string importName)
@@ -99,6 +100,7 @@ namespace RSPO.tests
             import.Import();
             Assert.True(true);
         }
+        */
 
         [Fact]
         public void TestRenderer()
