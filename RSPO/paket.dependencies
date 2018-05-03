@@ -10,6 +10,7 @@ nuget HtmlAgilityPack 1.7.1 restriction: >= net461
 nuget Mono.Posix 5.4.0.201 restriction: >= net461
 nuget Nancy 1.4.4 restriction: >= net461
 nuget Nancy.Hosting.Self 1.4.1 restriction: >= net461
+nuget Nancy.Testing
 nuget Newtonsoft.Json 11.0.1 restriction: >= net461
 nuget SharpCompress 0.19.2 restriction: >= net461
 nuget SharpTAL 3.0.0 restriction: >= net461

@@ -10,6 +10,7 @@ NUGET
     BrightstarDBLibs (1.13.3) - restriction: >= net461
       dotNetRDF (>= 1.0.9)
       Newtonsoft.Json (>= 7.0.1)
+    CsQuery (1.3.4)
     dotNetRDF (2.0.1) - restriction: >= net461
       HtmlAgilityPack (>= 1.6) - restriction: || (>= net40) (>= netstandard1.4)
       Newtonsoft.Json (>= 10.0.3) - restriction: || (>= net40) (>= netstandard1.4)
@@ -20,8 +21,11 @@ NUGET
     Nancy (1.4.4) - restriction: >= net461
     Nancy.Hosting.Self (1.4.1) - restriction: >= net461
       Nancy (>= 1.4.1)
+    Nancy.Testing (1.4.1)
+      CsQuery (>= 1.3.3)
+      Nancy (>= 1.4.1)
     Newtonsoft.Json (11.0.1) - restriction: >= net461
-    sharpcompress (0.19.2) - restriction: >= net461
+    SharpCompress (0.19.2) - restriction: >= net461
     SharpTAL (3.0) - restriction: >= net461
     System.Xml.XDocument (4.3) - restriction: >= net461
     VDS.Common (1.9) - restriction: >= net461
