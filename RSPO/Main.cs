@@ -14,7 +14,11 @@ namespace RSPO
             InitializeTemplating();
 			Get["/"] = parameters =>
 			{
-				return Render("index.pt", context: new TestUser());
+                TestUser user = new TestUser()
+                {
+                    Name = "Ivanov Ivan"
+                };
+				return Render("index.pt", context: user, view: new TestUserView(user));
 			};
 			Get["/hello/{Name}"] = parameters =>
 			{
@@ -55,7 +59,7 @@ namespace RSPO
         public string Render(string templateFile,
                              object context=null,  // Model
                              Request request=null, // Request
-                             View view=null)       // View
+                             object view=null)       // View
         {
             string templateString = "";
             bool gotCache = templateCache.TryGetValue(templateFile, out templateString);
@@ -85,14 +89,11 @@ namespace RSPO
             }
             if (view == null)
             {
-                view = new View();
                 Console.WriteLine("created new view");
             }
 
-            // dict.Add("view", view);
+            dict.Add("view", view);
 
-            // dict.Add("nothing", false);
-            // dict.Add("default", true);
             Console.WriteLine("Dict:");
             foreach (KeyValuePair<string, object> kvp in dict)
             {
@@ -103,7 +104,7 @@ namespace RSPO
         }
     }
 
-    internal class TestUser
+    public class TestUser
     {
         public string Name = ".... ogly";
         public TestUser()
@@ -111,12 +112,28 @@ namespace RSPO
         }
     }
 
-    public class View
+    public class View<T>
     {
         public string Title="A Default page!";
+        public T context;
+        public View(T context)
+        {
+            this.context = context;
+        }
+
+        protected View() {}
     }
 
-    public class StupidView: View {
-        public new string Title="A Stupid EMPTY PAGE!!!!!";
+    public class TestUserView : View<TestUser>
+    {
+        public string Name
+        {
+            get {
+                return context.Name;
+            }
+        }
+
+        public TestUserView(TestUser context) : base(context) { }
     }
+
 }

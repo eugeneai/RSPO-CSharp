@@ -13,6 +13,7 @@ nuget Nancy.Hosting.Self 1.4.1 restriction: >= net461
 nuget Newtonsoft.Json 11.0.1 restriction: >= net461
 nuget SharpCompress 0.19.2 restriction: >= net461
 nuget SharpTAL 3.0.0 restriction: >= net461
+nuget ICSharpCode.NRefactory 5.5.1 restriction: >= net461
 nuget System.Xml.XDocument 4.3.0 restriction: >= net461
 nuget VDS.Common 1.9.0 restriction: >= net461
 nuget xunit 2.3.1 restriction: >= net461

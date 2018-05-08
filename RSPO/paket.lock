@@ -16,6 +16,9 @@ NUGET
       VDS.Common (>= 1.9) - restriction: || (>= net40) (>= netstandard1.4)
     Hash (2.0.1) - restriction: >= net461
     HtmlAgilityPack (1.7.1) - restriction: >= net461
+    ICSharpCode.NRefactory (5.5.1) - restriction: >= net461
+      Mono.Cecil (>= 0.9.5.4)
+    Mono.Cecil (0.10) - restriction: >= net461
     Mono.Posix (5.4.0.201) - restriction: >= net461
     Nancy (1.4.4) - restriction: >= net461
     Nancy.Hosting.Self (1.4.1) - restriction: >= net461

@@ -9,6 +9,7 @@ Nancy.Hosting.Self
 Newtonsoft.Json
 SharpCompress
 SharpTAL
+ICSharpCode.NRefactory
 System.Xml.XDocument
 VDS.Common
 xunit
