@@ -7,7 +7,7 @@ NUGET
     BrightstarDB.CodeGeneration.Console (1.13.3)
     BrightstarDB.CodeGeneration.T4 (1.13.3)
       BrightstarDB.CodeGeneration (>= 1.13.3)
-    BrightstarDBLibs (1.13.3) - restriction: >= net461
+    BrightstarDBLibs (1.13.3)
       dotNetRDF (>= 1.0.9)
       Newtonsoft.Json (>= 7.0.1)
     dotNetRDF (2.0.1) - restriction: >= net461
