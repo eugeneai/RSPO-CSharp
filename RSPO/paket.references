@@ -6,6 +6,7 @@ HtmlAgilityPack
 Mono.Posix
 Nancy
 Nancy.Hosting.Self
+Nancy.Testing
 Newtonsoft.Json
 SharpCompress
 SharpTAL
