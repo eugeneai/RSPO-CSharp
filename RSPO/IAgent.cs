@@ -25,6 +25,6 @@ namespace RSPO
         Unknown,
         Agent,
         Owner,
-        User
+        Buyer
     }
 }

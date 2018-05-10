@@ -6,7 +6,7 @@ using Nancy.Hosting.Self;
 
 namespace RSPO
 {
-	class Application
+	public partial class Application
 	{
         static public MyEntityContext Context = null;
         static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
