@@ -8,7 +8,7 @@ namespace RSPO
 {
 	public partial class Application
 	{
-        static public MyEntityContext Context = null;
+        static public MyEntityContext Context = null; // Вот он
         static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
 
         [STAThread]

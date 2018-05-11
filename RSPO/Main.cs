@@ -4,6 +4,8 @@ using Nancy;
 using SharpTAL;
 using System.Linq.Expressions;
 using System.IO;
+using BrightstarDB.EntityFramework;
+using System.Linq; // Этого не хватало.
 
 namespace RSPO
 {
@@ -20,6 +22,13 @@ namespace RSPO
                 };
 				return Render("index.pt", context: user, view: new TestUserView(user));
 			};
+
+            Get["/objs"] = parameters => // Это новая страница сайта.
+                {
+                    ObjectList objList = new ObjectList(); // Этот класс не существует пока.
+                    ObjectListView objView = new ObjectListView(objList);
+                    return Render("objlist.pt", context: objList, view: objView);
+                };
 			Get["/hello/{Name}"] = parameters =>
 			{
 				IAgent testModel = Application.Context.Agents.Create();
@@ -85,15 +94,7 @@ namespace RSPO
 
             dict.Add("view", view);
 
-            /*
-            Console.WriteLine("Dict:");
-            foreach (KeyValuePair<string, object> kvp in dict)
-            {
-                Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
-            }
-            */
             return template.Render(dict);
-            // return "11";
         }
     }
 
@@ -102,15 +103,66 @@ namespace RSPO
 		public static Dictionary<string, Template> templateCache = new Dictionary<string, Template>();
 	}
 
-    public class TestUser
+    // Это у нас абстрация модели. Здесь мы работаем с объектами, получаемыми из базы данных
+    public interface IObjectList<T> where T: class // Интерфес списков объектов недвижимости
     {
-        public string Name = ".... ogly";
-        public TestUser()
+        int Size {get; }         // колиество объектов
+        ICollection<T> Objects { get; }      // список объектов
+        void SetFilter (Func<T, int, bool> filter);      // Условие формирования списка.
+        void SetLimits (int start, int size); // Диапазон объектов для вывода на экран
+        void Update ();          // Обновить список согласно условиям.
+    }
+
+    public interface IFilter {}  // Интерфейс, представляющий условие фильтрации.
+
+    public class EntityList<T> : IObjectList<T> where T:class // Nice, Заглушки реализовались...
+    // Это спсок квартир.... будет.
+    {
+        public static int DEFAULT_SIZE = 50;
+        private Func<T, int, bool> filter = null;
+        private int start = 0, size=DEFAULT_SIZE;
+
+        public ICollection<T> Objects
         {
+            get
+            {
+                return objectQuery.Skip(start).Take(size).ToList(); // Хотя мне не нравиться так.... но посмотрим.
+            }
+        }
+
+        private IEnumerable<T> objectQuery = null;
+
+        public int Size {
+            get
+            {
+                return objectQuery.Count();
+            }
+         }
+
+        public void SetFilter(Func<T, int, bool> filter)
+        {
+            this.filter = filter;
+        }
+
+        public void SetLimits(int start = 0, int size = 50)
+        {
+            this.start = start;
+            this.size = size;
+        }
+
+        public void Update()
+        {
+            // Здесь сделаем запрос и присвоим objects список - результат запроса.
+            // Работаем дальше по новому соединению. К стати потом можно скорость померить.
+            MyEntityContext ctx = Application.Context;
+            // Zerotier - хитрый, теперь по моему каналу свои пакеты гоняет. Этот, желтенький у тебя в трее
+
+            // Все было просто..... да не просто.
+            objectQuery = ctx.EntitySet<T>().Where(filter); // Ух ты. Жесть.
         }
     }
 
-    public class View<T>
+    public class View<T> where T:class // жесть прошла.
     {
         public string Title="A Default page!";
         public T context;
@@ -120,6 +172,39 @@ namespace RSPO
         }
 
         protected View() {}
+    }
+
+
+    public class EntityListView<T>: View<T> where T:class
+    {
+        public EntityListView(T context) : base(context)
+        {
+
+        }
+    }
+
+    public class ObjectList: EntityList<IObject>
+    {
+    }
+
+    /// <summary>
+    ///   Вспомогательный класс, помогающий рисовать изображение в HTML
+    /// </summary>
+    public class ObjectListView: EntityListView<ObjectList>
+    {
+        public ObjectListView(ObjectList context) : base(context)
+        {
+        }
+    }
+
+    //---------------- Testing
+
+        public class TestUser
+    {
+        public string Name = ".... ogly";
+        public TestUser()
+        {
+        }
     }
 
     public class TestUserView : View<TestUser>
@@ -133,5 +218,6 @@ namespace RSPO
 
         public TestUserView(TestUser context) : base(context) { }
     }
+
 
 }
