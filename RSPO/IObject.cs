@@ -132,55 +132,6 @@ namespace RSPO
         // FIXME: Add more ...
     }
 
-    /*
-    public enum BuildingSeriesEnum
-    {
-        Unknown,
-        Sectioning,
-        NewType,
-        NewBuilding,
-        SmallPanel,
-        Series113,
-        Series114,
-        Series135,
-        Individual,
-        Comfortable,
-        NotComfortable,
-        SemiComfortable,
-        Hostel,
-        SmallFamilyFlat,
-        Angarsk,
-        Stalin,
-        Brezhnev,
-        HouseWithArea,
-        HouseOnArea,
-        Improved,
-        Polutorka,
-        TwoLevel,
-        Communal,
-        Share,
-        RoomInFlat,
-        Elite,
-        TownHouse,
-        Cottage,
-        Industrial,
-        Manufacturing,
-        ForIndustry,
-        ForConstruction,
-        ForBuilding=ForConstruction,
-        CorridorType,
-        Country,
-        Dacha,
-        Gardening,
-        Cooperative,
-        Warehouse,
-        Free,
-        Trade,
-        Building,
-        House,
-    }
-    */
-
     public enum PropertyEnum
     {
         Residental,

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using BrightstarDB.EntityFramework;
 using SharpCompress.Readers;
+using System.IO;
 
 namespace RSPO
 {
@@ -14,7 +14,9 @@ namespace RSPO
 
         public string FileName { get; set; } = null;
         public Stream InputStream { get; set; } = null;
-        public XDocument Document {
+        public XDocument Document { // Меня тут студентка просит помочь. Надо ее за рога брать, пока не потерялась...
+            // Так что перерыв. Хотя она пока тормозит можно параллельно башлять.
+
             get
             {
                 if (_document == null)

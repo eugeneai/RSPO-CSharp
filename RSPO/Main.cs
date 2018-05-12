@@ -26,9 +26,19 @@ namespace RSPO
             Get["/objs"] = parameters => // Это новая страница сайта.
                 {
                     ObjectList objList = new ObjectList(); // Этот класс не существует пока.
+                    // Надо отлаживать в монодевелоп...
                     ObjectListView objView = new ObjectListView(objList);
                     return Render("objlist.pt", context: objList, view: objView);
                 };
+
+            Get["/offers"] = parameters => // Это новая страница сайта.
+                {
+                    OfferList model = new OfferList(); // Этот класс не существует пока.
+                    // Надо отлаживать в монодевелоп...
+                    OfferListView view = new OfferListView(model);
+                    return Render("offerlist.pt", context: model, view: view);
+                };
+
 			Get["/hello/{Name}"] = parameters =>
 			{
 				IAgent testModel = Application.Context.Agents.Create();
@@ -106,27 +116,41 @@ namespace RSPO
     // Это у нас абстрация модели. Здесь мы работаем с объектами, получаемыми из базы данных
     public interface IObjectList<T> where T: class // Интерфес списков объектов недвижимости
     {
-        int Size {get; }         // колиество объектов
-        ICollection<T> Objects { get; }      // список объектов
-        void SetFilter (Func<T, int, bool> filter);      // Условие формирования списка.
+        int Size {get; }                      // колиество объектов
+        ICollection<T> Objects { get; }       // список объектов
+        void SetFilter (Func<T, bool> filter);// Условие формирования списка.
         void SetLimits (int start, int size); // Диапазон объектов для вывода на экран
-        void Update ();          // Обновить список согласно условиям.
+        void Update ();                       // Обновить список согласно условиям.
     }
 
-    public interface IFilter {}  // Интерфейс, представляющий условие фильтрации.
-
     public class EntityList<T> : IObjectList<T> where T:class // Nice, Заглушки реализовались...
-    // Это спсок квартир.... будет.
+    // Это список сущностей. Реализовано при помои обоенного программирования.
+    // <T>. Вместо T подставляется тип или интерфейс элемента.
+    // переклась на  студентку...
+
     {
         public static int DEFAULT_SIZE = 50;
-        private Func<T, int, bool> filter = null;
+        private Func<T, bool> filter = null;
         private int start = 0, size=DEFAULT_SIZE;
+
+        public EntityList(Func<T, bool> filter = null, bool update = true)
+        {
+            SetFilter(filter);
+            if (update) Update();
+        }
+
+        public class BadQueryException:Exception
+        {
+            public BadQueryException(string msg) : base(msg) {}
+        }
 
         public ICollection<T> Objects
         {
             get
             {
-                return objectQuery.Skip(start).Take(size).ToList(); // Хотя мне не нравиться так.... но посмотрим.
+                ICollection<T> res = objectQuery.Skip(start).Take(size).ToList();
+                if (res == null) throw new BadQueryException("query returned null"); // Для отслаживания плохих запросов
+                return res; // Хотя мне не нравиться так.... но посмотрим.
             }
         }
 
@@ -139,8 +163,10 @@ namespace RSPO
             }
          }
 
-        public void SetFilter(Func<T, int, bool> filter)
+        public void SetFilter(Func<T, bool> filter = null)
         {
+            if (filter == null) filter = x => true; // Функция (лямбда) с одним аргументом x,
+                                                    // .... возвращает истину, т.е. все записи.
             this.filter = filter;
         }
 
@@ -153,12 +179,9 @@ namespace RSPO
         public void Update()
         {
             // Здесь сделаем запрос и присвоим objects список - результат запроса.
-            // Работаем дальше по новому соединению. К стати потом можно скорость померить.
             MyEntityContext ctx = Application.Context;
-            // Zerotier - хитрый, теперь по моему каналу свои пакеты гоняет. Этот, желтенький у тебя в трее
 
-            // Все было просто..... да не просто.
-            objectQuery = ctx.EntitySet<T>().Where(filter); // Ух ты. Жесть.
+            objectQuery = ctx.EntitySet<T>().Where(filter);
         }
     }
 
@@ -183,16 +206,31 @@ namespace RSPO
         }
     }
 
+    /// <summary>
+    ///   Список объектов недвижимости
+    /// </summary>
     public class ObjectList: EntityList<IObject>
     {
     }
 
-    /// <summary>
-    ///   Вспомогательный класс, помогающий рисовать изображение в HTML
-    /// </summary>
     public class ObjectListView: EntityListView<ObjectList>
     {
         public ObjectListView(ObjectList context) : base(context)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   Список предложений.
+    /// </summary>
+
+    public class OfferList: EntityList<IObject>
+    {
+    }
+
+    public class OfferListView: EntityListView<OfferList>
+    {
+        public OfferListView(OfferList context) : base(context)
         {
         }
     }
