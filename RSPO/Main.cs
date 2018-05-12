@@ -13,7 +13,6 @@ namespace RSPO
 	{
 		public WebModule(): base()
 		{
-            InitializeTemplating();
 			Get["/"] = parameters =>
 			{
                 TestUser user = new TestUser()
@@ -46,30 +45,6 @@ namespace RSPO
 			};
 		}
 
-        private void InitializeTemplating()
-        {
-            string basePath =
-            Path.GetDirectoryName(
-                Path.GetDirectoryName(
-                    Path.GetDirectoryName(
-                        Path.GetDirectoryName(
-                            System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase))));
-
-            if (Type.GetType("Mono.Runtime") != null)
-            {
-                basePath = basePath.Replace("file:","");
-            }
-            else
-            {
-                basePath = basePath.Replace("file:\\", "");
-            }
-
-            TEMPLATE_LOCATION = Path.Combine(basePath, DESIGN_DIR);
-            Console.WriteLine("Templates are at " + TEMPLATE_LOCATION);
-        }
-
-        private string DESIGN_DIR = Path.Combine("design-studio_one-page-template","build");
-                    private string TEMPLATE_LOCATION = null;
 
         public string Render(string templateFile,
                              object context=null,  // Model
@@ -81,8 +56,8 @@ namespace RSPO
             bool gotCache = Application.templateCache.TryGetValue(templateFile, out template);
 
             if (! gotCache) {
-                string filePath = Path.Combine(TEMPLATE_LOCATION, templateFile);
-                string tempPath123 = Path.Combine(TEMPLATE_LOCATION, "_!123!_").Replace("_!123!_","");
+                string filePath = Path.Combine(Application.TEMPLATE_LOCATION, templateFile);
+                string tempPath123 = Path.Combine(Application.TEMPLATE_LOCATION, "_!123!_").Replace("_!123!_","");
                 Console.WriteLine("Template Path:" + filePath);
                 templateString = File.ReadAllText(filePath);
                 templateString = templateString.Replace("@TEMPLATEDIR@", tempPath123);  // Подстановка местораположения шаблонов в текст шаблона.
