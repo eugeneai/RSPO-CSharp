@@ -23,9 +23,9 @@ namespace RSPO
 				return Render("index.pt", context: user, view: new TestUserView(user));
 			};
 
-            Get["/objs"] = parameters => // Это новая страница сайта.
+            Get["/objs"] = parameters => // Это страница сайта с квартирами.
                 {
-                    ObjectList objList = new ObjectList(); // Этот класс не существует пока.
+                    ObjectList objList = new ObjectList();
                     // Надо отлаживать в монодевелоп...
                     ObjectListView objView = new ObjectListView(objList);
                     return Render("objlist.pt", context: objList, view: objView);
@@ -33,8 +33,7 @@ namespace RSPO
 
             Get["/offers"] = parameters => // Это новая страница сайта.
                 {
-                    OfferList model = new OfferList(); // Этот класс не существует пока.
-                    // Надо отлаживать в монодевелоп...
+                    OfferList model = new OfferList();
                     OfferListView view = new OfferListView(model);
                     return Render("offerlist.pt", context: model, view: view);
                 };
@@ -215,6 +214,7 @@ namespace RSPO
 
     public class ObjectListView: EntityListView<ObjectList>
     {
+        public new string Title = "Список объектов недвижимости";
         public ObjectListView(ObjectList context) : base(context)
         {
         }
@@ -224,15 +224,12 @@ namespace RSPO
     ///   Список предложений.
     /// </summary>
 
-    public class OfferList: EntityList<IObject>
-    {
-    }
+    public class OfferList: EntityList<IOffer> { }
 
     public class OfferListView: EntityListView<OfferList>
     {
-        public OfferListView(OfferList context) : base(context)
-        {
-        }
+        public new string Title = "Список предложений";
+        public OfferListView(OfferList context) : base(context) { }
     }
 
     //---------------- Testing
