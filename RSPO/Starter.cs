@@ -10,9 +10,9 @@ namespace RSPO
 	public partial class Application
 	{
 		static public MyEntityContext Context = null;
-        static public string DESIGN_DIR = Path.Combine("design-studio_one-page-template","build");
-        static public string TEMPLATE_LOCATION = null;
-        static public string STATIC_DIR = null;
+		static public string DESIGN_DIR = Path.Combine("design-studio_one-page-template", "build");
+		static public string TEMPLATE_LOCATION = null;
+		static public string STATIC_DIR = null;
 
 		static string ConnectionString = "type=embedded;storesdirectory=./;storename=RSPO";
 
@@ -20,7 +20,7 @@ namespace RSPO
 		static void Main(string[] args)
 		{
 			InitializeEntityContext();
-            InitializeTemplating();
+			InitializeTemplating();
 
 			var uri = "http://localhost:8888";
 			Console.WriteLine("Starting Nancy on " + uri + "\n Ctrl-C to Stop.");
@@ -36,7 +36,6 @@ namespace RSPO
 			host.Start();  // start hosting
 
 			RunWithoutInterface();
-			// RunWindowsFormUI();
 
 			Console.WriteLine("Stopping Nancy");
 			host.Stop();  // stop hosting
@@ -48,36 +47,30 @@ namespace RSPO
 		}
 
 
-        public static void InitializeTemplating()
-        {
-            string basePath =
-            Path.GetDirectoryName(
-                Path.GetDirectoryName(
-                    Path.GetDirectoryName(
-                        Path.GetDirectoryName(
-                            System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase))));
-
-            if (Type.GetType("Mono.Runtime") != null)
-            {
-                basePath = basePath.Replace("file:","");
-            }
-            else
-            {
-                basePath = basePath.Replace("file:\\", "");
-            }
-
-            TEMPLATE_LOCATION = Path.Combine(basePath, DESIGN_DIR);
-            Console.WriteLine("Templates are at " + TEMPLATE_LOCATION);
-            STATIC_DIR = Path.Combine(TEMPLATE_LOCATION, "static");
-
-        }
-
-
-		private static void RunWindowsFormUI()
+		public static void InitializeTemplating()
 		{
-			ApplicationWindow applicationWindow = new ApplicationWindow();
-			applicationWindow.ShowDialog();
+			string basePath =
+			Path.GetDirectoryName(
+				Path.GetDirectoryName(
+					Path.GetDirectoryName(
+						Path.GetDirectoryName(
+							System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase))));
+
+			if (Type.GetType("Mono.Runtime") != null)
+			{
+				basePath = basePath.Replace("file:", "");
+			}
+			else
+			{
+				basePath = basePath.Replace("file:\\", "");
+			}
+
+			TEMPLATE_LOCATION = Path.Combine(basePath, DESIGN_DIR);
+			Console.WriteLine("Templates are at " + TEMPLATE_LOCATION);
+			STATIC_DIR = Path.Combine(TEMPLATE_LOCATION, "static");
+
 		}
+
 
 		public static string GenerateHash(string input)
 		{

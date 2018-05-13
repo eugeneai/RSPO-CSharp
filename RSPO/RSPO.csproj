@@ -69,7 +69,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="SharpTAL">
@@ -77,12 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ApplicationWindow.Designer.cs">
-      <DependentUpon>ApplicationWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="ImportFromAtlcomru.cs" />
     <Compile Include="MyEntityContext.cs">
       <AutoGen>True</AutoGen>
@@ -95,13 +88,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="tests\UnitTest1.cs" />
-    <Compile Include="UserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Starter.cs" />
-    <Compile Include="UserForm.Designer.cs">
-      <DependentUpon>UserForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="IObject.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IPropertyType.cs" />
@@ -157,15 +144,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ApplicationWindow.resx">
-      <DependentUpon>ApplicationWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserForm.resx">
-      <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
