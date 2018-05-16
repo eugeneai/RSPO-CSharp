@@ -23,7 +23,7 @@ namespace RSPO
         int RoomsOffered { get; set; }
         int Floor { get; set; }
         int FloorTotal { get; set; }
-        int TotalFloors { get; set; }
+        int TotalFloors { get; set; } // Unused
         BuildingEnum BuildingType { get; set; }
         IBuildingSeries BuildingSeries { get; set; }
         PropertyEnum PropertyType { get; set; }
@@ -32,6 +32,7 @@ namespace RSPO
         ICollection<IAgent> Agents { get; set; }
         ICollection<IProperty> Properties { get; set; }
         string GUID { get; set; } // Global ID
+
     }
 
     [Entity]

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.IO;
+using System.Xml.Linq;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using BrightstarDB.EntityFramework;
 using SharpCompress.Readers;
-using System.IO;
 
 namespace RSPO
 {
@@ -171,6 +172,7 @@ namespace RSPO
             } catch (InvalidOperationException) {
                 obj.ImageURL=null;
             }
+            // FIXME: Import <area><value></...><unit></unit></...>
             try {
                 obj.Rooms=int.Parse(GetText(input, "rooms"));
             } catch (InvalidOperationException) {
@@ -319,7 +321,7 @@ namespace RSPO
         }
 
 
-        private Dictionary<string,BuildingEnum> buildingTypes = new Dictionary<string,BuildingEnum>
+        public static Dictionary<string,BuildingEnum> buildingTypes = new Dictionary<string,BuildingEnum>
         {
             {"кирпичный"          , BuildingEnum.Brick},
             {"кирпично-монолитный", BuildingEnum.BrickMonolyth},
@@ -350,7 +352,7 @@ namespace RSPO
             return propertyTypes[GetText(i, tagName)];
         }
 
-        private Dictionary<string,CategoryEnum> categoryTypes = new Dictionary<string,CategoryEnum>
+        public static Dictionary<string,CategoryEnum> categoryTypes = new Dictionary<string,CategoryEnum>
         {
             {"Комната" , CategoryEnum.Room},
             {"Квартира", CategoryEnum.Flat},
@@ -463,4 +465,6 @@ namespace RSPO
         {
         }
     }
+
+
 }
