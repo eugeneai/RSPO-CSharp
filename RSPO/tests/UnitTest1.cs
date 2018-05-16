@@ -34,7 +34,17 @@ namespace RSPO.tests
 			Application.InitializeEntityContext();
 		}
 
-		[Fact]
+        private string CombineWithDataPath(string importName)
+        {
+            string dataDir = Path.Combine(basePath, "DATA");
+            dataDir = Path.Combine(dataDir, "Import");
+            string fileName = Path.Combine(dataDir, importName);
+            return fileName;
+        }
+
+/*
+
+        [Fact]
 		public void PassingTest()
 		{
 			Assert.Equal(4, Add(2, 2));
@@ -78,21 +88,15 @@ namespace RSPO.tests
 			import.Import(onlyLoad: true);
 			Assert.True(true);
 		}
+        */
 
-		private string CombineWithDataPath(string importName)
-		{
-			string dataDir = Path.Combine(basePath, "DATA");
-			dataDir = Path.Combine(dataDir, "Import");
-			string fileName = Path.Combine(dataDir, importName);
-			return fileName;
-		}
-
-		/*
+		
         [Theory]
         [InlineData("all.xml")]
         public void LongImportTest(string importName)
         {
             string fileName = CombineWithDataPath(importName);
+            Console.WriteLine("Importing : "+fileName);
             MyEntityContext ctx = Application.Context;
             ImportFromAtlcomru import = new ImportFromAtlcomru()
             {
@@ -101,8 +105,8 @@ namespace RSPO.tests
             import.Import();
             Assert.True(true);
         }
-        */
-
+        
+        /*
 		[Fact]
 		public void Should_return_status_ok_when_route_exists()
 		{
@@ -129,5 +133,6 @@ namespace RSPO.tests
 			Console.WriteLine(result);
 			Assert.Contains(result, "</html>");
 		}
+        */
 	}
 }
