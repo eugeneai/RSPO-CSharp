@@ -117,8 +117,21 @@ namespace RSPO
 		}
 	}
 
-	public class OfferView : View<IOffer>
+    public class OfferView : View<IOffer>
 	{
-		public OfferView(IOffer context) : base(context) { } // context == model
+		public OfferView(IOffer context) : base(context) { }
+	}
+
+	public class AgentList : EntityList<IAgent> { } // Список пользователей (Модель)
+
+	public class AgentListView : EntityListView<AgentList>
+	{
+		public new string Title = "Список агентов и клиентов";
+		public AgentListView(AgentList context) : base(context) { }
+    }
+
+    public class AgentView : View<IAgent>
+	{
+		public AgentView(IAgent context) : base(context) { }
 	}
 }

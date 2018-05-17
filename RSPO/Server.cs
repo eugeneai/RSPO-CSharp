@@ -28,11 +28,18 @@ namespace RSPO
 				return Render("objlist.pt", context: objList, view: objView);
 			};
 
-			Get["/offers"] = parameters => // Это новая страница сайта.
+			Get["/offers"] = parameters =>
 			{
 				OfferList model = new OfferList();
 				OfferListView view = new OfferListView(model);
 				return Render("offerlist.pt", context: model, view: view);
+			};
+
+			Get["/agents"] = parameters =>
+			{
+				AgentList model = new AgentList();
+				AgentListView view = new AgentListView(model);
+				return Render("agentlist.pt", context: model, view: view);
 			};
 
 			Get["/hello/{Name}"] = parameters =>
