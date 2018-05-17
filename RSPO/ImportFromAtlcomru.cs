@@ -369,7 +369,7 @@ namespace RSPO
             return categoryTypes[GetText(i, tagName)];
         }
 
-        private Dictionary<string, RoleEnum> roles = new Dictionary<string, RoleEnum>
+        public static Dictionary<string, RoleEnum> roles = new Dictionary<string, RoleEnum>
         {
             {"владелец" , RoleEnum.Owner},
             {"агентство" , RoleEnum.Agent},

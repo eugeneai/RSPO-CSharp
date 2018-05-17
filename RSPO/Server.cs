@@ -40,7 +40,7 @@ namespace RSPO
 				AgentList model = new AgentList();
 				AgentListView view = new AgentListView(model);
 				return Render("agentlist.pt", context: model, view: view);
-			};
+			}; // Why it is emplty???
 
 			Get["/hello/{Name}"] = parameters =>
 			{

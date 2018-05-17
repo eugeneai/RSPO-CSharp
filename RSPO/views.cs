@@ -128,10 +128,23 @@ namespace RSPO
 	{
 		public new string Title = "Список агентов и клиентов";
 		public AgentListView(AgentList context) : base(context) { }
+        public AgentView AsAgentView(IAgent agent)
+        {
+            return new AgentView(agent);
+        }
     }
 
     public class AgentView : View<IAgent>
 	{
+		private static Dictionary<RoleEnum, string> roleEnumToRuString = ImportFromAtlcomru.roles.Reverse();
+
 		public AgentView(IAgent context) : base(context) { }
+        public string RuRole
+        {
+            get
+            {
+				return roleEnumToRuString[context.Role];
+            }
+        }
 	}
 }
