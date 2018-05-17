@@ -15,7 +15,8 @@ namespace RSPO
 
         public string FileName { get; set; } = null;
         public Stream InputStream { get; set; } = null;
-        public XDocument Document { // Меня тут студентка просит помочь. Надо ее за рога брать, пока не потерялась...
+        public XDocument Document
+        { // Меня тут студентка просит помочь. Надо ее за рога брать, пока не потерялась...
             // Так что перерыв. Хотя она пока тормозит можно параллельно башлять.
 
             get
@@ -224,6 +225,7 @@ namespace RSPO
             MyEntityContext ctx = Application.Context;
             IAgent agent = ctx.Agents.Where(x=>x.Name==name &&
                                             x.Phone==phone).FirstOrDefault();
+            string op = "Got";
             if (agent == null)
             {
                 agent = ctx.Agents.Create();
@@ -233,10 +235,15 @@ namespace RSPO
                 agent.Role = saRole;
                 ctx.Add(agent);
                 ctx.SaveChanges();
+                op="Added";
             }
+            /*
+            Console.WriteLine(string.Format("{3} agent: {0}:{1}:{2}",
+                                            agent.Name, agent.Phone,
+                                            agent.Role,
+                                            op));
+            */
             offer.Agent = agent;
-
-            // FIXME: Implement
         }
 
         protected void GetPrice(IObject obj, XElement input, string tagName="price")
@@ -465,6 +472,4 @@ namespace RSPO
         {
         }
     }
-
-
 }
