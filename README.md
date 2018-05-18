@@ -18,3 +18,10 @@ Recomender system in CSharp (a student project)
 # Other
 
 1. [Github Markdown](https://guides.github.com/features/mastering-markdown/).
+# Executing in `docker`
+
+The image should be mystically prepared .... We show the way just for an example
+
+```sh
+docker run --rm -p 8888:8888 -v C:\Users\russi\source\repos\RSPO-CSharp:/home/mono rspo /bin/bash /myrun.sh
+```
