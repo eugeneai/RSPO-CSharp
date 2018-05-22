@@ -225,7 +225,7 @@ namespace RSPO
             MyEntityContext ctx = Application.Context;
             IAgent agent = ctx.Agents.Where(x=>x.Name==name &&
                                             x.Phone==phone).FirstOrDefault();
-            string op = "Got";
+            // string op = "Got";
             if (agent == null)
             {
                 agent = ctx.Agents.Create();
@@ -235,7 +235,8 @@ namespace RSPO
                 agent.Role = saRole;
                 ctx.Add(agent);
                 ctx.SaveChanges();
-                op="Added";
+                //op="Added";
+                //На этом с виндой покончено.
             }
             /*
             Console.WriteLine(string.Format("{3} agent: {0}:{1}:{2}",

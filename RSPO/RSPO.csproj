@@ -95,7 +95,7 @@
     <Compile Include="Models.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="views.cs" />
+    <Compile Include="Views.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

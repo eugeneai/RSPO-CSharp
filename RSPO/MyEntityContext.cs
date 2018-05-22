@@ -475,6 +475,12 @@ namespace RSPO
             get { return GetRelatedObject<RSPO.IAgent>("Agent"); }
             set { SetRelatedObject<RSPO.IAgent>("Agent", value); }
     	}
+    
+    	public System.String GUID
+    	{
+            		get { return GetRelatedProperty<System.String>("GUID"); }
+            		set { SetRelatedProperty("GUID", value); }
+    	}
     	#endregion
     }
 }
@@ -642,6 +648,12 @@ namespace RSPO
     		get { return GetRelatedObjects<RSPO.IProperty>("Properties"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Properties", value); }
     								}
+    
+    	public System.String GUID
+    	{
+            		get { return GetRelatedProperty<System.String>("GUID"); }
+            		set { SetRelatedProperty("GUID", value); }
+    	}
     	#endregion
     }
 }

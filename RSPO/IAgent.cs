@@ -16,7 +16,7 @@ namespace RSPO
         string Phone { get; set; }
         string Email { get; set; }
         RoleEnum Role { get; set; }
-        string GUID { get; set; }
+        string GUID { get; set; } // Уже есть
         ICollection<IProperty> Properties { get; set; }
     }
 

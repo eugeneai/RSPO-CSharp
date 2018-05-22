@@ -37,7 +37,8 @@ namespace RSPO
 
 			Get["/offer/{GUID}"] = parameters =>
 			{
-				Offer model = Application.Context.Offers.Where(x => x.GUID==parameters.GUID).FirstOrDefault();
+                string GUID = parameters.GUID;
+				IOffer model = Application.Context.Offers.Where(x => x.GUID==GUID).FirstOrDefault();
 				OfferView view = new OfferView(model);
 				return Render("offer.pt", context: model, view: view);
 			};

@@ -46,6 +46,7 @@ namespace RSPO
         DateTime Created { get; set; }
         DateTime Updated { get; set; }
         IAgent Agent { get; set; }
+        string GUID { get; set; }
     }
 
     [Entity]
@@ -86,7 +87,7 @@ namespace RSPO
     public interface ISite
     {
         string Name { get; set; }
-        string URL { get; set; }
+        string URL { get; set; } // Это как GUID сойдет.
     }
 
     [Entity]

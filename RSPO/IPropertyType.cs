@@ -10,5 +10,6 @@ namespace RSPO
         float Significance { get; set; }
         [InverseProperty("Type")]
         ICollection <IProperty> Properties { get; set; }
+        string GUID { get; set; } // Это идентификатор типа будет.
     }
 }
