@@ -35,6 +35,13 @@ namespace RSPO
 				return Render("offerlist.pt", context: model, view: view);
 			};
 
+			Get["/offer/{GUID}"] = parameters =>
+			{
+				Offer model = Application.Context.Offers.Where(x => x.GUID==parameters.GUID).FirstOrDefault();
+				OfferView view = new OfferView(model);
+				return Render("offer.pt", context: model, view: view);
+			};
+
 			Get["/agents"] = parameters =>
 			{
 				AgentList model = new AgentList();
@@ -97,6 +104,8 @@ namespace RSPO
 			}
 
 			dict.Add("view", view);
+            dict.Add("application", Application.APPLICATION);
+            dict.Add("appview", new ApplicationView(Application.APPLICATION));
 
 			return template.Render(dict);
 		}

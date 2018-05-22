@@ -4,6 +4,17 @@ using System.Globalization;
 
 namespace RSPO
 {
+    public class Pair<T1,T2>
+    {
+        public T1 First;
+        public T2 Second;
+        public Pair(T1 first, T2 second)
+        {
+            First=first;
+            Second=second;
+        }
+    }
+
     public class ApplicationView: View<ApplicationModel>
     {
         public ApplicationView(ApplicationModel context): base(context) {}
@@ -14,6 +25,33 @@ namespace RSPO
             {
                 return context.Name;
             }
+        }
+
+        public new string Title
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
+        public List<Pair<string,Uri>> Menu
+        {
+            get
+            {
+                List<Pair<string,Uri>> l = new List<Pair<string,Uri>>{
+                    menu("Главная", "/"),
+                    menu("Предложения", "/offers"),
+                    menu("Агенты", "/agents"),
+                    menu("Войти", "/login")
+                };
+                return l;
+            }
+        }
+
+        private Pair<string, Uri> menu(string name, string part)
+        {
+            return new Pair<string, Uri>(name, new Uri(part, UriKind.Relative));
         }
     }
 

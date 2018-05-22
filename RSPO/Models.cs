@@ -3,7 +3,7 @@ namespace RSPO
 {
 	public class ApplicationModel
 	{
-		public ApplicationModel(string Name = "Рекомендательная система по рынку недвижимости ИО")
+		public ApplicationModel(string Name = "Рекомендательная система по рынку недвижимости Иркутской области")
 		{
 			this.Name = Name;
 		}

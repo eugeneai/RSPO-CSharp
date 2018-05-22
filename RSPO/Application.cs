@@ -11,12 +11,15 @@ namespace RSPO
 	public partial class Application
 	{
 		static public MyEntityContext Context = null;
+        static public ApplicationModel APPLICATION = null;
 
 		[STAThread]
 		static void Main(string[] args)
 		{
 			InitializeEntityContext();
 			InitializeTemplating();
+
+            APPLICATION = new ApplicationModel();
 
 			var uri = "http://localhost:8888";
 			Console.WriteLine("Starting Nancy on " + uri + "\n Ctrl-C to Stop.");
