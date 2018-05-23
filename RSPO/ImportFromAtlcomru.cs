@@ -146,7 +146,9 @@ namespace RSPO
             XAttribute internalId = input.Attribute("internal-id");  // Value
 
             IOffer offer = ctx.Offers.Create();
+            offer.GUID = GetGUID();
             IObject obj = ctx.Objects.Create();
+            obj.GUID = GetGUID();
 
             offer.Object = obj;
             offer.SiteId = internalId.Value;
@@ -164,7 +166,6 @@ namespace RSPO
             obj.PropertyType = GetPropertyType(input);
             obj.Category = GetCategoryType(input);
             obj.URL = GetText(input, "url");
-            obj.GUID=GetGUID();
 
             GetLocationData(obj, input);
             GetPrice(obj, input);

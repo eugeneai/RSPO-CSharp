@@ -35,10 +35,24 @@ namespace RSPO
 				return Render("offerlist.pt", context: model, view: view);
 			};
 
-			Get["/offer/{GUID}"] = parameters =>
+			Get["/offer/{GUID}"] = parameters => // Эта страница с индивидуальной квартирой
 			{
                 string GUID = parameters.GUID;
 				IOffer model = Application.Context.Offers.Where(x => x.GUID==GUID).FirstOrDefault();
+
+                // По идее в BrightStarDB есть у каждого объекта свой ID и наш
+                // GUID можно к нему привязать. FIXME: Привязать!
+
+                string msg = "Объект (Offer) не найден!: "+GUID;
+                if (model==null)
+                {
+                    Console.WriteLine(msg);
+                    // и я НЕ понял почему....
+                    return "msg";
+                } else Console.WriteLine(model);
+                // Надо нудно искать ошибку в основном шаблоне....
+                // Завтра. Вырубает....
+
 				OfferView view = new OfferView(model);
 				return Render("offer.pt", context: model, view: view);
 			};
@@ -48,7 +62,7 @@ namespace RSPO
 				AgentList model = new AgentList();
 				AgentListView view = new AgentListView(model);
 				return Render("agentlist.pt", context: model, view: view);
-			}; // Why it is emplty???
+			};
 
 			Get["/hello/{Name}"] = parameters =>
 			{
@@ -104,7 +118,7 @@ namespace RSPO
 				dict.Add("model", context);
 			}
 
-			dict.Add("view", view);
+			dict.Add("vew", view);
             dict.Add("application", Application.APPLICATION);
             dict.Add("appview", new ApplicationView(Application.APPLICATION));
 
@@ -191,7 +205,7 @@ namespace RSPO
 
 	public class View<T> where T : class // жесть прошла.
 	{
-		public string Title = "A Default page!";
+		public string Title = "Заголовок надо поменять!";
 		public T context;
 		public View(T context)
 		{

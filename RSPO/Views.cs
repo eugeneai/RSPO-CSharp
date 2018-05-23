@@ -158,6 +158,8 @@ namespace RSPO
     public class OfferView : View<IOffer>
 	{
 		public OfferView(IOffer context) : base(context) { }
+
+        public new string Title = "Работай таки, машина!";
 	}
 
 	public class AgentList : EntityList<IAgent> { } // Список пользователей (Модель)
