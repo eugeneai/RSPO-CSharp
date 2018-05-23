@@ -118,13 +118,20 @@ namespace RSPO
 				dict.Add("model", context);
 			}
 
-			dict.Add("vew", view);
+            if (view == null) throw new RenderException("Null view");
+
+			dict.Add("view", view);
             dict.Add("application", Application.APPLICATION);
             dict.Add("appview", new ApplicationView(Application.APPLICATION));
 
 			return template.Render(dict);
 		}
 	}
+
+    public class RenderException:Exception
+    {
+        public RenderException(string msg):base(msg) {}
+    }
 
 	public partial class Application
 	{

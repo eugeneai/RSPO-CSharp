@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 
 using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using BrightstarDB.EntityFramework;
@@ -165,12 +166,12 @@ namespace RSPO
 
             obj.PropertyType = GetPropertyType(input);
             obj.Category = GetCategoryType(input);
-            obj.URL = GetText(input, "url");
+            obj.URL = UrlDecode(GetText(input, "url"));
 
             GetLocationData(obj, input);
             GetPrice(obj, input);
             try {
-                obj.ImageURL=GetText(input, "image");
+                obj.ImageURL=UrlDecode(GetText(input, "image"));
             } catch (InvalidOperationException) {
                 obj.ImageURL=null;
             }

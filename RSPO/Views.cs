@@ -157,9 +157,28 @@ namespace RSPO
 
     public class OfferView : View<IOffer>
 	{
-		public OfferView(IOffer context) : base(context) { }
+        public IObject Object
+        {
+            get
+            {
+                return context.Object;
+            }
+        }
 
-        public new string Title = "Работай таки, машина!";
+        public ObjectView ObjView = null;
+
+		public OfferView(IOffer context) : base(context)
+        {
+            ObjView = new ObjectView(Object);
+        }
+
+        public new string Title
+        {
+            get
+            {
+                return ObjView.RuCategory+", "+Object.Address;
+            }
+        }
 	}
 
 	public class AgentList : EntityList<IAgent> { } // Список пользователей (Модель)
