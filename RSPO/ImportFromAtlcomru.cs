@@ -166,12 +166,12 @@ namespace RSPO
 
             obj.PropertyType = GetPropertyType(input);
             obj.Category = GetCategoryType(input);
-            obj.URL = UrlDecode(GetText(input, "url"));
+            obj.URL = WebUtility.UrlDecode(GetText(input, "url"));
 
             GetLocationData(obj, input);
             GetPrice(obj, input);
             try {
-                obj.ImageURL=UrlDecode(GetText(input, "image"));
+                obj.ImageURL= WebUtility.UrlDecode(GetText(input, "image"));
             } catch (InvalidOperationException) {
                 obj.ImageURL=null;
             }
