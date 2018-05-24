@@ -13,6 +13,7 @@ SharpTAL
 ICSharpCode.NRefactory
 System.Xml.XDocument
 VDS.Common
+BCrypt
 xunit
 xunit.abstractions
 xunit.analyzers

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using DevOne.Security.Cryptography.BCrypt;
+using Nancy.Session;
 
 namespace RSPO
 {
@@ -43,7 +46,10 @@ namespace RSPO
                     menu("Главная", "/"),
                     menu("Предложения", "/offers"),
                     menu("Агенты", "/agents"),
-                    menu("Войти", "/login")
+                    menu("Войти", "/login") // Обычно пользователю предлагается страница
+                    // входа, а на ней есть вариант "Зарегистрироваться"
+                    // Чтоб страниц было не очень много.
+                    // Если регистраию ыстро сделаем попроуем переделать БД на MySQL или Postgres
                 };
                 return l;
             }
@@ -206,4 +212,106 @@ namespace RSPO
             }
         }
 	}
+
+    public class LoginView : View<LoginObject>
+    {
+        public LoginView(LoginObject context, Nancy.Request request = null) : base(context)
+        {
+            this.request = request;
+        }
+
+        protected bool UserBad(string message)
+        {
+            request.Session.DeleteAll(); // Аннулировать сессию, однако...
+            request.Session["message"] = message+", однако.";
+            return false;
+        }
+
+        public bool Process()
+        {
+            MyEntityContext ctx = Application.Context;
+
+            string name = request.Form.name;
+            string phone = request.Form.phone;
+
+            IAgent user = ctx.Agents.Where(x=>x.Name==name &&
+                                            x.Phone==phone).FirstOrDefault();
+            string dummy = "";
+            bool register = request.Form.TryGet("register", out dummy);
+
+            if (register && user != null)
+            {
+                request.Session.DeleteAll();
+
+                return UserBad("Пользователь уже зарегистрирован");
+            }
+            else
+            {
+                string password = request.Form.password;
+                if (! BCryptHelper.CheckPassword(password, user.PasswordHash))
+                {
+                    return UserBad("Неправильный пароль");
+                }
+            }
+
+            if (! register && user == null)
+            {
+                return UserBad("Попытка входа незарегистрированного пользователя");
+            }
+            else
+            {
+                // FIXME: Проверки правильности данных не сделаны.
+
+                string password = request.Form.password;
+                string repeat = request.Form.repeat;
+
+                if (password != repeat)
+                {
+                    return UserBad("Пароли не совпадают");
+                }
+
+                user = ctx.Agents.Create();
+                user.Name = request.Form.firstname + " " + request.Form.surname + " " + request.Form.lastname;
+                user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
+                user.Phone = request.Form.phone;
+                user.GUID = ImportFromAtlcomru.GetGUID();
+                if (request.Form.realtor  == "checked")
+                {
+                    user.Role = RoleEnum.Agent;
+                }
+                else
+                {
+                    user.Role = RoleEnum.Buyer;
+                }
+                user.NickName = request.Form.name;
+                user.Email = request.Form.email;
+                ctx.Add(user);
+                ctx.SaveChanges();
+            }
+            // К этому моменту пользователь или аутентифицирован
+            // или создан.
+            // Установить сессию.
+
+            // Сессии бывают двух типов
+            // 1. На время одного сеанса
+            // 2. Между сеансами.
+            // Мы будем делать 2 из 1.
+            // Т.е. в сессии типа 1 собирать (обновлять) данные
+            //      зарегистрированного пользователя.
+
+            request.Session["message"] = "Спокойно! Вы вошли в сисиему.";
+            request.Session["user"] = user; // В принципе больше ничего не надо.
+
+            // Надо в конце рендеринга убивать сообщение.
+
+            return true;
+        }
+
+        protected static string SALT="saltsaltsaltsaltsaltsalt";
+
+        protected Nancy.Request request = null;
+
+        public new string Title="Идентификация пользователя";
+
+    }
 }

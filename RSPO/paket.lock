@@ -1,5 +1,6 @@
 NUGET
   remote: https://www.nuget.org/api/v2
+    BCrypt (1.0)
     BrightstarDB (1.13.3) - restriction: >= net461
       BrightstarDBLibs (>= 1.13.3)
     BrightstarDB.CodeGeneration (1.13.3)
@@ -21,7 +22,7 @@ NUGET
       Mono.Cecil (>= 0.9.5.4)
     Mono.Cecil (0.10) - restriction: >= net461
     Mono.Posix (5.4.0.201) - restriction: >= net461
-    Nancy (1.4.4) - restriction: >= net461
+    Nancy (1.4.4)
     Nancy.Hosting.Self (1.4.1) - restriction: >= net461
       Nancy (>= 1.4.1)
     Nancy.Testing (1.4.1)

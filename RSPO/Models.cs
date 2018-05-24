@@ -10,5 +10,8 @@ namespace RSPO
 		public string Name;
 	}
 
-    // FIXME: Implement a view for ApplicationModel in views.cs
+    public class LoginObject // FIXME: Использован как заглушка.
+    {
+        public LoginObject() {}
+    }
 }

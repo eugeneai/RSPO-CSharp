@@ -440,7 +440,7 @@ namespace RSPO
 
         protected readonly string YandexNS = @"http://webmaster.yandex.ru/schemas/feed/realty/2010-06";
 
-        public string GetGUID()
+        public static string GetGUID()
         {
             return Guid.NewGuid().ToString();
         }

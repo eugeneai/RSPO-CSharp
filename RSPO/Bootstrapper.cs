@@ -7,6 +7,9 @@ using System.IO;
 using System.Reflection;
 using Nancy.Conventions;
 using Nancy.Responses;
+using Nancy.Session;
+using Nancy.TinyIoc;
+using Nancy.Bootstrapper;
 
 namespace RSPO
 {
@@ -39,6 +42,13 @@ namespace RSPO
                                                       MimeTypes.GetMimeType(fileName));
                     return response;
                 });
+        }
+
+        protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
+        {
+            base.ApplicationStartup(container, pipelines);
+
+            CookieBasedSessions.Enable(pipelines);
         }
     }
 }

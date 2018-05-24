@@ -18,6 +18,9 @@ namespace RSPO
         RoleEnum Role { get; set; }
         string GUID { get; set; } // Уже есть
         ICollection<IProperty> Properties { get; set; }
+
+        [Ignore]
+        bool Valid { get; }
     }
 
     public enum RoleEnum
@@ -25,6 +28,19 @@ namespace RSPO
         Unknown,
         Agent,
         Owner,
-        Buyer
+        Buyer,
+        Invalid
     }
+
+    public partial class Agent : BrightstarEntityObject, IAgent
+    {
+        public bool Valid
+        {
+            get
+            {
+                return true;
+            }
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ using System.IO;
 using BrightstarDB.EntityFramework;
 using System.Linq; // Этого не хватало.
 using System.Globalization;
+using Nancy.Responses;
 
 namespace RSPO
 {
@@ -64,18 +65,42 @@ namespace RSPO
 				return Render("agentlist.pt", context: model, view: view);
 			};
 
-			Get["/hello/{Name}"] = parameters =>
-			{
-				IAgent testModel = Application.Context.Agents.Create();
-				testModel.Name = parameters.Name;
-				return View["hello.html", testModel];
-			};
+			Get["/login"] = parameters => // Эта страница уже лет 20 не нужна.
+                {
+                    LoginObject model = new LoginObject();
+                    LoginView view = new LoginView(model);
+
+                    // return View["login.pt", testModel]; // Оставим для истории.
+                    // Это, к стати правильный вариант отрисовки по шаблону.
+
+                    return Render("login.pt", context: model, view:view);
+                };
+
+            // Принимаем данные пользователя из формы регистрации
+            Post["/login"] = parameters =>
+                {
+                    LoginObject model = new LoginObject();
+                    LoginView view = new LoginView(model, request: this.Request);
+                    if (view.Process())
+                    {
+                        return new RedirectResponse("/");
+                    } else
+                    {
+                        return new RedirectResponse("/login");
+                        /*
+                        return new Response()
+                        {
+                            StatusCode = HttpStatusCode.Forbidden
+                        };
+                        */
+                    }
+                    // Перенаправить браузер на домашнюю страницу.
+                };
 		}
 
 
 		public string Render(string templateFile,
 							 object context = null,  // Model
-							 Request request = null, // Request
 							 object view = null)       // View
 		{
 			string templateString = "";
@@ -108,10 +133,10 @@ namespace RSPO
 
 			var dict = new Dictionary<string, object>();
 
-			if (request == null)
+			if (this.Request == null)
 			{
-				request = this.Request;
-				dict.Add("request", request);
+				Request = this.Request;
+				dict.Add("request", Request);
 			}
 			if (context != null)
 			{
@@ -124,9 +149,49 @@ namespace RSPO
             dict.Add("application", Application.APPLICATION);
             dict.Add("appview", new ApplicationView(Application.APPLICATION));
 
-			return template.Render(dict);
+            string message = (string) Request.Session["message"];
+            if (message == null)
+            {
+                message = "";
+            }
+
+            IAgent user = (IAgent) Request.Session["user"];
+            if (user == null)
+            {
+                user = new InvalidUser();
+            }
+
+            dict.Add("message", message);
+            dict.Add("user", user);
+
+			string result = template.Render(dict);
+            Request.Session.Delete("message");
+            return result;
 		}
 	}
+
+    public class InvalidUser : IAgent
+    {
+        public InvalidUser() { }
+
+        public bool Valid
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        string IAgent.Name { get => "Invalid User"; set => throw new NotImplementedException(); }
+        string IAgent.NickName { get => "undefined"; set => throw new NotImplementedException(); }
+        string IAgent.PasswordHash { get => ""; set => throw new NotImplementedException(); }
+        string IAgent.Phone { get => ""; set => throw new NotImplementedException(); }
+        string IAgent.Email { get => ""; set => throw new NotImplementedException(); }
+        RoleEnum IAgent.Role { get => RoleEnum.Unknown; set => throw new NotImplementedException(); }
+        string IAgent.GUID { get => ""; set => throw new NotImplementedException(); }
+        ICollection<IProperty> IAgent.Properties { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        bool IAgent.Valid { get => false; }
+    }
 
     public class RenderException:Exception
     {

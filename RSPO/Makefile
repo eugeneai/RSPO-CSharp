@@ -26,6 +26,12 @@ run: export MONO_COLORS=disable
 run: compile
 	cd bin/$(VAR) && $(MONO) $(TARGET)
 
+# FIXME: Try to assembly an ASP.NET Application
+asp: export TERM=xterm
+asp: export MONO_COLORS=disable
+asp: compile
+	cd bin/$(VAR) && xsp4 --port=8888 $(TARGET)
+
 tests: export TERM=xterm
 tests: export MONO_COLORS=disable
 tests: compile

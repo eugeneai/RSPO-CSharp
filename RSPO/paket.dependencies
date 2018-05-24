@@ -1,5 +1,6 @@
 source https://www.nuget.org/api/v2
 
+nuget BCrypt 1.0.0
 nuget BrightstarDB 1.13.3 restriction: >= net461
 nuget BrightstarDB.CodeGeneration.Console
 nuget BrightstarDB.CodeGeneration.T4
