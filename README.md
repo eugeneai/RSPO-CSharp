@@ -15,6 +15,10 @@ Recomender system in CSharp (a student project)
 4. [Simple Nancy PRoject in Monodevelop](http://littlegists.blogspot.ru/2012/12/building-simple-nancy-app-from-scratch.html).
 5. [Hosting Nancy with NGinx](https://github.com/NancyFx/Nancy/wiki/Hosting-Nancy-with-Nginx-on-Ubuntu). Also uses Self-hosting Nancy.
 
+## Collaborative filtering
+
+ 1. Weighted Slope One: http://www.cnblogs.com/kuber/articles/SlopeOne_CSharp.html
+
 # Other
 
 1. [Github Markdown](https://guides.github.com/features/mastering-markdown/).
