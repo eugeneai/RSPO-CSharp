@@ -236,31 +236,21 @@ namespace RSPO
 
             IAgent user = ctx.Agents.Where(x=>x.Name==name &&
                                             x.Phone==phone).FirstOrDefault();
-            string dummy = "";
-            bool register = request.Form.TryGet("register", out dummy);
+            string register = request.Form["register"];
 
-            if (register && user != null)
+			if (register != null && user != null)
             {
                 request.Session.DeleteAll();
 
                 return UserBad("Пользователь уже зарегистрирован");
             }
-            else
+			else if (register == null && user == null)
+			{
+				return UserBad("Пользователь не найден");
+			}
+			else if (register != null && user == null)
             {
-                string password = request.Form.password;
-                if (! BCryptHelper.CheckPassword(password, user.PasswordHash))
-                {
-                    return UserBad("Неправильный пароль");
-                }
-            }
-
-            if (! register && user == null)
-            {
-                return UserBad("Попытка входа незарегистрированного пользователя");
-            }
-            else
-            {
-                // FIXME: Проверки правильности данных не сделаны.
+				// FIXME: Проверки правильности данных не сделаны.
 
                 string password = request.Form.password;
                 string repeat = request.Form.repeat;
@@ -275,7 +265,7 @@ namespace RSPO
                 user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
                 user.Phone = request.Form.phone;
                 user.GUID = ImportFromAtlcomru.GetGUID();
-                if (request.Form.realtor  == "checked")
+                if (request.Form.realtor == "checked")
                 {
                     user.Role = RoleEnum.Agent;
                 }
@@ -287,6 +277,14 @@ namespace RSPO
                 user.Email = request.Form.email;
                 ctx.Add(user);
                 ctx.SaveChanges();
+            }
+            else // register == null && user != null
+            {
+                string password = request.Form.password;
+                if (! BCryptHelper.CheckPassword(password, user.PasswordHash))
+                {
+                    return UserBad("Неправильный пароль");
+                }
             }
             // К этому моменту пользователь или аутентифицирован
             // или создан.
