@@ -149,10 +149,11 @@ namespace RSPO
             dict.Add("application", Application.APPLICATION);
             dict.Add("appview", new ApplicationView(Application.APPLICATION));
 
-            string message = (string) Request.Session["message"];
+            MessageModel message = (MessageModel) Request.Session["message"];
             if (message == null)
             {
-                message = "";
+                message = new MessageModel(); // Пустое сообщение.
+                Console.WriteLine("->>>> Empty message");
             }
 
             IAgent user = (IAgent) Request.Session["user"];
@@ -163,6 +164,7 @@ namespace RSPO
 
             dict.Add("message", message);
             dict.Add("user", user);
+            dict.Add("nothing", "");
 
 			string result = template.Render(dict);
             Request.Session.Delete("message");
@@ -285,6 +287,16 @@ namespace RSPO
 		}
 
 		protected View() { }
+
+        protected MessageModel info(string message=null, string msg="", AlertType alert=AlertType.Info)
+        {
+            return new MessageModel(message, msg, alert);
+        }
+
+        protected MessageModel error(string message=null, string msg="", AlertType alert=AlertType.Danger)
+        {
+            return info(message, msg, alert);
+        }
 	}
 
 

@@ -185,6 +185,39 @@ namespace RSPO
                 return ObjView.RuCategory+", "+Object.Address;
             }
         }
+
+        public string ImageTag
+        {
+            get
+            {
+                if (Object.ImageURL != null)
+                {
+                    return string.Format("<img src=\"{0}\" alt=\"Фото квартиры по адресу: {1}\" height=\"400pt\" />",
+                                         Object.ImageURL, Object.Address);
+                }
+                else
+                {
+                return "<a href=\"https://www.freeiconspng.com/img/23501\" " +
+                    "title=\"Image from freeiconspng.com\">" +
+                    "<img src=\"https://www.freeiconspng.com/uploads/no-image-icon-24.jpg\" "+
+                    "width=\"350\" alt=\"No Icon Transparent\" /></a>";
+                }
+            }
+        }
+        public string Maps
+        {
+            get
+            {
+                return Object.Address.Trim().Replace(" ", "+")+",+Иркутск";
+            }
+        }
+        public bool Valid
+        {
+            get
+            {
+                return ! String.IsNullOrEmpty(Object.Address);
+            }
+        }
 	}
 
 	public class AgentList : EntityList<IAgent> { } // Список пользователей (Модель)
@@ -223,7 +256,7 @@ namespace RSPO
         protected bool UserBad(string message)
         {
             request.Session.DeleteAll(); // Аннулировать сессию, однако...
-            request.Session["message"] = message+", однако.";
+            request.Session["message"] = error(message+", однако.", msg:"Неуспешная идентификация");
             return false;
         }
 
@@ -297,8 +330,10 @@ namespace RSPO
             // Т.е. в сессии типа 1 собирать (обновлять) данные
             //      зарегистрированного пользователя.
 
-            request.Session["message"] = "Спокойно! Вы вошли в сисиему.";
+            request.Session["message"] = info("Спокойно! Вы вошли в сисиему.", msg:"Успешная идентикация");
             request.Session["user"] = user; // В принципе больше ничего не надо.
+
+            Console.WriteLine("Linux rulez!");
 
             // Надо в конце рендеринга убивать сообщение.
 
