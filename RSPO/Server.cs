@@ -17,12 +17,16 @@ namespace RSPO
 		{
 			Get["/"] = parameters =>
 			{
-                ApplicationModel appModel = new ApplicationModel(Application.APPLICATION_NAME);
-				return Render("index.pt", context: appModel, view: new ApplicationView(appModel));
+				RestoreSession();
+				ApplicationModel appModel = new ApplicationModel(Application.APPLICATION_NAME);
+				return Render("index.pt", context: appModel,
+                              view: new ApplicationView(appModel, CurrentSession));
 			};
 
 			Get["/objs"] = parameters => // Это страница сайта с квартирами.
 			{
+				RestoreSession();
+
 				ObjectList objList = new ObjectList();
 				// Надо отлаживать в монодевелоп...
 				ObjectListView objView = new ObjectListView(objList);
@@ -31,6 +35,7 @@ namespace RSPO
 
 			Get["/offers"] = parameters =>
 			{
+				RestoreSession();
 				OfferList model = new OfferList();
 				OfferListView view = new OfferListView(model);
 				return Render("offerlist.pt", context: model, view: view);
@@ -38,21 +43,23 @@ namespace RSPO
 
 			Get["/offer/{GUID}"] = parameters => // Эта страница с индивидуальной квартирой
 			{
-                string GUID = parameters.GUID;
-				IOffer model = Application.Context.Offers.Where(x => x.GUID==GUID).FirstOrDefault();
+				RestoreSession();
+				string GUID = parameters.GUID;
+				IOffer model = Application.Context.Offers.Where(x => x.GUID == GUID).FirstOrDefault();
 
-                // По идее в BrightStarDB есть у каждого объекта свой ID и наш
-                // GUID можно к нему привязать. FIXME: Привязать!
+				// По идее в BrightStarDB есть у каждого объекта свой ID и наш
+				// GUID можно к нему привязать. FIXME: Привязать!
 
-                string msg = "Объект (Offer) не найден!: "+GUID;
-                if (model==null)
-                {
-                    Console.WriteLine(msg);
-                    // и я НЕ понял почему....
-                    return "msg";
-                } else Console.WriteLine(model);
-                // Надо нудно искать ошибку в основном шаблоне....
-                // Завтра. Вырубает....
+				string msg = "Объект (Offer) не найден!: " + GUID;
+				if (model == null)
+				{
+					Console.WriteLine(msg);
+					// и я НЕ понял почему....
+					return "msg";
+				}
+				else Console.WriteLine(model);
+				// Надо нудно искать ошибку в основном шаблоне....
+				// Завтра. Вырубает....
 
 				OfferView view = new OfferView(model);
 				return Render("offer.pt", context: model, view: view);
@@ -60,48 +67,123 @@ namespace RSPO
 
 			Get["/agents"] = parameters =>
 			{
+				RestoreSession();
 				AgentList model = new AgentList();
 				AgentListView view = new AgentListView(model);
 				return Render("agentlist.pt", context: model, view: view);
 			};
 
 			Get["/login"] = parameters => // Эта страница уже лет 20 не нужна.
-                {
-                    LoginObject model = new LoginObject();
-                    LoginView view = new LoginView(model);
+			{
+				RestoreSession();
+				LoginObject model = new LoginObject();
+				LoginView view = new LoginView(model, this.Request, CurrentSession);
 
-                    // return View["login.pt", testModel]; // Оставим для истории.
-                    // Это, к стати правильный вариант отрисовки по шаблону.
+				// return View["login.pt", testModel]; // Оставим для истории.
+				// Это, к стати правильный вариант отрисовки по шаблону.
 
-                    return Render("login.pt", context: model, view:view);
-                };
+				return Render("login.pt", context: model, view: view);
+			};
 
-            // Принимаем данные пользователя из формы регистрации
-            Post["/login"] = parameters =>
-                {
-                    LoginObject model = new LoginObject();
-                    LoginView view = new LoginView(model, request: this.Request);
-                    if (view.Process())
-                    {
-                        return new RedirectResponse("/");
-                    } else
-                    {
-                        return new RedirectResponse("/login");
-                        /*
-                        return new Response()
-                        {
-                            StatusCode = HttpStatusCode.Forbidden
-                        };
-                        */
-                    }
-                    // Перенаправить браузер на домашнюю страницу.
-                };
+			// Принимаем данные пользователя из формы регистрации
+			Post["/login"] = parameters =>
+				{
+					RestoreSession();
+
+					LoginObject model = new LoginObject();
+					LoginView view = new LoginView(model, this.Request, CurrentSession);
+
+					Response response = null;
+					bool res = view.Process();
+
+					CurrentSession = view.Session; // Обновление сессии
+					if (res)
+					{
+						response = Response.AsRedirect("/");
+					}
+					else // Неуданая идентификация
+					{
+						response = Response.AsRedirect("/login");
+					}
+					// Перенаправить браузер на домашнюю страницу.
+					return InSession(response);
+				};
+
+			Get["/logout"] = parameters => // Эта страница уже лет 20 не нужна.
+			{
+				RestoreSession();
+				LoginObject model = new LoginObject();
+				LoginView view = new LoginView(model, this.Request, CurrentSession);
+
+				// return View["login.pt", testModel]; // Оставим для истории.
+				// Это, к стати правильный вариант отрисовки по шаблону.
+                view.Logout();
+                CurrentSession = view.Session;
+
+				return Render("login.pt", context: model, view: view);
+			};
 		}
 
+		protected static string IN_SESSION_COOKIE_NAME = "_rspo_state";
 
-		public string Render(string templateFile,
-							 object context = null,  // Model
-							 object view = null)       // View
+		public static Dictionary<string, SessionModel> activeSessions = new Dictionary<string, SessionModel>();
+
+		protected Nancy.Response InSession(Nancy.Response response = null)
+		{
+			if (response == null)
+			{
+				response = (Nancy.Response)Response;
+			}
+
+			if (String.IsNullOrEmpty(CurrentSession.GUID))
+			{
+				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
+				CurrentSession["valid"] = "false";
+			}
+
+			activeSessions[CurrentSession.GUID] = CurrentSession;
+
+			return response.WithCookie(IN_SESSION_COOKIE_NAME, CurrentSession.GUID);
+		}
+
+		protected void RestoreSession()
+		{
+			string value = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
+
+			CurrentSession = new SessionModel();
+			CurrentSession["valid"] = false;
+
+			if (String.IsNullOrEmpty(value))
+			{
+				// Сессия не устанвлена, т.е. пользователь не зарегистрирован
+				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
+				// Сделать сессии идентификатор.
+				return;
+			}
+			try
+			{
+				CurrentSession = activeSessions[value]; // По идее там будет где-то пользователь.
+				object ouser = null;
+				CurrentSession["valid"] = CurrentSession.TryGetValue("user", out ouser);
+				// Сессия валидна, если оттуда можно вытащить пользователя.
+				CurrentSession["valid"] = ouser != null;
+				CurrentSession["GUID"] = value;
+				return;
+			}
+			catch (System.Collections.Generic.KeyNotFoundException)
+			{
+				// Беспонтовая сессия, нам оно не надо
+				// Возвращяем невалидную сессию по умолчанию
+				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
+				// Пусть будет беспонтовая анонимная новая сессия.
+			}
+		}
+
+		public SessionModel CurrentSession = null;
+
+		public Nancy.Response Render(string templateFile,
+									 object context = null,  // Model
+									 object view = null)       // View
 		{
 			string templateString = "";
 			Template template = null;
@@ -113,8 +195,8 @@ namespace RSPO
 				gotCache = Application.templateCache.TryGetValue(templateFile, out template);
 			}
 
-            // В режиме отладки иногда удобно, если при каждом запросе шаблон заново верстается.
-            // Не надо сервак перезапускать при изменении шаблона.
+			// В режиме отладки иногда удобно, если при каждом запросе шаблон заново верстается.
+			// Не надо сервак перезапускать при изменении шаблона.
 
 			if (!gotCache)
 			{
@@ -125,15 +207,15 @@ namespace RSPO
 				templateString = templateString.Replace("@TEMPLATEDIR@", tempPath123);  // Подстановка местораположения шаблонов в текст шаблона.
 				template = new Template(templateString);
 
-                if (Application.USE_TEMPLATE_CACHE)
-                {
-                    Application.templateCache.Add(templateFile, template);
-                }
+				if (Application.USE_TEMPLATE_CACHE)
+				{
+					Application.templateCache.Add(templateFile, template);
+				}
 			}
 
 			var dict = new Dictionary<string, object>();
 
-			if (this.Request == null)
+			if (this.Request != null)
 			{
 				Request = this.Request;
 				dict.Add("request", Request);
@@ -143,62 +225,74 @@ namespace RSPO
 				dict.Add("model", context);
 			}
 
-            if (view == null) throw new RenderException("Null view");
+			if (view == null) throw new RenderException("null view");
 
 			dict.Add("view", view);
-            dict.Add("application", Application.APPLICATION);
-            dict.Add("appview", new ApplicationView(Application.APPLICATION));
+			dict.Add("application", Application.APPLICATION);
+			dict.Add("appview", new ApplicationView(Application.APPLICATION, CurrentSession));
 
-            MessageModel message = (MessageModel) Request.Session["message"];
-            if (message == null)
-            {
-                message = new MessageModel(); // Пустое сообщение.
-                Console.WriteLine("->>>> Empty message");
-            }
+			object omessage = null;
+			MessageModel message = null;
+			bool bmsg = CurrentSession.TryGetValue("message", out omessage);
 
-            IAgent user = (IAgent) Request.Session["user"];
-            if (user == null)
-            {
-                user = new InvalidUser();
-            }
+			if (!bmsg)
+			{
+				message = new MessageModel(); // Пустое сообщение.
+			}
+			else
+			{
+				message = (MessageModel)omessage;
+			}
 
-            dict.Add("message", message);
-            dict.Add("user", user);
-            dict.Add("nothing", "");
+			IAgent user = null;
+			object ouser = null;
+			bool buser = CurrentSession.TryGetValue("user", out ouser);
+			if (!buser)
+			{
+				user = new InvalidUser();
+			}
+			else
+			{
+				user = (IAgent)ouser;
+			}
+
+			dict.Add("message", message);
+			dict.Add("user", user);
+			dict.Add("nothing", "");
 
 			string result = template.Render(dict);
-            Request.Session.Delete("message");
-            return result;
+			CurrentSession.Remove("message");
+			return InSession(result);
 		}
 	}
 
-    public class InvalidUser : IAgent
-    {
-        public InvalidUser() { }
+	public class InvalidUser : IAgent
+	{
+		public InvalidUser() { }
 
-        public bool Valid
-        {
-            get
-            {
-                return false;
-            }
-        }
+		public bool Valid
+		{
+			get
+			{
+				return false;
+			}
+		}
 
-        string IAgent.Name { get => "Invalid User"; set => throw new NotImplementedException(); }
-        string IAgent.NickName { get => "undefined"; set => throw new NotImplementedException(); }
-        string IAgent.PasswordHash { get => ""; set => throw new NotImplementedException(); }
-        string IAgent.Phone { get => ""; set => throw new NotImplementedException(); }
-        string IAgent.Email { get => ""; set => throw new NotImplementedException(); }
-        RoleEnum IAgent.Role { get => RoleEnum.Unknown; set => throw new NotImplementedException(); }
-        string IAgent.GUID { get => ""; set => throw new NotImplementedException(); }
-        ICollection<IProperty> IAgent.Properties { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        bool IAgent.Valid { get => false; }
-    }
+		string IAgent.Name { get => "Invalid User"; set => throw new NotImplementedException(); }
+		string IAgent.NickName { get => "undefined"; set => throw new NotImplementedException(); }
+		string IAgent.PasswordHash { get => ""; set => throw new NotImplementedException(); }
+		string IAgent.Phone { get => ""; set => throw new NotImplementedException(); }
+		string IAgent.Email { get => ""; set => throw new NotImplementedException(); }
+		RoleEnum IAgent.Role { get => RoleEnum.Unknown; set => throw new NotImplementedException(); }
+		string IAgent.GUID { get => ""; set => throw new NotImplementedException(); }
+		ICollection<IProperty> IAgent.Properties { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		bool IAgent.Valid { get => false; }
+	}
 
-    public class RenderException:Exception
-    {
-        public RenderException(string msg):base(msg) {}
-    }
+	public class RenderException : Exception
+	{
+		public RenderException(string msg) : base(msg) { }
+	}
 
 	public partial class Application
 	{
@@ -288,15 +382,15 @@ namespace RSPO
 
 		protected View() { }
 
-        protected MessageModel info(string message=null, string msg="", AlertType alert=AlertType.Info)
-        {
-            return new MessageModel(message, msg, alert);
-        }
+		protected MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)
+		{
+			return new MessageModel(message, msg, alert);
+		}
 
-        protected MessageModel error(string message=null, string msg="", AlertType alert=AlertType.Danger)
-        {
-            return info(message, msg, alert);
-        }
+		protected MessageModel error(string message = null, string msg = "", AlertType alert = AlertType.Danger)
+		{
+			return info(message, msg, alert);
+		}
 	}
 
 

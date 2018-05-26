@@ -383,6 +383,9 @@ namespace RSPO
         {
             {"владелец" , RoleEnum.Owner},
             {"агентство" , RoleEnum.Agent},
+            {"покупатель" , RoleEnum.Buyer},
+            {"неизвестный" , RoleEnum.Unknown},
+            {"неправильный" , RoleEnum.Invalid}
         };
 
         // private HashSet<string> uKeys = new HashSet<string>();

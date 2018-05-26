@@ -71,4 +71,30 @@ namespace RSPO
         Light,
         Dark
     }
+
+    public class SessionModel : Dictionary<string, object> // Ничего особенного, просто словарь
+    {
+        public SessionModel(): base() {}
+
+        public bool Valid
+        {
+            get
+            {
+                return this["valid"] != null;
+            }
+        }
+
+        public string GUID
+        {
+            set
+            {
+                this["GUID"] = value;
+            }
+
+            get
+            {
+                return (string) this["GUID"];
+            }
+        }
+    }
 }

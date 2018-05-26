@@ -7,59 +7,68 @@ using Nancy.Session;
 
 namespace RSPO
 {
-    public class Pair<T1,T2>
-    {
-        public T1 First;
-        public T2 Second;
-        public Pair(T1 first, T2 second)
-        {
-            First=first;
-            Second=second;
-        }
-    }
+	public class Pair<T1, T2>
+	{
+		public T1 First;
+		public T2 Second;
+		public Pair(T1 first, T2 second)
+		{
+			First = first;
+			Second = second;
+		}
+	}
 
-    public class ApplicationView: View<ApplicationModel>
-    {
-        public ApplicationView(ApplicationModel context): base(context) {}
-
-        public string Name
+	public class ApplicationView : View<ApplicationModel>
+	{
+		public ApplicationView(ApplicationModel context, SessionModel session) : base(context)
         {
-            get
-            {
-                return context.Name;
-            }
+            this.session = session;
         }
 
-        public new string Title
-        {
-            get
-            {
-                return Name;
-            }
-        }
+        protected SessionModel session;
 
-        public List<Pair<string,Uri>> Menu
-        {
-            get
-            {
-                List<Pair<string,Uri>> l = new List<Pair<string,Uri>>{
-                    menu("Главная", "/"),
-                    menu("Предложения", "/offers"),
-                    menu("Агенты", "/agents"),
-                    menu("Войти", "/login") // Обычно пользователю предлагается страница
-                    // входа, а на ней есть вариант "Зарегистрироваться"
-                    // Чтоб страниц было не очень много.
-                    // Если регистраию ыстро сделаем попроуем переделать БД на MySQL или Postgres
+		public string Name
+		{
+			get
+			{
+				return context.Name;
+			}
+		}
+
+		public new string Title
+		{
+			get
+			{
+				return Name;
+			}
+		}
+
+		public List<Pair<string, Uri>> Menu
+		{
+			get
+			{
+				List<Pair<string, Uri>> l = new List<Pair<string, Uri>>{
+					menu("Главная", "/"),
+					menu("Предложения", "/offers"),
+					menu("Агенты", "/agents"),
                 };
-                return l;
-            }
-        }
+                if (session.Valid)
+                {
+                    l.Add(menu("Выйти", "/logout"));
+                }
+                else
+                {
+                    l.Add(menu("Войти", "/login"));
+                }
+				return l;
+			}
+		}
 
-        private Pair<string, Uri> menu(string name, string part)
-        {
-            return new Pair<string, Uri>(name, new Uri(part, UriKind.Relative));
-        }
-    }
+		private Pair<string, Uri> menu(string name, string part)
+		{
+			return new Pair<string, Uri>(name, new Uri(part, UriKind.Relative));
+		}
+	}
 
 	public class ObjectList : EntityList<IObject>
 	{
@@ -161,63 +170,63 @@ namespace RSPO
 		}
 	}
 
-    public class OfferView : View<IOffer>
+	public class OfferView : View<IOffer>
 	{
-        public IObject Object
-        {
-            get
-            {
-                return context.Object;
-            }
-        }
+		public IObject Object
+		{
+			get
+			{
+				return context.Object;
+			}
+		}
 
-        public ObjectView ObjView = null;
+		public ObjectView ObjView = null;
 
 		public OfferView(IOffer context) : base(context)
-        {
-            ObjView = new ObjectView(Object);
-        }
+		{
+			ObjView = new ObjectView(Object);
+		}
 
-        public new string Title
-        {
-            get
-            {
-                return ObjView.RuCategory+", "+Object.Address;
-            }
-        }
+		public new string Title
+		{
+			get
+			{
+				return ObjView.RuCategory + ", " + Object.Address;
+			}
+		}
 
-        public string ImageTag
-        {
-            get
-            {
-                if (Object.ImageURL != null)
-                {
-                    return string.Format("<img src=\"{0}\" alt=\"Фото квартиры по адресу: {1}\" height=\"400pt\" />",
-                                         Object.ImageURL, Object.Address);
-                }
-                else
-                {
-                return "<a href=\"https://www.freeiconspng.com/img/23501\" " +
-                    "title=\"Image from freeiconspng.com\">" +
-                    "<img src=\"https://www.freeiconspng.com/uploads/no-image-icon-24.jpg\" "+
-                    "width=\"350\" alt=\"No Icon Transparent\" /></a>";
-                }
-            }
-        }
-        public string Maps
-        {
-            get
-            {
-                return Object.Address.Trim().Replace(" ", "+")+",+Иркутск";
-            }
-        }
-        public bool Valid
-        {
-            get
-            {
-                return ! String.IsNullOrEmpty(Object.Address);
-            }
-        }
+		public string ImageTag
+		{
+			get
+			{
+				if (Object.ImageURL != null)
+				{
+					return string.Format("<img src=\"{0}\" alt=\"Фото квартиры по адресу: {1}\" height=\"400pt\" />",
+										 Object.ImageURL, Object.Address);
+				}
+				else
+				{
+					return "<a href=\"https://www.freeiconspng.com/img/23501\" " +
+						"title=\"Image from freeiconspng.com\">" +
+						"<img src=\"https://www.freeiconspng.com/uploads/no-image-icon-24.jpg\" " +
+						"width=\"350\" alt=\"No Icon Transparent\" /></a>";
+				}
+			}
+		}
+		public string Maps
+		{
+			get
+			{
+				return Object.Address.Trim().Replace(" ", "+") + ",+Иркутск";
+			}
+		}
+		public bool Valid
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(Object.Address);
+			}
+		}
 	}
 
 	public class AgentList : EntityList<IAgent> { } // Список пользователей (Модель)
@@ -226,125 +235,158 @@ namespace RSPO
 	{
 		public new string Title = "Список агентов и клиентов";
 		public AgentListView(AgentList context) : base(context) { }
-        public AgentView AsAgentView(IAgent agent)
-        {
-            return new AgentView(agent);
-        }
-    }
+		public AgentView AsAgentView(IAgent agent)
+		{
+			return new AgentView(agent);
+		}
+	}
 
-    public class AgentView : View<IAgent>
+	public class AgentView : View<IAgent>
 	{
 		private static Dictionary<RoleEnum, string> roleEnumToRuString = ImportFromAtlcomru.roles.Reverse();
 
 		public AgentView(IAgent context) : base(context) { }
-        public string RuRole
-        {
-            get
-            {
+		public string RuRole
+		{
+			get
+			{
 				return roleEnumToRuString[context.Role];
-            }
-        }
+			}
+		}
 	}
 
-    public class LoginView : View<LoginObject>
-    {
-        public LoginView(LoginObject context, Nancy.Request request = null) : base(context)
-        {
-            this.request = request;
-        }
+	public class InvalidSession : Exception
+	{
+		public InvalidSession(string message) : base(message) { }
+	}
 
-        protected bool UserBad(string message)
-        {
-            request.Session.DeleteAll(); // Аннулировать сессию, однако...
-            request.Session["message"] = error(message+", однако.", msg:"Неуспешная идентификация");
-            return false;
-        }
+	public class LoginView : View<LoginObject>
+	{
+		public LoginView(LoginObject context, Nancy.Request request,
+						 SessionModel session) : base(context)
+		{
+			this.request = request;
+			if (session == null)
+			{
+				throw new InvalidSession("forgot to supply sesstion object");
+			}
+			this.Session = session;
+		}
 
-        public bool Process()
-        {
-            MyEntityContext ctx = Application.Context;
+		protected bool UserBad(string message)
+		{
+            string GUID = Session.GUID;
+			Session.Clear(); // Аннулировать сессию, однако...
+			Session.GUID = GUID;
+			Session["valid"] = false;
+			Session["message"] = error(message + ", однако.", msg: "Неуспешная идентификация");
+			return false;
+		}
 
-            string name = request.Form.name;
-            string phone = request.Form.phone;
+		public bool Process()
+		{
+			MyEntityContext ctx = Application.Context;
 
-            IAgent user = ctx.Agents.Where(x=>x.Name==name &&
-                                            x.Phone==phone).FirstOrDefault();
-            string register = request.Form["register"];
+			string nick = request.Form.user;
+			string phone = request.Form.phone;
+            Console.WriteLine("---> FORM:"+nick);
+			IAgent user = ctx.Agents.Where(x => x.NickName == nick).FirstOrDefault();
+			string register = request.Form["register"];
+
+            MessageModel success = null;
 
 			if (register != null && user != null)
-            {
-                request.Session.DeleteAll();
-
-                return UserBad("Пользователь уже зарегистрирован");
-            }
+			{
+				return UserBad("Пользователь уже зарегистрирован");
+			}
 			else if (register == null && user == null)
 			{
 				return UserBad("Пользователь не найден");
 			}
 			else if (register != null && user == null)
-            {
+			{
 				// FIXME: Проверки правильности данных не сделаны.
 
-                string password = request.Form.password;
-                string repeat = request.Form.repeat;
+				string password = request.Form.password;
+				string repeat = request.Form.repeat;
 
-                if (password != repeat)
-                {
-                    return UserBad("Пароли не совпадают");
-                }
+				if (password != repeat)
+				{
+					return UserBad("Пароли не совпадают");
+				}
 
-                user = ctx.Agents.Create();
-                user.Name = request.Form.firstname + " " + request.Form.surname + " " + request.Form.lastname;
-                user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
-                user.Phone = request.Form.phone;
-                user.GUID = ImportFromAtlcomru.GetGUID();
-                if (request.Form.realtor == "checked")
-                {
-                    user.Role = RoleEnum.Agent;
-                }
-                else
-                {
-                    user.Role = RoleEnum.Buyer;
-                }
-                user.NickName = request.Form.name;
-                user.Email = request.Form.email;
-                ctx.Add(user);
-                ctx.SaveChanges();
-            }
-            else // register == null && user != null
-            {
-                string password = request.Form.password;
-                if (! BCryptHelper.CheckPassword(password, user.PasswordHash))
-                {
-                    return UserBad("Неправильный пароль");
-                }
-            }
-            // К этому моменту пользователь или аутентифицирован
-            // или создан.
-            // Установить сессию.
+				user = ctx.Agents.Create();
+				user.Name = request.Form.firstname + " " + request.Form.surname + " " + request.Form.lastname;
+				user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
+				user.Phone = request.Form.phone;
+				user.GUID = ImportFromAtlcomru.GetGUID();
+				if (request.Form.realtor == "checked")
+				{
+					user.Role = RoleEnum.Agent;
+				}
+				else
+				{
+					user.Role = RoleEnum.Buyer;
+				}
+				user.NickName = nick;
+				user.Email = request.Form.email;
+				ctx.Add(user);
+				ctx.SaveChanges();
+                success = info("Теперь вы зарегистрированы в системе. Можно начинать бояться.",
+                               msg: "Успешная регистрация");
+			}
+			else // register == null && user != null
+			{
+				string password = request.Form.password;
+				if (!BCryptHelper.CheckPassword(password, user.PasswordHash))
+				{
+					return UserBad("Неправильный пароль");
+				}
+                success = info("Ну вот вы и вошли в систему.", msg: "Успешная идентикация");
 
-            // Сессии бывают двух типов
-            // 1. На время одного сеанса
-            // 2. Между сеансами.
-            // Мы будем делать 2 из 1.
-            // Т.е. в сессии типа 1 собирать (обновлять) данные
-            //      зарегистрированного пользователя.
+			}
+			// К этому моменту пользователь или аутентифицирован
+			// или создан.
+			// Установить сессию.
 
-            request.Session["message"] = info("Спокойно! Вы вошли в сисиему.", msg:"Успешная идентикация");
-            request.Session["user"] = user; // В принципе больше ничего не надо.
+			// Сессии бывают двух типов
+			// 1. На время одного сеанса
+			// 2. Между сеансами.
+			// Мы будем делать 2 из 1.
+			// Т.е. в сессии типа 1 собирать (обновлять) данные
+			//      зарегистрированного пользователя.
 
-            Console.WriteLine("Linux rulez!");
+			Session = new SessionModel(); //Создание новой сессии
+			Session["valid"] = true;
+			Session["user"] = user;   // Объект пользователя в сессии
+			Session.GUID = user.GUID; // Идентификатор сессии пользователя.
 
-            // Надо в конце рендеринга убивать сообщение.
+			Session["message"] = success;
 
-            return true;
+			Console.WriteLine("Linux rulez!");
+
+			// TODO: Еще надо сделать выход из сессии при разлогигивании. Но пока у нас нет такой команды.
+
+			return true;
+		}
+
+        public void Logout()
+        {
+            Session = new SessionModel();
+            Session["valid"] = false;
+            Session.GUID = ImportFromAtlcomru.GetGUID();
+            Session["message"] = info("Вы вышли из системы и мы про вас забыли.", "Успехов");
+            // Плохо то, что у нас будут копиться анонимные сессии.
         }
 
-        protected static string SALT="saltsaltsaltsaltsaltsalt";
+		protected static string SALT = "$2a$10$.lvjuUJj9nor/DArhPtrgu"; // BCryptHelper.GenerateSalt();
 
-        protected Nancy.Request request = null;
+		public SessionModel Session = null; // Если пользователь будет валидный, то
+											// этот объект заменится на новую сессию.
 
-        public new string Title="Идентификация пользователя";
+		protected Nancy.Request request = null;
 
-    }
+		public new string Title = "Идентификация пользователя";
+
+	}
 }
