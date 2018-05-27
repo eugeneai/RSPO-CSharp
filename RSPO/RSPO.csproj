@@ -61,9 +61,6 @@
     <StartupObject>RSPO.Application</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="alglibnet2">
-      <HintPath>libs\alglibnet2.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
@@ -78,11 +75,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="alglibinternal.cs" />
-    <Compile Include="alglibmisc.cs" />
-    <Compile Include="alglib_info.cs" />
-    <Compile Include="ap.cs" />
-    <Compile Include="dataanalysis.cs" />
     <Compile Include="ImportFromAtlcomru.cs" />
     <Compile Include="MyEntityContext.cs">
       <AutoGen>True</AutoGen>
@@ -107,11 +99,20 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Views.cs" />
     <Compile Include="ClusterAnalyzer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
+    <Compile Include="alglib\alglib_info.cs" />
+    <Compile Include="alglib\alglibinternal.cs" />
+    <Compile Include="alglib\alglibmisc.cs" />
+    <Compile Include="alglib\ap.cs" />
+    <Compile Include="alglib\dataanalysis.cs" />
+    <Compile Include="alglib\diffequations.cs" />
+    <Compile Include="alglib\fasttransforms.cs" />
+    <Compile Include="alglib\integration.cs" />
+    <Compile Include="alglib\interpolation.cs" />
+    <Compile Include="alglib\linalg.cs" />
+    <Compile Include="alglib\optimization.cs" />
+    <Compile Include="alglib\solvers.cs" />
+    <Compile Include="alglib\specialfunctions.cs" />
+    <Compile Include="alglib\statistics.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -145,6 +146,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       -->
+    <None Include="alglib\doc\manual.csharp.html" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -374,7 +376,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1' Or $(TargetFrameworkVersion) == 'v4.7.2')">
       <ItemGroup>
         <Reference Include="SharpCompress">
-          <HintPath>packages\sharpcompress\lib\net45\SharpCompress.dll</HintPath>
+          <HintPath>packages\SharpCompress\lib\net45\SharpCompress.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

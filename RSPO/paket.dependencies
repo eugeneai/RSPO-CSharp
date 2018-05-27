@@ -1,6 +1,5 @@
 source https://www.nuget.org/api/v2
 
-nuget alglib2.dll 3.10.4
 nuget BCrypt 1.0.0
 nuget BrightstarDB 1.13.3 restriction: >= net461
 nuget BrightstarDB.CodeGeneration.Console
