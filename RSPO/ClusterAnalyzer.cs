@@ -3,37 +3,75 @@ using System.Collections.Generic;
 
 namespace RSPO
 {
-	public class Analyzer<T>
+	public abstract class Analyzer<T> // Класс абстратных анализаторов
 	{
         // protected
 
-		public Analyzer() { }
-
-        public virtual bool Process()
+		public Analyzer()
         {
-            return true;
+            input = new List<T>();
         }
 
-        public void Add(T row)
+        public virtual bool Process() { return false; }
+
+        public void Add(T row) // Вообще могут быть несколько таблиц данных
+            // Т.е. матрица квартир.
+            // Матрица пользовательского выбора.
         {
             input.Add(row);
+        }
+
+        public void Clear()
+        {
+            input.Clear();
         }
 
         protected List<T> input = null;
 	}
 
-	public class ClusterAnalyzer<T> : Analyzer<T>
+	public class ClusterAnalyzer<T> : Analyzer<T> // Класс кластерных анализаторов
 	{
-		public ClusterAnalyzer() : base() { }
+		public ClusterAnalyzer() : base()
+        {
+            // Иницифлизвция кластеризатора.....
+            alglib.clusterizercreate(out state);
+        }
 
 		public override bool Process()
 		{
-			return true;
+            double[,] distances // Как создать матрицу динамически???
+                // Пока стырим пример.
+                = new double[,]{{0,3,1},{3,0,3},{1,3,0}};
+
+            alglib.clusterizersetdistances(state, distances, true);
+            alglib.clusterizerrunahc(state, out report);
+            return true;
 		}
 
-        protected alglib.clusterizerstate state;
+        protected alglib.clusterizerstate state; // Объект, выполняющий кластерный анализ
+        protected alglib.ahcreport report;       // Результат кластеризации.
+
+        public int[,] Z
+        {
+            get
+            {
+                return report.z;
+            }
+        }
 
 	}
 
+    // TODO: Реализовать анализатор рекоммендательной системы
+    // Weighted Slope One: http://www.cnblogs.com/kuber/articles/SlopeOne_CSharp.html
 
+    public class WeightedSlopeOne<T> : Analyzer<T>
+    {
+        public WeightedSlopeOne() : base() {}
+
+        public override bool Process()
+        {
+            // TODO: Тело Метода.
+            return true;
+        }
+    }
 }
