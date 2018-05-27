@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 namespace RSPO
 {
+    [Entity]
 	public interface IObjectClass
 	{
 		IObject Object { get; set; }
 		// В принципе кластер зависит от желаний юзера.
-		// IAgent Agent { get; set; } 
+		// IAgent Agent { get; set; }
 		int Cluster { get; set; } // Cluster number
 	}
 
+    [Entity]
 	public interface ILikes // An IAgent likes an IObject
 	{
 		IAgent Agent { get; set; }
