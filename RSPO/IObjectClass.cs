@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using BrightstarDB.EntityFramework;
 
 namespace RSPO
 {
-    [Entity]
+	[Entity]
 	public interface IObjectClass
 	{
 		IObject Object { get; set; }
@@ -12,7 +13,7 @@ namespace RSPO
 		int Cluster { get; set; } // Cluster number
 	}
 
-    [Entity]
+	[Entity]
 	public interface ILikes // An IAgent likes an IObject
 	{
 		IAgent Agent { get; set; }
