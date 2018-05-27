@@ -54,6 +54,10 @@ namespace RSPO
     		EntityMappingStore.Instance.SetImplMapping<RSPO.ISite, RSPO.Site>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IBuildingSeries));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IBuildingSeries, RSPO.BuildingSeries>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IObjectClass));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IObjectClass, RSPO.ObjectClass>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ILikes));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.ILikes, RSPO.Likes>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IProperty));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IProperty, RSPO.Property>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IPropertyType));
@@ -131,6 +135,8 @@ namespace RSPO
     		Regions = 	new BrightstarEntitySet<RSPO.IRegion>(this);
     		Sites = 	new BrightstarEntitySet<RSPO.ISite>(this);
     		BuildingSeriess = 	new BrightstarEntitySet<RSPO.IBuildingSeries>(this);
+    		ObjectClasss = 	new BrightstarEntitySet<RSPO.IObjectClass>(this);
+    		Likess = 	new BrightstarEntitySet<RSPO.ILikes>(this);
     		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
     		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
     	}
@@ -175,6 +181,16 @@ namespace RSPO
     		get; private set;
     	}
     	
+    	public IEntitySet<RSPO.IObjectClass> ObjectClasss
+    	{
+    		get; private set;
+    	}
+    	
+    	public IEntitySet<RSPO.ILikes> Likess
+    	{
+    		get; private set;
+    	}
+    	
     	public IEntitySet<RSPO.IProperty> Properties
     	{
     		get; private set;
@@ -210,6 +226,12 @@ namespace RSPO
             }
             if (typeof(T).Equals(typeof(RSPO.IBuildingSeries))) {
                 return (IEntitySet<T>)this.BuildingSeriess;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IObjectClass))) {
+                return (IEntitySet<T>)this.ObjectClasss;
+            }
+            if (typeof(T).Equals(typeof(RSPO.ILikes))) {
+                return (IEntitySet<T>)this.Likess;
             }
             if (typeof(T).Equals(typeof(RSPO.IProperty))) {
                 return (IEntitySet<T>)this.Properties;
@@ -594,6 +616,66 @@ namespace RSPO
     	{
             		get { return GetRelatedProperty<System.String>("Name"); }
             		set { SetRelatedProperty("Name", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class ObjectClass : BrightstarEntityObject, IObjectClass 
+    {
+    	public ObjectClass(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public ObjectClass(BrightstarEntityContext context) : base(context, typeof(ObjectClass)) { }
+    	public ObjectClass() : base() { }
+    	#region Implementation of RSPO.IObjectClass
+    
+    	public RSPO.IObject Object
+    	{
+            get { return GetRelatedObject<RSPO.IObject>("Object"); }
+            set { SetRelatedObject<RSPO.IObject>("Object", value); }
+    	}
+    
+    	public System.Int32 Cluster
+    	{
+            		get { return GetRelatedProperty<System.Int32>("Cluster"); }
+            		set { SetRelatedProperty("Cluster", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class Likes : BrightstarEntityObject, ILikes 
+    {
+    	public Likes(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public Likes(BrightstarEntityContext context) : base(context, typeof(Likes)) { }
+    	public Likes() : base() { }
+    	#region Implementation of RSPO.ILikes
+    
+    	public RSPO.IAgent Agent
+    	{
+            get { return GetRelatedObject<RSPO.IAgent>("Agent"); }
+            set { SetRelatedObject<RSPO.IAgent>("Agent", value); }
+    	}
+    
+    	public RSPO.IObject Object
+    	{
+            get { return GetRelatedObject<RSPO.IObject>("Object"); }
+            set { SetRelatedObject<RSPO.IObject>("Object", value); }
+    	}
+    
+    	public System.Double Value
+    	{
+            		get { return GetRelatedProperty<System.Double>("Value"); }
+            		set { SetRelatedProperty("Value", value); }
+    	}
+    
+    	public RSPO.OriginatingEnum Quality
+    	{
+            		get { return GetRelatedProperty<RSPO.OriginatingEnum>("Quality"); }
+            		set { SetRelatedProperty("Quality", value); }
     	}
     	#endregion
     }
