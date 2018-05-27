@@ -97,6 +97,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Views.cs" />
+    <Compile Include="ClusterAnalyzer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

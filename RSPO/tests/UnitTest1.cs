@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Nancy;
 using Nancy.Testing;
+using RSPO;
 
 namespace RSPO.tests
 {
@@ -90,7 +91,7 @@ namespace RSPO.tests
 		}
         */
 
-		
+		/*
         [Theory]
         [InlineData("all.xml")]
         public void LongImportTest(string importName)
@@ -105,7 +106,16 @@ namespace RSPO.tests
             import.Import();
             Assert.True(true);
         }
-        
+        */
+
+        [Fact]
+        public void Hierarchical_Clustering()
+        {
+            ClusterAnalyzer a = new ClusterAnalyzer();
+            bool res = a.Process();
+            Assert.True(true);
+        }
+
         /*
 		[Fact]
 		public void Should_return_status_ok_when_route_exists()

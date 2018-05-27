@@ -1,5 +1,6 @@
 NUGET
   remote: https://www.nuget.org/api/v2
+    alglib2.dll (3.10.4)
     BCrypt (1.0)
     BrightstarDB (1.13.3) - restriction: >= net461
       BrightstarDBLibs (>= 1.13.3)
