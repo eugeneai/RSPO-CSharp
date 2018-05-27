@@ -113,7 +113,7 @@ namespace RSPO.tests
 		public void Hierarchical_Clustering()
 		{
 			// Квартирный кластерный анализатор
-			a = new FlatClusterAnalyzer<IAgent>();
+			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster();
 			bool res = a.Process();
 			Console.Write("--Cluster-> ");
 			Console.WriteLine(a.Z);
@@ -172,6 +172,14 @@ namespace RSPO.tests
 			//                      5      6      7      8
 			// In our example, Z=[[2,4], [0,1], [3,6], [5,7]]
 			//                     2 4    0 1    3
+            //                   0       1      2      3 = индексы массива
+            //                 m=  5 5    7 7    7
+            //                                  ^ index=2
+            //              upto=3 - (2-1) = 2
+            //             Count=4               3<Count -> [3]=index+Count = 2+4-1 = 7
+            //           cluster=2
+            //           Нужна рекурсия, если двигаться сверху-вниз
+            //           Если наоборот?
 			//
 			// It means that:
 			// * first, we merge C2=(P2) and C4=(P4),    and create C5=(P2,P4)
@@ -181,14 +189,15 @@ namespace RSPO.tests
 			//
 			// Thus, we have following dendrogram:
 			//
-			//      ------8-----
+			//      ------8-----  cluster = 2 значит... туплю... завтра продолжим.
 			//      |          |
 			//      |      ----7----
 			//      |      |       |
 			//   ---5---   |    ---6---
 			//   |     |   |    |     |
 			//   P2   P4   P3   P0   P1
-			//
+			//   5    5    7    0    0
+            //
 			System.Console.WriteLine("{0}", alglib.ap.format(rep.z)); // EXPECTED: [[2,4],[0,1],[3,6],[5,7]]
 
 			//

@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace RSPO
 {
-    public class FlatClusterAnalyser : ClusterAnalyzer<IObject>
+    public class FlatClusterAnalyzer : ClusterAnalyzer<IObject>
     {
-        public FlatClusterAnalyser() : base() {}
+        public FlatClusterAnalyzer() : base() {}
 
         protected double diff(double a, double b)
         {
@@ -137,9 +137,9 @@ namespace RSPO
             return rate;
         }
 
-        public  FlatClusterAnalyser AnalyzeFlatWithCluster()
+        public static FlatClusterAnalyzer AnalyzeFlatWithCluster()
         {
-            FlatClusterAnalyser fca = new FlatClusterAnalyser();
+            FlatClusterAnalyzer fca = new FlatClusterAnalyzer();
             MyEntityContext ctx = Application.Context;
 
             foreach (IObject o in ctx.Agents)
@@ -153,9 +153,39 @@ namespace RSPO
             return fca;
         }
 
+        public int[] Marks(int clusters)
+        {
+            int [] m = new int[Count];
+
+            // Надо вычислить наивысшую точку соединения в дереве, где
+            // наш объект засвечивается как поддерево.
+
+            int [,] z = (int[,]) Z.Clone();
+            int upto = z.Length - (clusters - 1);
+            int objs = Count; // Первые Count объектов - это квартиры.
+            int index = upto - objs;
+
+
+
+            return m;
+        }
+
+
+
         // Сохранить результат в базе данных
 
-        // В винде сейчас перегенерю БД.
+        public bool Store(int [] marks)
+            // Параметр задает, на какое кол-во кластеров разделять
+            // квартиры
+        {
+
+            return true; // Фиг знает... Зайду на конференцию.. Надо делать
+            // презентацию ... генерит...
+            // ну дык. я один не справляюсь. да норм все будет.
+            // НЕ генерит пока не скомпилируется...
+        }
+
+        // В винде сейчас перегенерю БД. // грузится ...
     }
 
     public class ProcessingException : Exception
