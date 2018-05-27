@@ -25,6 +25,6 @@ namespace RSPO
 	{
 		Measured,  // Изерено
 		Evaluated, // Вычислено
-		Set // Устанвлено вручную
+		Set // Установлено вручную
 	}
 }
