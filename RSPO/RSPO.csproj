@@ -12,6 +12,7 @@
     <AssemblyName>RSPO</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +61,9 @@
     <StartupObject>RSPO.Application</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="alglibnet2">
+      <HintPath>libs\alglibnet2.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
@@ -69,11 +72,17 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="alglibinternal.cs" />
+    <Compile Include="alglibmisc.cs" />
+    <Compile Include="alglib_info.cs" />
+    <Compile Include="ap.cs" />
+    <Compile Include="dataanalysis.cs" />
     <Compile Include="ImportFromAtlcomru.cs" />
     <Compile Include="MyEntityContext.cs">
       <AutoGen>True</AutoGen>
@@ -365,7 +374,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1' Or $(TargetFrameworkVersion) == 'v4.7.2')">
       <ItemGroup>
         <Reference Include="SharpCompress">
-          <HintPath>packages\SharpCompress\lib\net45\SharpCompress.dll</HintPath>
+          <HintPath>packages\sharpcompress\lib\net45\SharpCompress.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

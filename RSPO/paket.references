@@ -14,6 +14,7 @@ ICSharpCode.NRefactory
 System.Xml.XDocument
 VDS.Common
 BCrypt
+alglib2.dll
 xunit
 xunit.abstractions
 xunit.analyzers

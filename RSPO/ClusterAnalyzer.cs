@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using alglib;
 
 namespace RSPO
 {
@@ -32,7 +31,7 @@ namespace RSPO
 			return true;
 		}
 
-        protected clusterizerstate state;
+        protected alglib.clusterizerstate state;
 
 	}
 

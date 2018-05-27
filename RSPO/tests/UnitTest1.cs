@@ -111,7 +111,7 @@ namespace RSPO.tests
         [Fact]
         public void Hierarchical_Clustering()
         {
-            ClusterAnalyzer a = new ClusterAnalyzer();
+            ClusterAnalyzer<IAgent> a = new ClusterAnalyzer<IAgent>();
             bool res = a.Process();
             Assert.True(true);
         }
