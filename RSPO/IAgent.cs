@@ -29,6 +29,7 @@ namespace RSPO
         Agent,
         Owner,
         Buyer,
+        Expert,
         Invalid
     }
 

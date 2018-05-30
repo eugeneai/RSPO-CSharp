@@ -200,7 +200,7 @@ namespace RSPO
 
             ctx.ClassNames.ToList().ForEach(ctx.DeleteObject);
 
-            for(int i=0; i<k; i++)
+            for(int i=0; i<k; i++) // Заготовки имен кластеров.
             {
                 IClassName cn = ctx.ClassNames.Create();
                 cn.Name=i.ToString();

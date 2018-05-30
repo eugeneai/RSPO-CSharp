@@ -125,6 +125,7 @@ namespace RSPO
 
             Get["/clus"] = parameters =>
                 {
+                    RestoreSession();
                     var ut = new RSPO.tests.UnitTest1();
                     ut.Hierarchical_Clustering();
                     return "ok";

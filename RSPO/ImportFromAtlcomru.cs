@@ -385,6 +385,7 @@ namespace RSPO
             {"агентство" , RoleEnum.Agent},
             {"покупатель" , RoleEnum.Buyer},
             {"неизвестный" , RoleEnum.Unknown},
+            {"эксперт" , RoleEnum.Expert},
             {"неправильный" , RoleEnum.Invalid}
         };
 
