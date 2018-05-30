@@ -56,6 +56,8 @@ namespace RSPO
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IBuildingSeries, RSPO.BuildingSeries>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IObjectClass));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.IObjectClass, RSPO.ObjectClass>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IClassName));
+    		EntityMappingStore.Instance.SetImplMapping<RSPO.IClassName, RSPO.ClassName>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.ILikes));
     		EntityMappingStore.Instance.SetImplMapping<RSPO.ILikes, RSPO.Likes>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(RSPO.IProperty));
@@ -136,6 +138,7 @@ namespace RSPO
     		Sites = 	new BrightstarEntitySet<RSPO.ISite>(this);
     		BuildingSeriess = 	new BrightstarEntitySet<RSPO.IBuildingSeries>(this);
     		ObjectClasss = 	new BrightstarEntitySet<RSPO.IObjectClass>(this);
+    		ClassNames = 	new BrightstarEntitySet<RSPO.IClassName>(this);
     		Likess = 	new BrightstarEntitySet<RSPO.ILikes>(this);
     		Properties = 	new BrightstarEntitySet<RSPO.IProperty>(this);
     		PropertyTypes = 	new BrightstarEntitySet<RSPO.IPropertyType>(this);
@@ -186,6 +189,11 @@ namespace RSPO
     		get; private set;
     	}
     	
+    	public IEntitySet<RSPO.IClassName> ClassNames
+    	{
+    		get; private set;
+    	}
+    	
     	public IEntitySet<RSPO.ILikes> Likess
     	{
     		get; private set;
@@ -229,6 +237,9 @@ namespace RSPO
             }
             if (typeof(T).Equals(typeof(RSPO.IObjectClass))) {
                 return (IEntitySet<T>)this.ObjectClasss;
+            }
+            if (typeof(T).Equals(typeof(RSPO.IClassName))) {
+                return (IEntitySet<T>)this.ClassNames;
             }
             if (typeof(T).Equals(typeof(RSPO.ILikes))) {
                 return (IEntitySet<T>)this.Likess;
@@ -640,6 +651,30 @@ namespace RSPO
     	{
             		get { return GetRelatedProperty<System.Int32>("Cluster"); }
             		set { SetRelatedProperty("Cluster", value); }
+    	}
+    	#endregion
+    }
+}
+namespace RSPO 
+{
+    
+    public partial class ClassName : BrightstarEntityObject, IClassName 
+    {
+    	public ClassName(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public ClassName(BrightstarEntityContext context) : base(context, typeof(ClassName)) { }
+    	public ClassName() : base() { }
+    	#region Implementation of RSPO.IClassName
+    
+    	public System.Int32 Cluster
+    	{
+            		get { return GetRelatedProperty<System.Int32>("Cluster"); }
+            		set { SetRelatedProperty("Cluster", value); }
+    	}
+    
+    	public System.String Name
+    	{
+            		get { return GetRelatedProperty<System.String>("Name"); }
+            		set { SetRelatedProperty("Name", value); }
     	}
     	#endregion
     }
