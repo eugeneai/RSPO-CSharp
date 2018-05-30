@@ -62,10 +62,37 @@ namespace RSPO
 
             // Капец. Привык, что все динамично.
 
+            Console.WriteLine("->Doing clustering.");
             alglib.clusterizersetdistances(state, distances, true);
+            Console.WriteLine("->Retrieveing result.");
             alglib.clusterizerrunahc(state, out report);
+            Console.WriteLine("Done clustering.");
             return true;
 		}
+
+        protected int[] cidx;
+        protected int[] cz;
+
+        public int[] Cidx
+        {
+            get
+            {
+                return cidx;
+            }
+        }
+
+        public int[] Cz
+        {
+            get
+            {
+                return cz;
+            }
+        }
+
+        public void PrepareClusters(int k)
+        {
+            alglib.clusterizergetkclusters(report, k, out cidx, out cz);
+        }
 
         protected alglib.clusterizerstate state; // Объект, выполняющий кластерный анализ
         protected alglib.ahcreport report;       // Результат кластеризации.
@@ -80,13 +107,24 @@ namespace RSPO
 
         protected void prepareDistMatrix(double[,] m)
         {
+            Console.WriteLine("->Constructing dissimilarity matrix.");
             foreach (var o1 in input.Select((v, i) => new {v,i})) // Верхний объект
             {
+                Console.WriteLine(" "+o1.i);
                 foreach(var o2 in input.Select((v, i) => new {v,i})) // Левый объект
                 {
                     double v = compare(o1.v,o2.v);
                     m[o1.i, o2.i] = v;
                 }
+            }
+            Console.WriteLine("Done.");
+            for (var row=0; row<Count; row++)
+            {
+                for (var col=0; col<Count; col++)
+                {
+                    Console.Write(""+m[row,col]+" ");
+                }
+                Console.WriteLine();
             }
         }
 

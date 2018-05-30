@@ -13,6 +13,13 @@ namespace RSPO
 		int Cluster { get; set; } // Cluster number
 	}
 
+    [Entity]
+    public interface IClassName
+    {
+        int Cluster { get; set; }
+        string Name { get; set; }
+    }
+
 	[Entity]
 	public interface ILikes // An IAgent likes an IObject
 	{

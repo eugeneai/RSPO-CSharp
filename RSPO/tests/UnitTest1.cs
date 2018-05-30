@@ -113,10 +113,11 @@ namespace RSPO.tests
 		public void Hierarchical_Clustering()
 		{
 			// Квартирный кластерный анализатор
-			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster();
+			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(500);
 			bool res = a.Process();
+            a.PrepareClusters(5);
 			Console.Write("--Cluster-> ");
-			Console.WriteLine(a.Z);
+			Console.WriteLine(a.Cidx);
 			Assert.True(true);
 		}
 
@@ -271,6 +272,53 @@ namespace RSPO.tests
 			Assert.True(true); // По-хорошему надо сюда вставлять сравнения того, что получилось
 							   // С тем, что хотели получить. А мы тут просто пишем, что все хорошо.
 		}
+
+        [Fact]
+
+        public void test_K_clusres_from_tree()
+        {
+            //
+            // We have a set of points in 2D space:
+            //     (P0,P1,P2,P3,P4) = ((1,1),(1,2),(4,1),(2,3),(4,1.5))
+            //
+            //  |
+            //  |     P3
+            //  |
+            //  | P1
+            //  |             P4
+            //  | P0          P2
+            //  |-------------------------
+            //
+            // We perform Agglomerative Hierarchic Clusterization (AHC) and we want
+            // to get top K clusters from clusterization tree for different K.
+            //
+            Console.WriteLine("--- Testing K cluster ----");
+            alglib.clusterizerstate s;
+            alglib.ahcreport rep;
+            double[,] xy = new double[,]{{1,1},{1,2},{4,1},{2,3},{4,1.5}};
+            int[] cidx;
+            int[] cz;
+
+            alglib.clusterizercreate(out s);
+            alglib.clusterizersetpoints(s, xy, 2);
+            alglib.clusterizerrunahc(s, out rep);
+
+            // with K=5, every points is assigned to its own cluster:
+            // C0=P0, C1=P1 and so on...
+            alglib.clusterizergetkclusters(rep, 5, out cidx, out cz);
+            System.Console.WriteLine("{0}", alglib.ap.format(cidx)); // EXPECTED: [0,1,2,3,4]
+
+            // with K=1 we have one large cluster C0=[P0,P1,P2,P3,P4,P5]
+            alglib.clusterizergetkclusters(rep, 1, out cidx, out cz);
+            System.Console.WriteLine("{0}", alglib.ap.format(cidx)); // EXPECTED: [0,0,0,0,0]
+
+            // with K=3 we have three clusters C0=[P3], C1=[P2,P4], C2=[P0,P1]
+            alglib.clusterizergetkclusters(rep, 3, out cidx, out cz);
+            System.Console.WriteLine("{0}", alglib.ap.format(cidx)); // EXPECTED: [2,2,1,0,1]
+            // System.Console.ReadLine();
+            Assert.True(true);
+
+        }
 
 		/*
 		[Fact]

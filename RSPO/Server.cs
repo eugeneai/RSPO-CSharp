@@ -122,6 +122,13 @@ namespace RSPO
 
 				return Render("login.pt", context: model, view: view);
 			};
+
+            Get["/clus"] = parameters =>
+                {
+                    var ut = new RSPO.tests.UnitTest1();
+                    ut.Hierarchical_Clustering();
+                    return "ok";
+                };
 		}
 
 		protected static string IN_SESSION_COOKIE_NAME = "_rspo_state";
