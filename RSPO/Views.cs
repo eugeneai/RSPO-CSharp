@@ -161,13 +161,14 @@ namespace RSPO
     {
         protected int? clid = null;
 
-        public OfferList(int? clid)
+		public OfferList(int? clid) : base(update: false)
         {
             this.clid = clid;
+			Update();
         }
 
         protected List<IObjectClass> objectClasses = null;
-        protected List<IOffer> objects = null;
+        protected List<IOffer> offers = null;
 
         public override void Update()
         {
@@ -178,15 +179,20 @@ namespace RSPO
             else
             {
                 prepareLists();
-                objectQuery = objects.Where(filter);
+                objectQuery = offers.Where(filter);
             }
         }
 
         public void prepareLists()
         {
             MyEntityContext ctx = Application.Context;
-            objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid);
-
+            objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid).ToList();
+            offers = new List<IOffer>();
+            foreach (IObjectClass oc in objectClasses)
+            {
+                IOffer offer = ctx.Offers.Where(x=>x.Object.GUID == oc.Object.GUID).FirstOrDefault();
+                offers.Add(offer);
+            }
         }
     }
 

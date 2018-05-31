@@ -36,7 +36,7 @@ namespace RSPO
 			Get["/offers"] = parameters =>
 			{
 				RestoreSession();
-				OfferList model = new OfferList();
+				OfferList model = new OfferList(null);
 				OfferListView view = new OfferListView(model);
 				return Render("offerlist.pt", context: model, view: view);
 			};
@@ -198,7 +198,15 @@ namespace RSPO
 
 		protected void RestoreSession()
 		{
-			string value = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
+            string value = "";
+            try
+            {
+                value = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
+            }
+            catch (KeyNotFoundException)
+            {
+                value = "";
+            }
 
 			CurrentSession = new SessionModel();
 			CurrentSession["valid"] = false;
