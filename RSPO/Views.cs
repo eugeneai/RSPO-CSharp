@@ -51,6 +51,7 @@ namespace RSPO
 					menu("Главная", "/"),
 					menu("Предложения", "/offers"),
 					menu("Агенты", "/agents"),
+					menu("Анализ", "/analysis"),
                 };
                 if (session.Valid)
                 {
@@ -156,7 +157,38 @@ namespace RSPO
 	///   Список предложений.
 	/// </summary>
 
-	public class OfferList : EntityList<IOffer> { } // Список предложений (Модель)
+	public class OfferList : EntityList<IOffer> // Список предложений (Модель)
+    {
+        protected int? clid = null;
+
+        public OfferList(int? clid)
+        {
+            this.clid = clid;
+        }
+
+        protected List<IObjectClass> objectClasses = null;
+        protected List<IOffer> objects = null;
+
+        public override void Update()
+        {
+            if (clid == null)
+            {
+                base.Update();
+            }
+            else
+            {
+                prepareLists();
+                objectQuery = objects.Where(filter);
+            }
+        }
+
+        public void prepareLists()
+        {
+            MyEntityContext ctx = Application.Context;
+            objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid);
+
+        }
+    }
 
 	public class OfferListView : EntityListView<OfferList> // Представление (View) для списка предложений.
 	{

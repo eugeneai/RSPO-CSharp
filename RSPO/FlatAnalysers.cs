@@ -194,9 +194,13 @@ namespace RSPO
             foreach (var cl in Cidx.Select((c, i) => new {c,i}))
             {
                 IObjectClass c = ctx.ObjectClasss.Create();
-                c.Cluster = cl.i;
-                c.Object = input[cl.i];
+                c.Cluster = cl.c;
+                IObject ob = input[cl.i];
+                c.Object = ob;
+                Console.WriteLine("ob:"+ob.GUID+"->"+cl.c+"["+cl.i+"]");
             }
+
+            ctx.SaveChanges();
 
             ctx.ClassNames.ToList().ForEach(ctx.DeleteObject);
 

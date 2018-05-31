@@ -20,7 +20,7 @@ namespace RSPO
 				RestoreSession();
 				ApplicationModel appModel = new ApplicationModel(Application.APPLICATION_NAME);
 				return Render("index.pt", context: appModel,
-                              view: new ApplicationView(appModel, CurrentSession));
+							  view: new ApplicationView(appModel, CurrentSession));
 			};
 
 			Get["/objs"] = parameters => // Это страница сайта с квартирами.
@@ -37,6 +37,15 @@ namespace RSPO
 			{
 				RestoreSession();
 				OfferList model = new OfferList();
+				OfferListView view = new OfferListView(model);
+				return Render("offerlist.pt", context: model, view: view);
+			};
+
+			Get["/offers/{clid}"] = parameters =>
+			{
+                int clid = int.Parse(parameters.clid);
+				RestoreSession();
+				OfferList model = new OfferList(clid:clid);
 				OfferListView view = new OfferListView(model);
 				return Render("offerlist.pt", context: model, view: view);
 			};
@@ -117,31 +126,64 @@ namespace RSPO
 
 				// return View["login.pt", testModel]; // Оставим для истории.
 				// Это, к стати правильный вариант отрисовки по шаблону.
-                view.Logout();
-                CurrentSession = view.Session;
+				view.Logout();
+				CurrentSession = view.Session;
 
 				return Render("login.pt", context: model, view: view);
 			};
 
-            Get["/clus"] = parameters =>
-                {
-                    RestoreSession();
-                    var ut = new RSPO.tests.UnitTest1();
-                    ut.Hierarchical_Clustering();
-                    return "ok";
-                };
+			Post["/clustering"] = parameters =>
+				{
+					RestoreSession();
+
+					Response response = null;
+
+					int num = 0;
+					try
+					{
+						num = int.Parse(this.Request.Form.max);
+						int clnum = 5;
+						FlatClusterAnalyzer a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(num);
+						bool res = a.Process();
+						a.Store(clnum);
+
+						CurrentSession["message"] = info("Обработано для " + num + " квартир, " + clnum + " кластеров",
+													   msg: "Успешный запуск");
+						CurrentSession["analysis_data"] = a;
+					}
+					catch (FormatException)
+					{
+						CurrentSession["message"] = error("Неправильное число квартир", msg: "Неуспешный запуск");
+					}
+
+					response = Response.AsRedirect("/analysis");
+					return InSession(response);
+				};
+
+			Get["/analysis"] = parameters =>
+			{
+				RestoreSession();
+				ClusterList model = new ClusterList();
+				ClusterListView view = new ClusterListView(model);
+				return Render("clusters.pt", context: model, view: view);
+			};
+
 		}
 
 		protected static string IN_SESSION_COOKIE_NAME = "_rspo_state";
 
 		public static Dictionary<string, SessionModel> activeSessions = new Dictionary<string, SessionModel>();
 
+
+		protected Nancy.Response InSession(Nancy.IResponseFormatter response = null)
+		{
+			if (response == null) response = this.Response;
+			return InSession((Nancy.Response)response);
+		}
+
 		protected Nancy.Response InSession(Nancy.Response response = null)
 		{
-			if (response == null)
-			{
-				response = (Nancy.Response)Response;
-			}
+			if (response == null) throw new RenderException("null response object");
 
 			if (String.IsNullOrEmpty(CurrentSession.GUID))
 			{
@@ -186,6 +228,17 @@ namespace RSPO
 				// Пусть будет беспонтовая анонимная новая сессия.
 			}
 		}
+
+		public static MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)
+		{
+			return new MessageModel(message, msg, alert);
+		}
+
+		public static MessageModel error(string message = null, string msg = "", AlertType alert = AlertType.Danger)
+		{
+			return info(message, msg, alert);
+		}
+
 
 		public SessionModel CurrentSession = null;
 
@@ -323,7 +376,7 @@ namespace RSPO
 		// <T>. Вместо T подставляется тип или интерфейс элемента.
 	{
 		public static int DEFAULT_SIZE = 50; // 50 из 5200 прим.
-		private Func<T, bool> filter = null;
+		protected Func<T, bool> filter = null;
 		private int start = 0, size = DEFAULT_SIZE;
 
 		public EntityList(Func<T, bool> filter = null, bool update = true)
@@ -347,7 +400,7 @@ namespace RSPO
 			}
 		}
 
-		private IEnumerable<T> objectQuery = null;
+		protected IEnumerable<T> objectQuery = null;
 
 		public int Size
 		{
@@ -370,7 +423,7 @@ namespace RSPO
 			this.size = size;
 		}
 
-		public void Update()
+		public virtual void Update()
 		{
 			// Здесь сделаем запрос и присвоим objects список - результат запроса.
 			MyEntityContext ctx = Application.Context;
@@ -390,15 +443,16 @@ namespace RSPO
 
 		protected View() { }
 
-		protected MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)
+		public static MessageModel error(string message = null, string msg = "", AlertType alert = AlertType.Danger)
 		{
-			return new MessageModel(message, msg, alert);
+			return WebModule.error(message, msg, alert);
 		}
 
-		protected MessageModel error(string message = null, string msg = "", AlertType alert = AlertType.Danger)
+		public static MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)
 		{
-			return info(message, msg, alert);
+			return WebModule.info(message, msg, alert);
 		}
+
 	}
 
 

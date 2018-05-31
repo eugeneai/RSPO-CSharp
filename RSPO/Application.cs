@@ -40,8 +40,6 @@ namespace RSPO
 			host.Stop();  // stop hosting
 		}
 
-
-
 		public static string GenerateHash(string input)
 		{
 			return input;

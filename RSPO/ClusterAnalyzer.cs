@@ -150,4 +150,20 @@ namespace RSPO
 
         public DataSet<T2> Choices = new DataSet<T2>();
     }
+
+    public class ClusterList : EntityList<IClassName> { }
+
+    public class ClusterListView : EntityListView<ClusterList>
+    {
+        public ClusterListView(ClusterList context): base (context) {}
+
+        public int CountObjects(IClassName o)
+        {
+            MyEntityContext ctx = Application.Context;
+            Console.Write("Query for count:"+o.Cluster+"("+o.Name+") objs:");
+            int num = ctx.ObjectClasss.Where(x=>x.Cluster==o.Cluster).Count();
+            Console.WriteLine(num);
+            return num;
+        }
+    }
 }
