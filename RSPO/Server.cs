@@ -43,9 +43,9 @@ namespace RSPO
 
 			Get["/offers/{clid}"] = parameters =>
 			{
-                int clid = int.Parse(parameters.clid);
+				int clid = int.Parse(parameters.clid);
 				RestoreSession();
-				OfferList model = new OfferList(clid:clid);
+				OfferList model = new OfferList(clid: clid);
 				OfferListView view = new OfferListView(model);
 				return Render("offerlist.pt", context: model, view: view);
 			};
@@ -144,7 +144,6 @@ namespace RSPO
 						num = int.Parse(this.Request.Form.max);
 						int clnum = 5;
 						FlatClusterAnalyzer a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(num);
-						bool res = a.Process();
 						a.Store(clnum);
 
 						CurrentSession["message"] = info("Обработано для " + num + " квартир, " + clnum + " кластеров",
@@ -168,6 +167,32 @@ namespace RSPO
 				return Render("clusters.pt", context: model, view: view);
 			};
 
+			Post["/analysis"] = parameters =>
+				{
+					RestoreSession();
+					ClusterList model = new ClusterList();
+					ClusterListView view = new ClusterListView(model);
+					FlatClusterAnalyzer analyzer = null;
+					var form = this.Request.Form;
+					if (form.reconstruct != null)
+					{
+						try
+						{
+							analyzer = (FlatClusterAnalyzer)CurrentSession["analysis_data"];
+							int k = int.Parse(form.numclusters);
+							Console.WriteLine("---> K=" + k);
+							analyzer.Store(k);
+							CurrentSession["message"] = info("Произведена перестройка кластера", msg: "Удачное завершение операции");
+						}
+						catch
+						{
+							// В сессии нет данных по кластеру.
+							CurrentSession["message"] = error("Похоже кластер не рассчитан", msg: "Неудачная операция");
+
+						}
+					}
+					return InSession(Response.AsRedirect("/analysis"));
+				};
 		}
 
 		protected static string IN_SESSION_COOKIE_NAME = "_rspo_state";
@@ -198,15 +223,15 @@ namespace RSPO
 
 		protected void RestoreSession()
 		{
-            string value = "";
-            try
-            {
-                value = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
-            }
-            catch (KeyNotFoundException)
-            {
-                value = "";
-            }
+			string value = "";
+			try
+			{
+				value = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
+			}
+			catch (KeyNotFoundException)
+			{
+				value = "";
+			}
 
 			CurrentSession = new SessionModel();
 			CurrentSession["valid"] = false;
@@ -385,7 +410,7 @@ namespace RSPO
 	{
 		public static int DEFAULT_SIZE = 50; // 50 из 5200 прим.
 		protected Func<T, bool> filter = null;
-		private int start = 0, size = DEFAULT_SIZE;
+		protected int start = 0, size = DEFAULT_SIZE;
 
 		public EntityList(Func<T, bool> filter = null, bool update = true)
 		{

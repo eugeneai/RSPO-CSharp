@@ -186,7 +186,7 @@ namespace RSPO
         public void prepareLists()
         {
             MyEntityContext ctx = Application.Context;
-            objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid).ToList();
+            objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid).Skip(start).Take(size).ToList();
             offers = new List<IOffer>();
             foreach (IObjectClass oc in objectClasses)
             {

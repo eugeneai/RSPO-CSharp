@@ -118,6 +118,7 @@ namespace RSPO
                 }
             }
             Console.WriteLine("Done.");
+            /* // Печать матрицы различий
             for (var row=0; row<Count; row++)
             {
                 for (var col=0; col<Count; col++)
@@ -126,6 +127,7 @@ namespace RSPO
                 }
                 Console.WriteLine();
             }
+            */
         }
 
         protected virtual double compare(T v1, T v2)
