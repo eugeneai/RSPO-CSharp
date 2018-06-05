@@ -210,21 +210,16 @@ namespace RSPO
 		{
 			if (response == null) throw new RenderException("null response object");
 
-			if (String.IsNullOrEmpty(CurrentSession.GUID))
-			{
-				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
-				CurrentSession["valid"] = "false";
-			}
-
+            bool a = CurrentSession.Valid; // Этот запуск свойства создвет анонима в анонимной сессии.
 			activeSessions[CurrentSession.GUID] = CurrentSession;
 
-			return response.WithCookie(IN_SESSION_COOKIE_NAME, CurrentSession.GUID);
+			return response.WithCookie(IN_SESSION_COOKIE_NAME, CurrentSession.GUID, DateTime.Today.AddYears(1));
+            // Установить "исчезновение" куки на один год вперед.
 		}
 
 		protected void RestoreSession()
 		{
             MyEntityContext ctx = Application.Context;
-            IAgent user = null;
 
 			string value = "";
 			try
@@ -236,31 +231,16 @@ namespace RSPO
 				value = "";
 			}
 
-			CurrentSession = new SessionModel();
-			CurrentSession["valid"] = false;
-            object ouser = null;
-
 			try
 			{
-				CurrentSession = activeSessions[value]; // По идее там будет где-то пользователь.
-				// Сессия валидна, если оттуда можно вытащить пользователя.
-
-				CurrentSession.GUID = value;
-                if (ouser!=null) return;
+				CurrentSession = activeSessions[value];
 			}
 			catch (System.Collections.Generic.KeyNotFoundException)
 			{
-				// Неизвестная или пустая сессия
-				// Возвращяем невалидную сессию по умолчанию
+                CurrentSession = new SessionModel();
 				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
 			}
-            user = ctx.Agents.Create();
-            user.GUID = CurrentSession.GUID;
-            user.Role = RoleEnum.Unknown;
-            ctx.Add(user);
-            ctx.SaveChanges();
-            CurrentSession["user"] = user;
-            // FIXME: Assert to chexk user mandatory existance.
+            bool a = CurrentSession.Valid;
 		}
 
 		public static MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)
@@ -339,20 +319,9 @@ namespace RSPO
 				message = (MessageModel)omessage;
 			}
 
-			IAgent user = null;
-			object ouser = null;
-			bool buser = CurrentSession.TryGetValue("user", out ouser);
-			if (!buser)
-			{
-				user = new InvalidUser();
-			}
-			else
-			{
-				user = (IAgent)ouser;
-			}
-
 			dict.Add("message", message);
-			dict.Add("user", user);
+			dict.Add("user", CurrentSession.Agent); // DEPRECATING: Remove it
+			dict.Add("agent", CurrentSession.Agent);
 			dict.Add("nothing", "");
 
 			string result = template.Render(dict);

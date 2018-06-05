@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using DevOne.Security.Cryptography.BCrypt;
-using Nancy.Session;
 
 namespace RSPO
 {
@@ -313,10 +312,7 @@ namespace RSPO
 
 		protected bool UserBad(string message)
 		{
-            string GUID = Session.GUID;
-			Session.Clear(); // Аннулировать сессию, однако...
-			Session.GUID = GUID;
-			Session["valid"] = false;
+			Session.Invalidate();
 			Session["message"] = error(message + ", однако.", msg: "Неуспешная идентификация");
 			return false;
 		}
@@ -395,8 +391,7 @@ namespace RSPO
 			//      зарегистрированного пользователя.
 
 			Session = new SessionModel(); //Создание новой сессии
-			Session["valid"] = true;
-			Session["user"] = user;   // Объект пользователя в сессии
+			Session.Agent= user;   // Объект пользователя в сессии
 			Session.GUID = user.GUID; // Идентификатор сессии пользователя.
 
 			Session["message"] = success;
@@ -410,11 +405,8 @@ namespace RSPO
 
         public void Logout()
         {
-            Session = new SessionModel();
-            Session["valid"] = false;
-            Session.GUID = ImportFromAtlcomru.GetGUID();
-            Session["message"] = info("Вы вышли из системы и мы про вас забыли.", "Успехов");
-            // Плохо то, что у нас будут копиться анонимные сессии.
+            Session.Invalidate();
+            Session["message"] = info("Вы вышли из системы и мы про вас почти забыли.", "Успехов");
         }
 
 		protected static string SALT = "$2a$10$.lvjuUJj9nor/DArhPtrgu"; // BCryptHelper.GenerateSalt();
