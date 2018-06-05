@@ -233,7 +233,7 @@ namespace RSPO
 
 			try
 			{
-				CurrentSession = activeSessions[value];
+				CurrentSession = activeSessions[value]; // яблоко заработал.
 			}
 			catch (System.Collections.Generic.KeyNotFoundException)
 			{

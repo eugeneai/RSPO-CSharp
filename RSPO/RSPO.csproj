@@ -169,6 +169,7 @@
     <Compile Include="alglib\statistics.cs" />
     <Compile Include="FlatAnalysers.cs" />
     <Compile Include="IObjectClass.cs" />
+    <Compile Include="SlopeOne.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
