@@ -76,14 +76,6 @@ namespace RSPO
     {
         public SessionModel(): base() {}
 
-        public bool Valid
-        {
-            get
-            {
-                return this["valid"] != null;
-            }
-        }
-
         public string GUID
         {
             set
@@ -96,5 +88,27 @@ namespace RSPO
                 return (string) this["GUID"];
             }
         }
+
+        public bool Valid // Переделываем объект-сессию.
+        {
+            get
+            {
+                object o;
+                try
+                {
+                    o = this["user"];
+                }
+                catch (System.Collections.Generic.KeyNotFoundException)
+                {
+                    return false;
+                }
+
+                if (o == null) return false;
+                IAgent a = (IAgent) o;
+                return a.Role!=RoleEnum.Invalid && a.Role != RoleEnum.Unknown;
+            }
+        }
+
+
     }
 }

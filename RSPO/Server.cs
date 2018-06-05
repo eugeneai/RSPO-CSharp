@@ -184,7 +184,7 @@ namespace RSPO
 							analyzer.Store(k);
 							CurrentSession["message"] = info("Произведена перестройка кластера", msg: "Удачное завершение операции");
 						}
-						catch
+						catch (System.Collections.Generic.KeyNotFoundException)
 						{
 							// В сессии нет данных по кластеру.
 							CurrentSession["message"] = error("Похоже кластер не рассчитан", msg: "Неудачная операция");
@@ -223,6 +223,9 @@ namespace RSPO
 
 		protected void RestoreSession()
 		{
+            MyEntityContext ctx = Application.Context;
+            IAgent user = null;
+
 			string value = "";
 			try
 			{
@@ -235,31 +238,29 @@ namespace RSPO
 
 			CurrentSession = new SessionModel();
 			CurrentSession["valid"] = false;
+            object ouser = null;
 
-			if (String.IsNullOrEmpty(value))
-			{
-				// Сессия не устанвлена, т.е. пользователь не зарегистрирован
-				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
-				// Сделать сессии идентификатор.
-				return;
-			}
 			try
 			{
 				CurrentSession = activeSessions[value]; // По идее там будет где-то пользователь.
-				object ouser = null;
-				CurrentSession["valid"] = CurrentSession.TryGetValue("user", out ouser);
 				// Сессия валидна, если оттуда можно вытащить пользователя.
-				CurrentSession["valid"] = ouser != null;
-				CurrentSession["GUID"] = value;
-				return;
+
+				CurrentSession.GUID = value;
+                if (ouser!=null) return;
 			}
 			catch (System.Collections.Generic.KeyNotFoundException)
 			{
-				// Беспонтовая сессия, нам оно не надо
+				// Неизвестная или пустая сессия
 				// Возвращяем невалидную сессию по умолчанию
 				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
-				// Пусть будет беспонтовая анонимная новая сессия.
 			}
+            user = ctx.Agents.Create();
+            user.GUID = CurrentSession.GUID;
+            user.Role = RoleEnum.Unknown;
+            ctx.Add(user);
+            ctx.SaveChanges();
+            CurrentSession["user"] = user;
+            // FIXME: Assert to chexk user mandatory existance.
 		}
 
 		public static MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)

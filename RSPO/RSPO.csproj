@@ -73,6 +73,60 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Net" />
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTAL">
+      <HintPath>packages\SharpTAL\lib\net40\SharpTAL.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImportFromAtlcomru.cs" />
@@ -378,7 +432,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1' Or $(TargetFrameworkVersion) == 'v4.7.2')">
       <ItemGroup>
         <Reference Include="SharpCompress">
-          <HintPath>packages\SharpCompress\lib\net45\SharpCompress.dll</HintPath>
+          <HintPath>packages\sharpcompress\lib\net45\SharpCompress.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
