@@ -43,7 +43,7 @@ namespace RSPO
             }
 
             d = new double[objects.Count, objects.Count];
-            v = new double[objects.Count];
+            v = new int[objects.Count];
 
             for (int row = 0; row<objects.Count; row++)
             {
