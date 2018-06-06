@@ -15,6 +15,8 @@ namespace RSPO.tests
 	{
 		private string basePath;
 
+        public bool DO_REAL_IMPORT = false;
+
 		public UnitTest1()
 		{
 			basePath =
@@ -43,56 +45,21 @@ namespace RSPO.tests
 			return fileName;
 		}
 
+        [Theory]
+        [InlineData("all.xml")]
+        [InlineData("all.xml.zip")]
+        public void ImportTest(string importName)
+        {
+            string fileName = CombineWithDataPath(importName);
 
-		/*
+            ImportFromAtlcomru import = new ImportFromAtlcomru()
+                {
+                    FileName = fileName
+                };
+            import.Import(onlyLoad: true);
+            Assert.True(true);
+        }
 
-				[Fact]
-				public void PassingTest()
-				{
-					Assert.Equal(4, Add(2, 2));
-				}
-
-				[Fact]
-				public void FailingTestThatPasses()
-				{
-					Assert.NotEqual(5, Add(2, 2));
-				}
-
-				int Add(int x, int y)
-				{
-					return x + y;
-				}
-
-				[Theory]
-				[InlineData(3)]
-				[InlineData(5)]
-				public void MyFirstTheory(int value)
-				{
-					Assert.True(IsOdd(value));
-				}
-
-				bool IsOdd(int value)
-				{
-					return value % 2 == 1;
-				}
-
-				[Theory]
-				[InlineData("all.xml")]
-				[InlineData("all.xml.zip")]
-				public void ImportTest(string importName)
-				{
-					string fileName = CombineWithDataPath(importName);
-
-					ImportFromAtlcomru import = new ImportFromAtlcomru()
-					{
-						FileName = fileName
-					};
-					import.Import(onlyLoad: true);
-					Assert.True(true);
-				}
-				*/
-
-		/* // !!!!!
         [Theory]
         [InlineData("all.xml")]
         public void LongImportTest(string importName)
@@ -104,10 +71,17 @@ namespace RSPO.tests
             {
                 FileName = fileName
             };
-            import.Import();
+            if (DO_REAL_IMPORT)
+            {
+                import.Import();
+            }
+            else
+            {
+                Console.WriteLine("Doing FAKE import");
+            }
+
             Assert.True(true);
         }
-        */
 
 		[Fact]
 		public void Hierarchical_Clustering()
@@ -320,7 +294,6 @@ namespace RSPO.tests
 
         }
 
-		/*
 		[Fact]
 		public void Should_return_status_ok_when_route_exists()
 		{
@@ -347,6 +320,5 @@ namespace RSPO.tests
 			Console.WriteLine(result);
 			Assert.Contains(result, "</html>");
 		}
-        */
 	}
 }
