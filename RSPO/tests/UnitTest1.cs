@@ -87,8 +87,8 @@ namespace RSPO.tests
 		public void Hierarchical_Clustering()
 		{
 			// Квартирный кластерный анализатор
-			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(500);
-			bool res = a.Process();
+			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(50);
+			// bool res = a.Process();
             a.PrepareClusters(5);
 			Console.Write("--Cluster-> ");
 			Console.WriteLine(a.Cidx);
@@ -294,31 +294,5 @@ namespace RSPO.tests
 
         }
 
-		[Fact]
-		public void Should_return_status_ok_when_route_exists()
-		{
-			// Given
-			var bootstrapper = new DefaultNancyBootstrapper();
-			var browser = new Browser(bootstrapper);
-
-			// When
-			var result = browser.Get("/", with =>
-			{
-				with.HttpRequest();
-			});
-
-			// Then
-			Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-		}
-
-		[Fact]
-		public void TestRenderer()
-		{
-			WebModule mod = new WebModule();
-			Request request = new Request("GET", "", "1.1");
-			string result = mod.Render("index.pt", request: request);
-			Console.WriteLine(result);
-			Assert.Contains(result, "</html>");
-		}
 	}
 }
