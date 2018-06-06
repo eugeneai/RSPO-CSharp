@@ -12,6 +12,8 @@ namespace RSPO
 
         public List<int> Clusters; // Список кластеров, которые нас интересует
 
+        public List<ILikes> Likes = null;
+
         public override bool Process ()
         {
             // Итак, У нас список объектов ILikes, хранящихся в input;
@@ -21,7 +23,7 @@ namespace RSPO
             //
 
             // Не, правильно я сделал. Иначе два раза запросы к БД делать.
-            prepareInput();  // Загрузка данных лайков.
+            PrepareInput(likes:Likes);  // Загрузка данных лайков.
 
             calcMatrix();
 
@@ -74,6 +76,82 @@ namespace RSPO
                 }
                 v[row]=agnum;
             }
+            if (DEBUG)
+            {
+                Console.WriteLine("-------Indexes-----------");
+                foreach (KeyValuePair<IAgent, int> kvp in agents)
+                {
+                    Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key.Name, kvp.Value));
+                }
+
+                foreach (KeyValuePair<IObject, int> kvp in objects)
+                {
+                    Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key.Name, kvp.Value));
+                } // A bug found.
+
+                Console.WriteLine("----- Source matix ------");
+                int rowLength = m.GetLength(0);
+                int colLength = m.GetLength(1);
+
+                for (int i = 0; i < rowLength; i++)
+                {
+                    for (int j = 0; j < colLength; j++)
+                    {
+                        Console.Write(string.Format("{0} ", m[i, j]));
+                    }
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine("----- distance matix ------");
+                rowLength = d.GetLength(0);
+                colLength = d.GetLength(1);
+
+                for (int i = 0; i < rowLength; i++)
+                {
+                    for (int j = 0; j < colLength; j++)
+                    {
+                        Console.Write(string.Format("{0:f} ", d[i, j]));
+                    }
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine("----- Sum values vector -------");
+                for (int i=0; i<v.GetLength(0); i++)
+                {
+                    Console.Write(string.Format("{0} ", v[i]));
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public List<ILikes> Estimate(IAgent agent, int cluster)
+            // Оценивает все квартиры в клатере cluster
+            // для агента agent
+        {
+            List<ILikes> res = new List<ILikes>();
+            MyEntityContext ctx = Application.Context;
+            foreach (IObjectClass oc in ctx.ObjectClasss.Where(x=>x.Cluster == cluster).ToList())
+            {
+                ILikes like = ctx.Likess.Create();
+                double? eval = Estimate(agent, oc.Object);
+                if (eval !=null)
+                {
+                    like.Agent = agent;
+                    like.Object=oc.Object;
+                    like.Value = (double)eval;
+                    like.Quality=OriginatingEnum.Evaluated;
+                    res.Add(like);
+                    // Эти лайки мы не записываем в БД.!!
+                }
+            }
+            // Теперь надо упорядочить по убфывнию Value
+            res.Sort(delegate(ILikes x, ILikes y)
+                     {
+                         if (x.Value==y.Value) return 0;
+                         if (x.Value>y.Value) return 1;
+                         return -1;
+                     });
+            return res;
         }
 
         public double? Estimate(IAgent agent, IObject obj)
@@ -120,18 +198,26 @@ namespace RSPO
         protected void addLike(ILikes like)
         {
             agents.SetDefault(like.Agent, agents.Count);
-            objects.SetDefault(like.Object, agents.Count);
+            objects.SetDefault(like.Object, objects.Count);
             Add(like); // in input
         }
 
 
-        protected void prepareInput(int? cluster = null)
+        protected void PrepareInput(int? cluster = null, List<ILikes> likes = null)
         {
             MyEntityContext ctx = Application.Context;
             Console.WriteLine(" RS: importing data ");
 
             agents = new Dictionary<IAgent, int>();
             objects = new Dictionary<IObject, int>();
+            if(likes!=null)
+            {
+                foreach(ILikes like in likes)
+                {
+                    addLike(like);
+                }
+                return; // Этот вариант задуман для тестирования.
+            }
 
             if (cluster != null)
             {
@@ -146,7 +232,7 @@ namespace RSPO
             {
                 foreach (int c in Clusters)
                 {
-                    prepareInput(c); // Да. Сие является рекурсией.
+                    PrepareInput(c); // Да. Сие является рекурсией.
                 }
             }
         }

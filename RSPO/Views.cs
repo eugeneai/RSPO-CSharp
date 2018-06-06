@@ -349,11 +349,14 @@ namespace RSPO
 					return UserBad("Пароли не совпадают");
 				}
 
-				user = ctx.Agents.Create();
+				user = Session.Agent;
+
+                if (Session.Valid) throw new InvalidSession("user must be invalid while registering");
+                // Теперь мы из анонимного пользователя делаем зарегистрированного.
+                // При этом сохраняется все, что он насмотрел.
 				user.Name = request.Form.firstname + " " + request.Form.surname + " " + request.Form.lastname;
 				user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
 				user.Phone = request.Form.phone;
-				user.GUID = ImportFromAtlcomru.GetGUID();
 				if (request.Form.realtor == "checked")
 				{
 					user.Role = RoleEnum.Agent;
@@ -379,26 +382,12 @@ namespace RSPO
                 success = info("Ну вот вы и вошли в систему.", msg: "Успешная идентикация");
 
 			}
-			// К этому моменту пользователь или аутентифицирован
-			// или создан.
-			// Установить сессию.
 
-			// Сессии бывают двух типов
-			// 1. На время одного сеанса
-			// 2. Между сеансами.
-			// Мы будем делать 2 из 1.
-			// Т.е. в сессии типа 1 собирать (обновлять) данные
-			//      зарегистрированного пользователя.
-
-			Session = new SessionModel(); //Создание новой сессии
+			// Session = new SessionModel(); //Создание новой сессии
 			Session.Agent= user;   // Объект пользователя в сессии
 			Session.GUID = user.GUID; // Идентификатор сессии пользователя.
 
 			Session["message"] = success;
-
-			Console.WriteLine("Linux rulez!");
-
-			// TODO: Еще надо сделать выход из сессии при разлогигивании. Но пока у нас нет такой команды.
 
 			return true;
 		}

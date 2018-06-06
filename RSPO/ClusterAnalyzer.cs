@@ -43,6 +43,7 @@ namespace RSPO
     {
         public Analyzer() : base() {}
         public virtual bool Process() { return false; }
+        public bool DEBUG = false;
     }
 
 	public class ClusterAnalyzer<T> : Analyzer<T> // Класс кластерных анализаторов

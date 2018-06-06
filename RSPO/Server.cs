@@ -67,11 +67,19 @@ namespace RSPO
 					return "msg";
 				}
 				else Console.WriteLine(model);
-				// Надо нудно искать ошибку в основном шаблоне....
-				// Завтра. Вырубает....
+
+                // TODO: Завтра доделываем показуху предложений
+                // в окне, где Agent просматривает объект.
+                // А пока я пересчитывать поставлю.
+                // Ну и на этом ядро системы уже будет готово.
+                // Т.е. работоспособный образец.
 
 				OfferView view = new OfferView(model);
-				return Render("offer.pt", context: model, view: view);
+				Nancy.Response response = Render("offer.pt", context: model, view: view);
+
+                addLike(CurrentSession.Agent, view.Object);
+
+                return response;
 			};
 
 			Get["/agents"] = parameters =>
@@ -208,9 +216,9 @@ namespace RSPO
 
 		protected Nancy.Response InSession(Nancy.Response response = null)
 		{
-			if (response == null) throw new RenderException("null response object");
+			if (response == null) throw new Exception("null response object");
 
-            bool a = CurrentSession.Valid; // Этот запуск свойства создвет анонима в анонимной сессии.
+            bool a = CurrentSession.Valid; // Этот запуск свойства создает анонима в анонимной сессии.
 			activeSessions[CurrentSession.GUID] = CurrentSession;
 
 			return response.WithCookie(IN_SESSION_COOKIE_NAME, CurrentSession.GUID, DateTime.Today.AddYears(1));
@@ -221,19 +229,19 @@ namespace RSPO
 		{
             MyEntityContext ctx = Application.Context;
 
-			string value = "";
+			string GUID = "";// Я не хочу перезапускать сервак....
 			try
 			{
-				value = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
+				GUID = this.Request.Cookies[IN_SESSION_COOKIE_NAME];
 			}
 			catch (KeyNotFoundException)
 			{
-				value = "";
+				GUID = "";
 			}
 
 			try
 			{
-				CurrentSession = activeSessions[value]; // яблоко заработал.
+				CurrentSession = activeSessions[GUID];
 			}
 			catch (System.Collections.Generic.KeyNotFoundException)
 			{
@@ -321,13 +329,32 @@ namespace RSPO
 
 			dict.Add("message", message);
 			dict.Add("user", CurrentSession.Agent); // DEPRECATING: Remove it
-			dict.Add("agent", CurrentSession.Agent);
+			// dict.Add("agent", CurrentSession.Agent);
 			dict.Add("nothing", "");
 
 			string result = template.Render(dict);
 			CurrentSession.Remove("message");
 			return InSession(result);
 		}
+
+        protected void addLike(IAgent agent, IObject obj)
+        {
+            MyEntityContext ctx=Application.Context;
+            ILikes like = ctx.Likess.Where(x=>x.Agent.GUID == agent.GUID && x.Object.GUID == obj.GUID).FirstOrDefault();
+            if (like==null)
+            {
+                like = ctx.Likess.Create();
+                like.Agent=agent;
+                like.Object=obj;
+                like.Value =0.0;
+                like.Quality = OriginatingEnum.Measured;
+                ctx.Add(like);
+            }
+            like.Value+=1;
+            ctx.SaveChanges();
+            Console.WriteLine(" Spying: Added like of agent "+like.Agent.GUID+
+                              " to object "+like.Object.GUID+" and now it is "+like.Value);
+        }
 	}
 
 	public class InvalidUser : IAgent

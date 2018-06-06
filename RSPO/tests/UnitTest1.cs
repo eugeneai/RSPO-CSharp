@@ -294,5 +294,47 @@ namespace RSPO.tests
 
         }
 
+        [Fact]
+        public void Check_Slope_One_Method()
+        {
+            MyEntityContext ctx = Application.Context;
+            List<IAgent> agents = new List<IAgent>();
+            IAgent a = null;
+            agents.Add(a=ctx.Agents.Create()); a.Name="John"; a.Role = RoleEnum.Buyer;
+            agents.Add(a=ctx.Agents.Create()); a.Name="Mark"; a.Role = RoleEnum.Buyer;
+            agents.Add(a=ctx.Agents.Create()); a.Name="Lucy"; a.Role = RoleEnum.Buyer;
+
+            List<IObject> objs = new List<IObject>();
+            IObject o = null;
+            objs.Add(o=ctx.Objects.Create()); o.Name="Subj 1";
+            objs.Add(o=ctx.Objects.Create()); o.Name="Subj 2";
+            objs.Add(o=ctx.Objects.Create()); o.Name="Subj 3";
+
+            List<ILikes> likes = new List<ILikes>();
+            ILikes l = null;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[0]; l.Object=objs[0]; l.Value=5;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[0]; l.Object=objs[1]; l.Value=3;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[0]; l.Object=objs[2]; l.Value=2;
+
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[1]; l.Object=objs[0]; l.Value=3;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[1]; l.Object=objs[1]; l.Value=4;
+
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[2]; l.Object=objs[1]; l.Value=2;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[2]; l.Object=objs[2]; l.Value=5;
+
+            SlopeOne so = new SlopeOne();
+
+            so.Likes = likes;
+            so.DEBUG = true;
+            so.Process();
+
+            Console.WriteLine("------------ Estimations -------------");
+            Console.WriteLine("Estimation for John and Subj 3 is " + so.Estimate(agents[1], objs[2]));
+            Console.WriteLine("Estimation for Marc and Subj 3 is " + so.Estimate(agents[1], objs[2]));
+            Console.WriteLine("Estimation for Lucy and Subj 1 is " + so.Estimate(agents[2], objs[0]));
+
+
+            Assert.True(true);
+        }
 	}
 }

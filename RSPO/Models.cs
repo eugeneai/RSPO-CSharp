@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RSPO
 {
@@ -116,9 +117,18 @@ namespace RSPO
 
         private IAgent createAnonymousAgent()
         {
-            if (GUID == null) GUID = ImportFromAtlcomru.GetGUID();
-
             MyEntityContext ctx = Application.Context;
+            if (GUID == null)
+            {
+                GUID = ImportFromAtlcomru.GetGUID();
+            }
+            else
+            {
+                // Try load from database
+                IAgent agent = ctx.Agents.Where(x => x.GUID == GUID).FirstOrDefault();
+                if (agent != null) Agent = agent;
+            }
+
             IAgent anonym = ctx.Agents.Create();
             anonym.GUID = GUID;
             anonym.Role = RoleEnum.Unknown;
