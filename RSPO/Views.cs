@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using DevOne.Security.Cryptography.BCrypt;
-using Nancy.Session;
 
 namespace RSPO
 {
@@ -313,10 +312,7 @@ namespace RSPO
 
 		protected bool UserBad(string message)
 		{
-            string GUID = Session.GUID;
-			Session.Clear(); // Аннулировать сессию, однако...
-			Session.GUID = GUID;
-			Session["valid"] = false;
+			Session.Invalidate();
 			Session["message"] = error(message + ", однако.", msg: "Неуспешная идентификация");
 			return false;
 		}
@@ -353,11 +349,14 @@ namespace RSPO
 					return UserBad("Пароли не совпадают");
 				}
 
-				user = ctx.Agents.Create();
+				user = Session.Agent;
+
+                if (Session.Valid) throw new InvalidSession("user must be invalid while registering");
+                // Теперь мы из анонимного пользователя делаем зарегистрированного.
+                // При этом сохраняется все, что он насмотрел.
 				user.Name = request.Form.firstname + " " + request.Form.surname + " " + request.Form.lastname;
 				user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
 				user.Phone = request.Form.phone;
-				user.GUID = ImportFromAtlcomru.GetGUID();
 				if (request.Form.realtor == "checked")
 				{
 					user.Role = RoleEnum.Agent;
@@ -383,38 +382,20 @@ namespace RSPO
                 success = info("Ну вот вы и вошли в систему.", msg: "Успешная идентикация");
 
 			}
-			// К этому моменту пользователь или аутентифицирован
-			// или создан.
-			// Установить сессию.
 
-			// Сессии бывают двух типов
-			// 1. На время одного сеанса
-			// 2. Между сеансами.
-			// Мы будем делать 2 из 1.
-			// Т.е. в сессии типа 1 собирать (обновлять) данные
-			//      зарегистрированного пользователя.
-
-			Session = new SessionModel(); //Создание новой сессии
-			Session["valid"] = true;
-			Session["user"] = user;   // Объект пользователя в сессии
+			// Session = new SessionModel(); //Создание новой сессии
+			Session.Agent= user;   // Объект пользователя в сессии
 			Session.GUID = user.GUID; // Идентификатор сессии пользователя.
 
 			Session["message"] = success;
-
-			Console.WriteLine("Linux rulez!");
-
-			// TODO: Еще надо сделать выход из сессии при разлогигивании. Но пока у нас нет такой команды.
 
 			return true;
 		}
 
         public void Logout()
         {
-            Session = new SessionModel();
-            Session["valid"] = false;
-            Session.GUID = ImportFromAtlcomru.GetGUID();
-            Session["message"] = info("Вы вышли из системы и мы про вас забыли.", "Успехов");
-            // Плохо то, что у нас будут копиться анонимные сессии.
+            Session.Invalidate();
+            Session["message"] = info("Вы вышли из системы и мы про вас почти забыли.", "Успехов");
         }
 
 		protected static string SALT = "$2a$10$.lvjuUJj9nor/DArhPtrgu"; // BCryptHelper.GenerateSalt();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RSPO
 {
@@ -93,22 +94,70 @@ namespace RSPO
         {
             get
             {
-                object o;
-                try
-                {
-                    o = this["user"];
-                }
-                catch (System.Collections.Generic.KeyNotFoundException)
-                {
-                    return false;
-                }
-
-                if (o == null) return false;
-                IAgent a = (IAgent) o;
-                return a.Role!=RoleEnum.Invalid && a.Role != RoleEnum.Unknown;
+                IAgent a=Agent;
+                return a.Role != RoleEnum.Invalid &&
+                    a.Role != RoleEnum.Unknown;
             }
         }
 
+        public IAgent Agent // Agent in the session
+        {
+            get
+            {
+                object o = null;
+                bool s = TryGetValue("agent", out o);
+                if (s) return (IAgent) o;
+                return createAnonymousAgent();
+            }
+            set
+            {
+                this["agent"] = value;
+            }
+        }
 
+        private IAgent createAnonymousAgent()
+        {
+            MyEntityContext ctx = Application.Context;
+            if (GUID == null)
+            {
+                GUID = ImportFromAtlcomru.GetGUID();
+            }
+            else
+            {
+                // Try load from database
+                IAgent agent = ctx.Agents.Where(x => x.GUID == GUID).FirstOrDefault();
+                if (agent != null) Agent = agent;
+            }
+
+            IAgent anonym = ctx.Agents.Create();
+            anonym.GUID = GUID;
+            anonym.Role = RoleEnum.Unknown;
+            this.Agent = anonym;
+            ctx.Add(this.Agent);
+            ctx.SaveChanges();
+
+            return this.Agent;
+        }
+
+        public SessionModel Prev = null;
+
+        public SessionModel Invalidate()
+            // Метод отменяет сессию зарегистрированного пользователя
+            // и заменяет ее анонимной, причем предыдущей, если она записалась,
+            // или новой анонимной, если нет.
+        {
+            SessionModel prev = Prev;
+            if (Valid) // Была валидная сессия?
+            {
+                WebModule.activeSessions.Remove(GUID); // Remove self from active sessions.
+
+                if (prev!=null) return prev;
+
+                this.GUID=null;
+                createAnonymousAgent();
+                return this;
+            }
+            else return this; // Сессия уже была анонимная;
+        }
     }
 }

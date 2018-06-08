@@ -15,6 +15,8 @@ namespace RSPO.tests
 	{
 		private string basePath;
 
+        public bool DO_REAL_IMPORT = false;
+
 		public UnitTest1()
 		{
 			basePath =
@@ -43,56 +45,21 @@ namespace RSPO.tests
 			return fileName;
 		}
 
+        [Theory]
+        [InlineData("all.xml")]
+        [InlineData("all.xml.zip")]
+        public void ImportTest(string importName)
+        {
+            string fileName = CombineWithDataPath(importName);
 
-		/*
+            ImportFromAtlcomru import = new ImportFromAtlcomru()
+                {
+                    FileName = fileName
+                };
+            import.Import(onlyLoad: true);
+            Assert.True(true);
+        }
 
-				[Fact]
-				public void PassingTest()
-				{
-					Assert.Equal(4, Add(2, 2));
-				}
-
-				[Fact]
-				public void FailingTestThatPasses()
-				{
-					Assert.NotEqual(5, Add(2, 2));
-				}
-
-				int Add(int x, int y)
-				{
-					return x + y;
-				}
-
-				[Theory]
-				[InlineData(3)]
-				[InlineData(5)]
-				public void MyFirstTheory(int value)
-				{
-					Assert.True(IsOdd(value));
-				}
-
-				bool IsOdd(int value)
-				{
-					return value % 2 == 1;
-				}
-
-				[Theory]
-				[InlineData("all.xml")]
-				[InlineData("all.xml.zip")]
-				public void ImportTest(string importName)
-				{
-					string fileName = CombineWithDataPath(importName);
-
-					ImportFromAtlcomru import = new ImportFromAtlcomru()
-					{
-						FileName = fileName
-					};
-					import.Import(onlyLoad: true);
-					Assert.True(true);
-				}
-				*/
-
-		/* // !!!!!
         [Theory]
         [InlineData("all.xml")]
         public void LongImportTest(string importName)
@@ -104,17 +71,24 @@ namespace RSPO.tests
             {
                 FileName = fileName
             };
-            import.Import();
+            if (DO_REAL_IMPORT)
+            {
+                import.Import();
+            }
+            else
+            {
+                Console.WriteLine("Doing FAKE import");
+            }
+
             Assert.True(true);
         }
-        */
 
 		[Fact]
 		public void Hierarchical_Clustering()
 		{
 			// Квартирный кластерный анализатор
-			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(500);
-			bool res = a.Process();
+			var a = FlatClusterAnalyzer.AnalyzeFlatWithCluster(50);
+			// bool res = a.Process();
             a.PrepareClusters(5);
 			Console.Write("--Cluster-> ");
 			Console.WriteLine(a.Cidx);
@@ -320,33 +294,47 @@ namespace RSPO.tests
 
         }
 
-		/*
-		[Fact]
-		public void Should_return_status_ok_when_route_exists()
-		{
-			// Given
-			var bootstrapper = new DefaultNancyBootstrapper();
-			var browser = new Browser(bootstrapper);
+        [Fact]
+        public void Check_Slope_One_Method()
+        {
+            MyEntityContext ctx = Application.Context;
+            List<IAgent> agents = new List<IAgent>();
+            IAgent a = null;
+            agents.Add(a=ctx.Agents.Create()); a.Name="John"; a.Role = RoleEnum.Buyer;
+            agents.Add(a=ctx.Agents.Create()); a.Name="Mark"; a.Role = RoleEnum.Buyer;
+            agents.Add(a=ctx.Agents.Create()); a.Name="Lucy"; a.Role = RoleEnum.Buyer;
 
-			// When
-			var result = browser.Get("/", with =>
-			{
-				with.HttpRequest();
-			});
+            List<IObject> objs = new List<IObject>();
+            IObject o = null;
+            objs.Add(o=ctx.Objects.Create()); o.Name="Subj 1";
+            objs.Add(o=ctx.Objects.Create()); o.Name="Subj 2";
+            objs.Add(o=ctx.Objects.Create()); o.Name="Subj 3";
 
-			// Then
-			Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-		}
+            List<ILikes> likes = new List<ILikes>();
+            ILikes l = null;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[0]; l.Object=objs[0]; l.Value=5;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[0]; l.Object=objs[1]; l.Value=3;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[0]; l.Object=objs[2]; l.Value=2;
 
-		[Fact]
-		public void TestRenderer()
-		{
-			WebModule mod = new WebModule();
-			Request request = new Request("GET", "", "1.1");
-			string result = mod.Render("index.pt", request: request);
-			Console.WriteLine(result);
-			Assert.Contains(result, "</html>");
-		}
-        */
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[1]; l.Object=objs[0]; l.Value=3;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[1]; l.Object=objs[1]; l.Value=4;
+
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[2]; l.Object=objs[1]; l.Value=2;
+            likes.Add(l=ctx.Likess.Create()); l.Agent=agents[2]; l.Object=objs[2]; l.Value=5;
+
+            SlopeOne so = new SlopeOne();
+
+            so.Likes = likes;
+            so.DEBUG = true;
+            so.Process();
+
+            Console.WriteLine("------------ Estimations -------------");
+            Console.WriteLine("Estimation for John and Subj 3 is " + so.Estimate(agents[1], objs[2]));
+            Console.WriteLine("Estimation for Marc and Subj 3 is " + so.Estimate(agents[1], objs[2]));
+            Console.WriteLine("Estimation for Lucy and Subj 1 is " + so.Estimate(agents[2], objs[0]));
+
+
+            Assert.True(true);
+        }
 	}
 }

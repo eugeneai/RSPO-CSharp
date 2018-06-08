@@ -13,9 +13,10 @@ namespace RSPO
             input = new List<T>();
         }
 
-        public void Add(T row) // Вообще могут быть несколько таблиц данных
-            // Т.е. матрица квартир.
-            // Матрица пользовательского выбора.
+        public void Add(T row)
+        // Вообще могут быть несколько таблиц данных
+        // Т.е. матрица квартир.
+        // Матрица пользовательского выбора.
         {
             input.Add(row);
         }
@@ -33,6 +34,8 @@ namespace RSPO
             }
         }
 
+        // Входные данные, являющиеся результатом выборки из БД
+        // Их еще предстоит преобразовать в матрицы, вектора и т.п.
         protected List<T> input = null;
 	}
 
@@ -40,7 +43,7 @@ namespace RSPO
     {
         public Analyzer() : base() {}
         public virtual bool Process() { return false; }
-
+        public bool DEBUG = false;
     }
 
 	public class ClusterAnalyzer<T> : Analyzer<T> // Класс кластерных анализаторов
@@ -110,11 +113,16 @@ namespace RSPO
             Console.WriteLine("->Constructing dissimilarity matrix.");
             foreach (var o1 in input.Select((v, i) => new {v,i})) // Верхний объект
             {
-                Console.WriteLine(" "+o1.i);
-                foreach(var o2 in input.Select((v, i) => new {v,i})) // Левый объект
+                Console.WriteLine(" -- Row: "+o1.i);
+                int j = o1.i + 1; // Заполняем столбцы от диагонали, направо до конца
+                                  // и вниз до конца.
+                while (j<Count)
                 {
-                    double v = compare(o1.v,o2.v);
-                    m[o1.i, o2.i] = v;
+                    T o2 = input[j];
+                    double v = compare(o1.v,o2);
+                    m[o1.i, j] = v;
+                    m[j, o1.i] = v; // Теперь симметрично.
+                    j++; // Пока кластер с 1000 квартирами поюзаем. Ночью посчитаем все.
                 }
             }
             Console.WriteLine("Done.");
