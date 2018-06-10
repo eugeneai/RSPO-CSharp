@@ -13,6 +13,8 @@ namespace RSPO
 		static string DB_CONNECTION_STRING = "type=embedded;storesdirectory=./;storename=RSPO";
 
         static public string APPLICATION_NAME = "Рекомендательная система по рынку недвижимости ИО";
+        static public int AT_LEAST_RECOMMENDED = 10;
+        static public int AT_MOST_RECOMMENDED = 20;
 
 		public static void InitializeEntityContext()
 		{

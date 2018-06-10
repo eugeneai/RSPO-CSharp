@@ -63,23 +63,34 @@ namespace RSPO
 				if (model == null)
 				{
 					Console.WriteLine(msg);
-					// и я НЕ понял почему....
 					return "msg";
 				}
 				else Console.WriteLine(model);
 
-                // TODO: Завтра доделываем показуху предложений
-                // в окне, где Agent просматривает объект.
-                // А пока я пересчитывать поставлю.
-                // Ну и на этом ядро системы уже будет готово.
-                // Т.е. работоспособный образец.
-
 				OfferView view = new OfferView(model);
 				Nancy.Response response = Render("offer.pt", context: model, view: view);
 
-                addLike(CurrentSession.Agent, view.Object);
+				addLike(CurrentSession.Agent, view.Object);
 
-                return response;
+				return response;
+			};
+
+			Get["/sneak/{GUID}"] = parameters =>
+			//Этот метод грузится из JQuery (AJAX)
+			{
+				RestoreSession();
+				string GUID = parameters.GUID;
+				IOffer offer = Application.Context.Offers.Where(x => x.GUID == GUID).FirstOrDefault();
+
+				if (offer == null)
+				{
+					return Render("nosneak.pt");
+				}
+
+				OfferList model = new OfferList(clid: null, like: offer, session: CurrentSession);
+				OfferListView view = new OfferListView(model);
+
+				return Render("sneak.pt", context: model, view: view);
 			};
 
 			Get["/agents"] = parameters =>
@@ -218,16 +229,16 @@ namespace RSPO
 		{
 			if (response == null) throw new Exception("null response object");
 
-            bool a = CurrentSession.Valid; // Этот запуск свойства создает анонима в анонимной сессии.
+			bool a = CurrentSession.Valid; // Этот запуск свойства создает анонима в анонимной сессии.
 			activeSessions[CurrentSession.GUID] = CurrentSession;
 
 			return response.WithCookie(IN_SESSION_COOKIE_NAME, CurrentSession.GUID, DateTime.Today.AddYears(1));
-            // Установить "исчезновение" куки на один год вперед.
+			// Установить "исчезновение" куки на один год вперед.
 		}
 
 		protected void RestoreSession()
 		{
-            MyEntityContext ctx = Application.Context;
+			MyEntityContext ctx = Application.Context;
 
 			string GUID = "";// Я не хочу перезапускать сервак....
 			try
@@ -245,10 +256,10 @@ namespace RSPO
 			}
 			catch (System.Collections.Generic.KeyNotFoundException)
 			{
-                CurrentSession = new SessionModel();
+				CurrentSession = new SessionModel();
 				CurrentSession.GUID = ImportFromAtlcomru.GetGUID();
 			}
-            bool a = CurrentSession.Valid;
+			bool a = CurrentSession.Valid;
 		}
 
 		public static MessageModel info(string message = null, string msg = "", AlertType alert = AlertType.Info)
@@ -329,7 +340,7 @@ namespace RSPO
 
 			dict.Add("message", message);
 			dict.Add("user", CurrentSession.Agent); // DEPRECATING: Remove it
-			// dict.Add("agent", CurrentSession.Agent);
+													// dict.Add("agent", CurrentSession.Agent);
 			dict.Add("nothing", "");
 
 			string result = template.Render(dict);
@@ -337,24 +348,24 @@ namespace RSPO
 			return InSession(result);
 		}
 
-        protected void addLike(IAgent agent, IObject obj)
-        {
-            MyEntityContext ctx=Application.Context;
-            ILikes like = ctx.Likess.Where(x=>x.Agent.GUID == agent.GUID && x.Object.GUID == obj.GUID).FirstOrDefault();
-            if (like==null)
-            {
-                like = ctx.Likess.Create();
-                like.Agent=agent;
-                like.Object=obj;
-                like.Value =0.0;
-                like.Quality = OriginatingEnum.Measured;
-                ctx.Add(like);
-            }
-            like.Value+=1;
-            ctx.SaveChanges();
-            Console.WriteLine(" Spying: Added like of agent "+like.Agent.GUID+
-                              " to object "+like.Object.GUID+" and now it is "+like.Value);
-        }
+		protected void addLike(IAgent agent, IObject obj)
+		{
+			MyEntityContext ctx = Application.Context;
+			ILikes like = ctx.Likess.Where(x => x.Agent.GUID == agent.GUID && x.Object.GUID == obj.GUID).FirstOrDefault();
+			if (like == null)
+			{
+				like = ctx.Likess.Create();
+				like.Agent = agent;
+				like.Object = obj;
+				like.Value = 0.0;
+				like.Quality = OriginatingEnum.Measured;
+				ctx.Add(like);
+			}
+			like.Value += 1;
+			ctx.SaveChanges();
+			Console.WriteLine(" Spying: Added like of agent " + like.Agent.GUID +
+							  " to object " + like.Object.GUID + " and now it is " + like.Value);
+		}
 	}
 
 	public class InvalidUser : IAgent

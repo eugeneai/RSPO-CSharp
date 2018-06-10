@@ -20,11 +20,11 @@ namespace RSPO
 	public class ApplicationView : View<ApplicationModel>
 	{
 		public ApplicationView(ApplicationModel context, SessionModel session) : base(context)
-        {
-            this.session = session;
-        }
+		{
+			this.session = session;
+		}
 
-        protected SessionModel session;
+		protected SessionModel session;
 
 		public string Name
 		{
@@ -51,15 +51,15 @@ namespace RSPO
 					menu("Предложения", "/offers"),
 					menu("Агенты", "/agents"),
 					menu("Анализ", "/analysis"),
-                };
-                if (session.Valid)
-                {
-                    l.Add(menu("Выйти", "/logout"));
-                }
-                else
-                {
-                    l.Add(menu("Войти", "/login"));
-                }
+				};
+				if (session.Valid)
+				{
+					l.Add(menu("Выйти", "/logout"));
+				}
+				else
+				{
+					l.Add(menu("Войти", "/login"));
+				}
 				return l;
 			}
 		}
@@ -157,43 +157,103 @@ namespace RSPO
 	/// </summary>
 
 	public class OfferList : EntityList<IOffer> // Список предложений (Модель)
-    {
-        protected int? clid = null;
+	{
+		protected int? clid = null;
+		protected IOffer like = null;
 
-		public OfferList(int? clid) : base(update: false)
-        {
-            this.clid = clid;
+		public OfferList(int? clid = null, IOffer like = null, SessionModel session = null) : base(update: false)
+		{
+			this.clid = clid;
+			this.like = like;
+			this.Session = session;
 			Update();
-        }
+		}
 
-        protected List<IObjectClass> objectClasses = null;
-        protected List<IOffer> offers = null;
+		protected List<IObjectClass> objectClasses = null;
+		protected List<IOffer> offers = null;
 
-        public override void Update()
-        {
-            if (clid == null)
-            {
-                base.Update();
-            }
-            else
-            {
-                prepareLists();
-                objectQuery = offers.Where(filter);
-            }
-        }
+		public override void Update()
+		{
+			if (clid == null && like == null)
+			{
+				base.Update();
+				return;
+			}
+			// Сначала строим список по рекомендательной системе
+			offers = new List<IOffer>();
 
-        public void prepareLists()
-        {
-            MyEntityContext ctx = Application.Context;
-            objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid).Skip(start).Take(size).ToList();
-            offers = new List<IOffer>();
-            foreach (IObjectClass oc in objectClasses)
-            {
-                IOffer offer = ctx.Offers.Where(x=>x.Object.GUID == oc.Object.GUID).FirstOrDefault();
-                offers.Add(offer);
-            }
-        }
-    }
+			if (like != null)
+			{
+				prepareLikeList();
+			}
+			// Затем строим по кластеру.
+			if (clid != null)
+			{
+				prepareClusterList();
+			}
+			objectQuery = offers.Where(filter);
+		}
+
+		public void prepareClusterList()
+		{
+			MyEntityContext ctx = Application.Context;
+			objectClasses = ctx.ObjectClasss.Where(x => x.Cluster == clid).Skip(start).Take(size).ToList();
+			foreach (IObjectClass oc in objectClasses)
+			{
+				IOffer offer = ctx.Offers.Where(x => x.Object.GUID == oc.Object.GUID).FirstOrDefault();
+				if (!offers.Contains(offer))
+					offers.Add(offer);
+			}
+		}
+
+		public void prepareLikeList()
+		{
+			// Определить пользователя, кому выработать рекомендацию.
+			//
+			MyEntityContext ctx = Application.Context;
+			if (Session == null) throw new InvalidSession("forgot to set a session");
+			IAgent agent = Session.Agent;
+			IObjectClass obClass = ctx.ObjectClasss.Where(x => x.Object.GUID == like.Object.GUID).FirstOrDefault();
+			if (obClass == null)
+			{
+				// Мы не можем давать рекомендации, т.к. просамтриваемый объект
+				// находится вне какого-либо кластера.
+				return; // sadly.
+			}
+			// Строим список рекомендаций
+
+			int cluster = obClass.Cluster;
+			List<int> clusters = new List<int>();
+			clusters.Add(cluster);
+
+			SlopeOne so = new SlopeOne();
+			so.Clusters = clusters;
+			so.Process();
+			List<ILikes> estims = so.Estimate(agent, cluster);
+
+			int count = 0;
+
+			foreach (ILikes l in estims)
+			{
+				IOffer offer = ctx.Offers.Where(x => x.Object.GUID == l.Object.GUID).FirstOrDefault();
+				if (offer != null) // На всяк случай.
+				{
+					offers.Add(offer);
+					count++;
+					if (count > Application.AT_MOST_RECOMMENDED) break;
+				}
+			}
+
+			// Если список предложений будет мал, то напускаем
+			// вторую процедуру prepareClusterList
+			if (offers.Count < Application.AT_LEAST_RECOMMENDED)
+			{
+				clid = cluster;
+			}
+		}
+
+		public SessionModel Session = null;
+	}
 
 	public class OfferListView : EntityListView<OfferList> // Представление (View) для списка предложений.
 	{
@@ -323,11 +383,11 @@ namespace RSPO
 
 			string nick = request.Form.user;
 			string phone = request.Form.phone;
-            Console.WriteLine("---> FORM:"+nick);
+			Console.WriteLine("---> FORM:" + nick);
 			IAgent user = ctx.Agents.Where(x => x.NickName == nick).FirstOrDefault();
 			string register = request.Form["register"];
 
-            MessageModel success = null;
+			MessageModel success = null;
 
 			if (register != null && user != null)
 			{
@@ -351,9 +411,9 @@ namespace RSPO
 
 				user = Session.Agent;
 
-                if (Session.Valid) throw new InvalidSession("user must be invalid while registering");
-                // Теперь мы из анонимного пользователя делаем зарегистрированного.
-                // При этом сохраняется все, что он насмотрел.
+				if (Session.Valid) throw new InvalidSession("user must be invalid while registering");
+				// Теперь мы из анонимного пользователя делаем зарегистрированного.
+				// При этом сохраняется все, что он насмотрел.
 				user.Name = request.Form.firstname + " " + request.Form.surname + " " + request.Form.lastname;
 				user.PasswordHash = BCryptHelper.HashPassword(password, SALT);
 				user.Phone = request.Form.phone;
@@ -369,8 +429,8 @@ namespace RSPO
 				user.Email = request.Form.email;
 				ctx.Add(user);
 				ctx.SaveChanges();
-                success = info("Теперь вы зарегистрированы в системе. Можно начинать бояться.",
-                               msg: "Успешная регистрация");
+				success = info("Теперь вы зарегистрированы в системе. Можно начинать бояться.",
+							   msg: "Успешная регистрация");
 			}
 			else // register == null && user != null
 			{
@@ -379,12 +439,12 @@ namespace RSPO
 				{
 					return UserBad("Неправильный пароль");
 				}
-                success = info("Ну вот вы и вошли в систему.", msg: "Успешная идентикация");
+				success = info("Ну вот вы и вошли в систему.", msg: "Успешная идентикация");
 
 			}
 
 			// Session = new SessionModel(); //Создание новой сессии
-			Session.Agent= user;   // Объект пользователя в сессии
+			Session.Agent = user;   // Объект пользователя в сессии
 			Session.GUID = user.GUID; // Идентификатор сессии пользователя.
 
 			Session["message"] = success;
@@ -392,11 +452,11 @@ namespace RSPO
 			return true;
 		}
 
-        public void Logout()
-        {
-            Session.Invalidate();
-            Session["message"] = info("Вы вышли из системы и мы про вас почти забыли.", "Успехов");
-        }
+		public void Logout()
+		{
+			Session.Invalidate();
+			Session["message"] = info("Вы вышли из системы и мы про вас почти забыли.", "Успехов");
+		}
 
 		protected static string SALT = "$2a$10$.lvjuUJj9nor/DArhPtrgu"; // BCryptHelper.GenerateSalt();
 
