@@ -1,0 +1,134 @@
+%\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+%\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[a4paper,14pt,openany,draft]{extreport}
+%\usepackage[times,fancytop,firamono,cpcaption,microtyping]{subook}
+\usepackage[times,firamono,microtyping,732]{subook}
+%\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{totcount}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{titlesec}
+%\usepackage{color}
+%\usepackage{soul}
+\date{}
+% \hypersetup{
+%     bookmarks=true,         % show bookmarks bar?
+%     unicode=true,           % non-Latin characters in Acrobat’s bookmarks
+%     pdftoolbar=true,        % show Acrobat’s toolbar?
+%     pdfmenubar=true,        % show Acrobat’s menu?
+%     pdffitwindow=false,     % window fit to page when opened
+%     pdfstartview={FitH},    % fits the width of the page to the window
+%     pdftitle={Компьютерные науки, часть 4},    % title
+%     pdfauthor={Евгений Александрович Черкашин},     % author
+%     pdfsubject={Методическое пособие},   % subject of the document
+%     pdfcreator={EMACS-24.4:AuCTeX},   % creator of the document
+%     pdfproducer={LuaLaTeX}, % producer of the document
+%     pdfkeywords={Искусственный интеллект} {Логическое
+%       программирование} {Планирование действий} {Удовлетворение
+%       ограничений} {Компьютерная алгебра} {Принцип максимума} {Оптимальное управление}, % list of keywords
+%     pdfnewwindow=true,      % links in new window
+%     colorlinks=true,       % false: boxed links; true: colored links
+%     linkcolor=[rgb]{0 0.4 0.1},          % color of internal links (black)
+%     citecolor=blue,        % color of links to bibliography
+%     filecolor=black,      % color of file links
+%     urlcolor=[rgb]{0.3 0.0 0.3}           % color of external links
+%   }
+
+% \let\oldcaption\caption
+%\renewcommand{\caption}[1]{\stepcounter{lastfig}\label{LastFig}\oldcaption{#1}}
+
+\newcommand\theyear{2018}
+
+\usepackage{xcolor}
+\usepackage{stackengine}
+\setstackgap{L}{.5\baselineskip}
+\newcommand\MA[2]{{\sffamily\color{red}\hsmash{$\uparrow$}%
+  \smash{\toplap{#1}{\scriptsize\bfseries #2}}}}
+\newcommand\MB[2]{{\sffamily\color{red}\hsmash{$\downarrow$}%
+    \smash{\bottomlap{#1}{\scriptsize\bfseries#2}}}}
+\usepackage{tikz}
+
+\newcommand*{\hl}[1]{%
+\tikz[baseline]\node[rectangle, fill=yellow, rounded corners, inner sep=0.3mm,anchor=base]{#1};%
+}
+\makeatletter
+   \def\vhrulefill#1{\leavevmode\leaders\hrule\@height#1\hfill \kern\z@}
+\makeatother
+
+\newcommand\toprule{\noindent\vhrulefill{2pt}}
+\newcommand\bottomrule{\noindent\vhrulefill{2pt}}
+\newcommand\midrule{\noindent\vhrulefill{2pt}}
+
+\newtotcounter{captionsnum}
+\def\oldcaption{} \let\oldcaption=\caption
+\def\caption{\stepcounter{captionsnum}\oldcaption}
+
+\newtotcounter{bibitemnum}
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{bibitemnum}\oldbibitem}
+
+\newtotcounter{appsnum}
+\setcounter{appsnum}{1}
+
+\newcommand\T{\rule{0pt}{2.6ex}}       % Top strut
+\newcommand\B{\rule[-1.2ex]{0pt}{0pt}} % Bottom strut
+\newcommand{\BA}[1]{%
+  \begin{minipage}[b]{0.4\textwidth}
+    \raggedright\T
+    #1
+  \end{minipage}
+}
+\let\BT\BA
+\newcommand{\BB}[1]{%
+  \begin{minipage}[t]{0.4\textwidth}
+    \raggedright\T
+    #1
+  \end{minipage}
+}
+\newcommand{\BC}[2]{%
+  \begin{minipage}[c]{#1}
+    \raggedright\T
+    #2
+  \end{minipage}
+}
+
+\makeatletter
+\renewcommand\bibsection{%
+\chapter{\bibname}%
+\@mkboth{\MakeUppercase{\bibname}}{\MakeUppercase{\bibname}}%
+}%
+\makeatother
+
+
+% Убрать марки и выделения.
+\providecommand\hl[1]{}
+\renewcommand\hl[1]{#1}
+\renewcommand\MA[2]{}
+\renewcommand\MB[2]{}
+\renewcommand{\bibname}{Список использованных источников}
+\providecommand\sfcpshape{\rmfamily}
+\newcommand{\capfont}{\Large\sffamily\sfcpshape\bfseries}
+
+
+\begin{document}
+
+\clubpenalty=10000
+\widowpenalty=10000
+\parskip=0pt plus 0.3pt
+
+\tableofcontents
+
+\chapter*{ВВЕДЕНИЕ}
+
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
