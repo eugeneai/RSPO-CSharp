@@ -12,8 +12,12 @@
 \usepackage{makecell}
 \usepackage{titlesec}
 \usepackage{enumitem}
+%\usepackage{tocloft}
 \graphicspath{{./pics/}}
 \renewcommand{\chaptername}{}
+\makeatletter
+\makeatother
+
 %\usepackage{color}
 %\usepackage{soul}
 \date{}
@@ -121,7 +125,8 @@
 \setlist[itemize]{label=\ding{113}}
 
 \begin{document}
-
+\renewcommand{\bibname}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+\renewcommand{\chaptername}{}
 \clubpenalty=10000
 \widowpenalty=10000
 \parskip=0pt plus 1pt
@@ -355,6 +360,7 @@
 \end{figure}
 
 При помощи данного алгоритма рейтинги объекта $o_2$, в общем случае, вычисляются из оценок нескольких пользователей и относительно разных объектов.  Т.е. получается несколько рейтингов одного и того же объекта. В этом случае считается средневзвешенная оценка полученных рейтингов, где в качестве весового коэффициента выступает количество раундов оценивания, другими словами, <<сколько раз пользователь $u_i$ проголосовал за <<опорный>> объект $o_j$?>>
+
 
 \subsection{Гибридные методы}
 \label{sec:hybrids}
