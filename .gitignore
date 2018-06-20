@@ -44,3 +44,15 @@ Thumbs.db
 /.vscode/
 /tmp
 /RSPO/paket.local
+*.aux
+*.log
+*.out
+*.toc
+*.thm
+*.synctex.gz
+*.pygtex
+_minted-*/
+/doc/matter/*
+doc/auto/*
+/doc/omegat/omegat/project_save.tmx.*.bak
+/doc/omegat/omegat/project_save.tmx.bak

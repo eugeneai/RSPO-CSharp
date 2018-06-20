@@ -1,0 +1,69 @@
+Почему BrightstarDB?
+
+BrightstarDB является уникальной и мощной технологией хранения данных для .Net платформы. Она сочетает в себе гибкость, масштабируемость и производительность. Технология позволяет создавать приложения, используя знакомые инструменты разработчиков.
+Ассоциативная модель
+
+All databases adopt some fundamental world view about how data is stored. Relational databases use tables, and document stores use documents. BrightstarDB построен на очень гибкой модели ассоциативных данных RDF.
+
+Граф RDF позволяет представлять все существующие, имеющие практический смысл, виды моделей данных. Модель основана на концепции троек. Каждая тройка -- это ассоциация свойства с определенным ресурсом или значением. Эта простая структура может быть использована для описания и представления данных <<любой формы>>. Эта гибкость означает, что разработка эволюционирующих систем, или создание систем, которые объединяются вместе становиться очень простым процессом.
+
+Не много существует NoSQL\;--\;баз данных предлагают механизмы, которые <<понимают>> структуры данных и автоматически управляют отношениями между сущностями. Большинство NoSQL\;--\;баз данных требуют от разработчика, чтобы он сам заботился об обновлении связей между документами и хранении дополнительных данных в дополнительном хранилище ключей--значение. Поэтому некоторые NoSQL--БД не особо хорошо справляются со многими моделями реальных данных, таких как социальные сети или структуры данных на графах.
+Хранение данных без хранения схемы данных
+
+Используемая ассоциативная модель позволяет добавлять новые данные в базу данных BrightstarDB без традиционной необходимости определения схемы данных. Это еще больше повышает гибкость и поддерживает эволюцию разработки, которая является важнейшей особенностью именно современных программных решений.
+
+Хранилища без схемы данных позволяют данным любой формы быть импортированными и связанными друг с другом, но разработчикам приложений часто необходимо работать с данными определенной формы. BrightstarDB является уникальным решением, позволяющем разработчикам приложений отображать несколько моделей в .NET в нескольких базах данных BrightstarDB.
+Модель данных со схемой
+
+While many NoSQL databases are schema-less, few are inherently able to automatically merge together information about the same logical entity. BrightstarDB implements the W3C RDF data model. This is a directed graph data model that supports the merging of data from different sources without requiring any application intervention. All entities are identified by a URI. This means that all properties assigned to that identifier can be seen to constitute a partial representation of that thing.
+
+This unique property makes BrightstarDB ideal for building enterprise information integration solutions where there is a fundamental need to bring together data about a single entity from many different systems.
+Автоматическое кэширование данных 
+
+Результаты запроса и представления кэшируется для повышения производительности  приложений с интенсивным использованием запросов к БД. Как правило, кэширование данных производится самими приложениями, но BrightstarDB обеспечивает эту функцию как ключевую возможность.
+Поддержание истории изменений
+
+BrightstarDB использует форматы хранения данных, которые сохраняют полную информацию об истории на каждом этапе транзакции. Это позволяет приложениям выполнять запросы в любой момент времени, она обеспечивает полную проверку состояния данных и хранилище данных, а также  возврат в предыдущее состояние или снимок, которые, в свою очередь, могут делаться в любой момент времени. Такой подход увеличивает объем используемого дискового пространства, но BrightstarDB предоставляет возможность консолидировать данные, относящиеся только к текущему моменту времени.
+Инструментарий, дружелюбный к разработчику
+
+Большинство разработчиков на .NET привыкли использовать объекты и linq для построения своих приложений. Database technologies that require a fundamental move away from this impose a large burden upon the developer. BrightstarDB предоставляет интерфейсы для обеспечения функционирования типизированной модели данных в хранилище. It adopts a unique position where the object model is an operational view onto the data. Причем, множество различных объектных моделей могут налагаться друг на друга в общей семантической модели данных.
+Обеспечение средств Семантического веба при помощи технологий .NET
+
+If you are working on .NET and want the power and flexibility of a semantic web data store. Then BrightstarDB is a great place to start. В BrightstarDB существует поддержка языка запросов sparql, а также экспорт/импорт данных в формате NTriples, используемые при построении семантических веб-приложений.
+RDF is great for powering Object Oriented solutions
+
+Objects are composed of properties, each property is either a literal value or a reference to another object. This creates a graph or related things with properties. ORM systems require that tables are organised in specific ways to facilitate storing object state. Изменения в объектной моделью и реляционной схемы требуют взаимного изменения. RDF, в идеале, может быть использован для хранения и свойств-значений и отношений между объектами. Если объектная модель изменяется, то новое значение свойства может быть просто добавлено, так как нет фиксированной схемы. Аналогичным образом, если дополнительные данные добавляется в хранилище в виде RDF, то в объектная модель может либо игнорировать, либо использовать эти данные. In this way the object model is an operational, read/write, view of the RDF data.
+
+
+Архитектура Brightstar DB
+
+BrightstarDB реализован в среде .NRT и является nosql-база данных, поддерживающая Семантический веб. Она используется в качестве встроенной базы данных или в качестве службы. К серверу можно подключаться по протоколам HTTP, TCP/IP и по поименованным каналам. BrightstarDB обеспечивает поддержук Entity Framework в режиме Code First. Инструментарий, совместимый с Entity Framework, также порождает объектный контекст при помощи задаваемых разработчиком .NET-приложений интерфейсов хранимых объектов в BrightstarDB. As well as the Entity Framework there is a low level RDF API for working with the underlying data. BrightstarDB (in the Enterprise and Server versions) also provides a management studio called Polaris for running queries and transactions against a BrightstarDB service.
+
+The following diagram provides an overview of the BrightstarDB architecture.
+Модель данных
+
+BrightstarDB supports the W3C RDF and SPARQL 1.1 Query and Update. standards, the data model stored is triples with a graph context (often this is called a quad store). The triple data structure is very powerful, especially for creating associative data models, merging data from many sources, and for giving unique persistent and global identity to ‘things’.
+
+A triple is defined as having three parts: A subject URI, a predicate URI, and an object value. The subject URI is the identifier for some thing. A person, company, product etc. The predicate is an identifier for a property type and the object can either be the identifier for another thing, or a literal value. Literal values can also have data types.
+
+An example of a literal property assigned to some thing is:
+
+<http://www.brightstardb.com/companies/brightstardb> <http://www.w3.org/2000/01/rdf-schema#label> "BrightstarDB" .
+
+and a connection between two entities is described:
+
+<http://www.brightstardb.com/companies/brightstardb> <http://www.brightstardb.com/types/hasproduct> <http://www.brightstardb.com/products/brightstardb> .
+
+Особенности хранения данных
+
+BrightstarDB является СУБД с однократной записью, многократным чтением (WORM). Изменения в данные добавляются в конец файла хранилища, данные никогда не перезаписываются. It employs a single writer, concurrent reader model. This supports concurrent read with no possibility of reading dirty data. Так как запись производится только одним клиентом, и данные не перезаписываются, то нет и необходимости в реализации блокировок. WORM-подход поддерживает откат и запросы по всей истории состояний базы данных на любом этапе транзакции. База данных может периодически консолидироваться, при этом происходит удаление ненужной истории, и это позволяет управлять ростом размера файла хранилища.
+Client APIs
+
+There are three different code layers with which to access BrightstarDB. The first of these is the RDF Client API. This is a low level API that allows developers to insert and delete triples, and run SPARQL queries. The second API layer is the Data Object Layer. This provides the ability to  treat a collection of triples with the same subject as a single unit and also provides support for RDF list structures and optimistic locking. The highest API layer is the BrightstarDB Entity Framework. BrightstarDB enables data-binding from items at the Data Object Layer to full .NET objects described by a programmer-defined interface. As well as storing object state BrightstarDB also allows developers to use LINQ expressions to query the data they have created.
+Supported RDF Syntaxes
+
+As BrightstarDB is built on the W3C RDF data model, we also provide the ability to import and export your data as RDF.
+
+BrightstarDB supports a number of different RDF syntaxes for file-based import. This list of supported file formats applies both to import jobs created using the BrightstarDB API (see RDF Client API for details), and to file import using Polaris (see Polaris Management Tool for details). To determine the parser to be used, BrightstarDB checks the file extension, so it is important to use the correct file extension for the syntax you are importing. The supported syntaxes and their file extensions are listed in the table below as shown, BrightstarDB also supports reading from files that are compressed with the GZip compression method.
+
+The table below also lists the MIME media types that are recognized by BrightstarDB for each of the supported RDF formats. Where more than one media type is listed, the first media type in the list is the preferred media type - this is the media type that BrightstarDB will use when emitting RDF in that particular format. We recommend that if you have a choice, you use the preferred media type - the other media types are supported for backwards compatibility and compatibility with media types used “in the wild”.

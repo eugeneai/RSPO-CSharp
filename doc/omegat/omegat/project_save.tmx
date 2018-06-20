@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tmx SYSTEM "tmx11.dtd">
+<tmx version="1.1">
+  <header creationtool="OmegaT" o-tmf="OmegaT TMX" adminlang="EN-US" datatype="plaintext" creationtoolversion="4.1.4_0_10321" segtype="sentence" srclang="EN-US"/>
+  <body>
+<!-- Default translations -->
+    <tu>
+      <tuv lang="EN-US">
+        <seg>../_images/Architecture.png
+Data Model</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050203Z" creationid="eugeneai" creationdate="20180620T050203Z">
+        <seg>Модель данных</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>A Semantic Data Model</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132859Z" creationid="eugeneai" creationdate="20180619T132859Z">
+        <seg>Модель данных со схемой</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>An Associative Model</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T130851Z" creationid="eugeneai" creationdate="20180619T130851Z">
+        <seg>Ассоциативная модель</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Automatic Data caching</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132949Z" creationid="eugeneai" creationdate="20180619T132949Z">
+        <seg>Автоматическое кэширование данных </seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB has adopted a very flexible, associative data model based on the W3C RDF data model.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131034Z" creationid="eugeneai" creationdate="20180619T131034Z">
+        <seg>BrightstarDB построен на очень гибкой модели ассоциативных данных RDF.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB is a native .NET NoSQL semantic web database.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045734Z" creationid="eugeneai" creationdate="20180620T045734Z">
+        <seg>BrightstarDB реализован в среде .NRT и является nosql-база данных, поддерживающая Семантический веб.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB is a unique and powerful data storage technology for the .NET platform.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T130731Z" creationid="eugeneai" creationdate="20180619T130731Z">
+        <seg>BrightstarDB является уникальной и мощной технологией хранения данных для .Net платформы.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB is a write once, read many store (WORM).</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050318Z" creationid="eugeneai" creationdate="20180620T050318Z">
+        <seg>BrightstarDB является СУБД с однократной записью, многократным чтением (WORM).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB is unique in allowing application developers to map multiple .NET typed domain models over any BrightstarDB data store.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132841Z" creationid="eugeneai" creationdate="20180619T132841Z">
+        <seg>BrightstarDB является уникальным решением, позволяющем разработчикам приложений отображать несколько моделей в .NET в нескольких базах данных BrightstarDB.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB provides a complete typed domain model interface to work with the data in the store.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T044708Z" creationid="eugeneai" creationdate="20180620T044708Z">
+        <seg>BrightstarDB предоставляет интерфейсы для обеспечения функционирования типизированной модели данных в хранилище.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB uses a form of data storage that preserves full historical data at every transaction point.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T133317Z" creationid="eugeneai" creationdate="20180619T133304Z">
+        <seg>BrightstarDB использует форматы хранения данных, которые сохраняют полную информацию об истории на каждом этапе транзакции.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>BrightstarDB uses the powerful and simple RDF graph data model to represent all the different kinds of models that are to be stored.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131204Z" creationid="eugeneai" creationdate="20180619T131204Z">
+        <seg>Граф RDF позволяет представлять все существующие, имеющие практический смысл, виды моделей данных.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Changes to either the object model or the relational schema often require a reciprocal change.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045139Z" creationid="eugeneai" creationdate="20180620T045139Z">
+        <seg>Изменения в объектной моделью и реляционной схемы требуют взаимного изменения.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Concepts
+Architecture</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045625Z" creationid="eugeneai" creationdate="20180620T045625Z">
+        <seg>Архитектура Brightstar DB</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Developer Friendly Toolset</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T044443Z" creationid="eugeneai" creationdate="20180620T044443Z">
+        <seg>Инструментарий, дружелюбный к разработчику</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Each triple is the assignment of a property to an identified resource.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131318Z" creationid="eugeneai" creationdate="20180619T131318Z">
+        <seg>Каждая тройка -- это ассоциация свойства с определенным ресурсом или значением.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Few existing NoSQL databases offer a data model that understands, and automatically manages relationships between data entities.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131731Z" creationid="eugeneai" creationdate="20180619T131713Z">
+        <seg>Не много существует NoSQL\;--\;баз данных предлагают механизмы, которые &lt;&lt;понимают&gt;&gt; структуры данных и автоматически управляют отношениями между сущностями.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Full Historical Capabilities</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T133209Z" creationid="eugeneai" creationdate="20180619T133209Z">
+        <seg>Поддержание истории изменений</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>It can be used as an embedded database or run as a service.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045759Z" creationid="eugeneai" creationdate="20180620T045759Z">
+        <seg>Она используется в качестве встроенной базы данных или в качестве службы.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>It combines flexibility, scalability and performance while allowing applications to be created using tools developers are familiar with.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T130844Z" creationid="eugeneai" creationdate="20180619T130844Z">
+        <seg>Она сочетает в себе гибкость, масштабируемость и производительность. Технология позволяет создавать приложения, используя знакомые инструменты разработчиков.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Modifications to data are appended to the end of the storage file, no data is ever overwritten.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050345Z" creationid="eugeneai" creationdate="20180620T050345Z">
+        <seg>Изменения в данные добавляются в конец файла хранилища, данные никогда не перезаписываются.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Most NoSQL databases require the application developer to take care of updating ‘join’ documents, or adding redundant data into ‘document’ representations, or storing extra data in a key value store.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132014Z" creationid="eugeneai" creationdate="20180619T131722Z">
+        <seg>Большинство NoSQL\;--\;баз данных требуют от разработчика, чтобы он сам заботился об обновлении связей между документами и хранении дополнительных данных в дополнительном хранилище ключей--значение.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Most developers on .NET are accustomed to using objects and LINQ for building their applications.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T044536Z" creationid="eugeneai" creationdate="20180620T044536Z">
+        <seg>Большинство разработчиков на .NET привыкли использовать объекты и linq для построения своих приложений.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Native .NET Semantic Web Database</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T044857Z" creationid="eugeneai" creationdate="20180620T044857Z">
+        <seg>Обеспечение средств Семантического веба при помощи технологий .NET</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Normally, data caching is done by applications but BrightstarDB provides this feature as a core capability.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T133139Z" creationid="eugeneai" creationdate="20180619T133139Z">
+        <seg>Как правило, кэширование данных производится самими приложениями, но BrightstarDB обеспечивает эту функцию как ключевую возможность.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Query results, and entity representations are cached to further improve performance for query intensive applications.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T133030Z" creationid="eugeneai" creationdate="20180619T133030Z">
+        <seg>Результаты запроса и представления кэшируется для повышения производительности  приложений с интенсивным использованием запросов к БД.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>RDF on the other hand can ideally be used to store both literal properties and object relationships and if the object model needs to change then new property value can be added as there is no fixed schema.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045355Z" creationid="eugeneai" creationdate="20180620T045355Z">
+        <seg>RDF, в идеале, может быть использован для хранения и свойств-значений и отношений между объектами. Если объектная модель изменяется, то новое значение свойства может быть просто добавлено, так как нет фиксированной схемы.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Reads are not blocked while writes occur.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050519Z" creationid="eugeneai" creationdate="20180620T050519Z">
+        <seg>Так как запись производится только одним клиентом, и данные не перезаписываются, то нет и необходимости в реализации блокировок.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Schema-less Data Store</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132228Z" creationid="eugeneai" creationdate="20180619T132228Z">
+        <seg>Хранение данных без хранения схемы данных</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Similarly, if additional RDF data is added to the store the object model can either ignore or make use of this data.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045556Z" creationid="eugeneai" creationdate="20180620T045556Z">
+        <seg>Аналогичным образом, если дополнительные данные добавляется в хранилище в виде RDF, то в объектная модель может либо игнорировать, либо использовать эти данные.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Storage Features</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050241Z" creationid="eugeneai" creationdate="20180620T050237Z">
+        <seg>Особенности хранения данных</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>The Entity Framework tools take .NET interfaces and generate concrete classes that persist their data in BrightstarDB.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050136Z" creationid="eugeneai" creationdate="20180620T050136Z">
+        <seg>Инструментарий, совместимый с Entity Framework, также порождает объектный контекст при помощи задаваемых разработчиком .NET-приложений интерфейсов хранимых объектов в BrightstarDB.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>The WORM store approach supports rollback or querying of the complete database at any transaction point.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050625Z" creationid="eugeneai" creationdate="20180620T050625Z">
+        <seg>WORM-подход поддерживает откат и запросы по всей истории состояний базы данных на любом этапе транзакции.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>The associative model used in BrightstarDB means data can be inserted into a BrightstarDB database without the need to define a traditional database schema.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132407Z" creationid="eugeneai" creationdate="20180619T132407Z">
+        <seg>Используемая ассоциативная модель позволяет добавлять новые данные в базу данных BrightstarDB без традиционной необходимости определения схемы данных.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>The model is based on a concept of a triple.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131213Z" creationid="eugeneai" creationdate="20180619T131213Z">
+        <seg>Модель основана на концепции троек.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>The store can be periodically coalesced to manage file size growth at the expense of removing previous transaction points.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T050753Z" creationid="eugeneai" creationdate="20180620T050753Z">
+        <seg>База данных может периодически консолидироваться, при этом происходит удаление ненужной истории, и это позволяет управлять ростом размера файла хранилища.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This allows applications to perform queries at any previous point in time, it ensures fully audit-able data and allows data stores to be returned to any previous state or snapshots taken at any point in time.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T133503Z" creationid="eugeneai" creationdate="20180619T133503Z">
+        <seg>Это позволяет приложениям выполнять запросы в любой момент времени, она обеспечивает полную проверку состояния данных и хранилище данных, а также  возврат в предыдущее состояние или снимок, которые, в свою очередь, могут делаться в любой момент времени.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This approach does increase the amount of disk space used, but BrightstarDB provides a feature to consolidate down to just the currently required data.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T133734Z" creationid="eugeneai" creationdate="20180619T133734Z">
+        <seg>Такой подход увеличивает объем используемого дискового пространства, но BrightstarDB предоставляет возможность консолидировать данные, относящиеся только к текущему моменту времени.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This flexibility means that evolving systems, or creating systems that merge data together is very simple.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131443Z" creationid="eugeneai" creationdate="20180619T131443Z">
+        <seg>Эта гибкость означает, что разработка эволюционирующих систем, или создание систем, которые объединяются вместе становиться очень простым процессом.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This further enhances flexibility and supports solution evolution which is a critical feature of modern software solutions.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132459Z" creationid="eugeneai" creationdate="20180619T132459Z">
+        <seg>Это еще больше повышает гибкость и поддерживает эволюцию разработки, которая является важнейшей особенностью именно современных программных решений.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This makes many NoSQL databases not particularly good at dealing with many real word data models, such as social networks, or any graph like data structure.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132206Z" creationid="eugeneai" creationdate="20180619T132142Z">
+        <seg>Поэтому некоторые NoSQL--БД не особо хорошо справляются со многими моделями реальных данных, таких как социальные сети или структуры данных на графах.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This means that many different object models can overlay the same semantic data model.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T044806Z" creationid="eugeneai" creationdate="20180620T044806Z">
+        <seg>Причем, множество различных объектных моделей могут налагаться друг на друга в общей семантической модели данных.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>This simple structure can be used to describe and represent data of any shape.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T131344Z" creationid="eugeneai" creationdate="20180619T131344Z">
+        <seg>Эта простая структура может быть использована для описания и представления данных &lt;&lt;любой формы&gt;&gt;.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>When run as a service clients can connect using HTTP, TCP/IP or Named Pipes.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045835Z" creationid="eugeneai" creationdate="20180620T045835Z">
+        <seg>К серверу можно подключаться по протоколам HTTP, TCP/IP и по поименованным каналам.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>While the core data model is RDF triples and the query language SPARQL BrightstarDB provides a code-first Entity Framework.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045938Z" creationid="eugeneai" creationdate="20180620T045938Z">
+        <seg>BrightstarDB обеспечивает поддержук Entity Framework в режиме Code First.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>While the schema-less data store enables data of any shape to be imported and linked together, application developers often need to work with a specific shape of data.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T132702Z" creationid="eugeneai" creationdate="20180619T132702Z">
+        <seg>Хранилища без схемы данных позволяют данным любой формы быть импортированными и связанными друг с другом, но разработчикам приложений часто необходимо работать с данными определенной формы.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>Why BrightstarDB?</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180619T130713Z" creationid="eugeneai" creationdate="20180619T130653Z">
+        <seg>Почему BrightstarDB?</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN-US">
+        <seg>With support for the SPARQL query language and also the NTriples data format building semantic web based applications is simple and fun with BrightstarDB.</seg>
+      </tuv>
+      <tuv lang="RU-RU" changeid="eugeneai" changedate="20180620T045055Z" creationid="eugeneai" creationdate="20180620T045055Z">
+        <seg>В BrightstarDB существует поддержка языка запросов sparql, а также экспорт/импорт данных в формате NTriples, используемые при построении семантических веб-приложений.</seg>
+      </tuv>
+    </tu>
+<!-- Alternative translations -->
+  </body>
+</tmx>

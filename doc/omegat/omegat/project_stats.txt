@@ -1,0 +1,16 @@
+6/20/18 1:08 PM
+Project Statistics
+
+                 	Segments	Words	Characters (without spaces)	Characters (including spaces)	#Files	
+Total:           	     570	 8899	                      50644	                        58917	     3	
+Remaining:       	     522	 8190	                      46844	                        54460	     3	
+Unique:          	     547	 8847	                      50298	                        58536	     3	
+Unique Remaining:	     499	 8138	                      46498	                        54079	     3	
+
+
+Individual File Statistics:
+
+File Name                        	Total Segments	Remaining Segments	Unique Segments	Unique Remaining Segments	Total Words	Remaining Words	Unique Words	Unique Remaining Words	Total Characters (without spaces)	Remaining Characters (without spaces)	Unique Characters (without spaces)	Unique Remaining Characters (without spaces)	Total Characters (including spaces)	Remaining Characters (including spaces)	Unique Characters (including spaces)	Unique Remaining Characters (including spaces)	
+matter/article_32_0.docx         	           268	               268	            249	                      249	       3144	           3144	        3095	                  3095	                            22857	                                22857	                             22522	                                       22522	                              25774	                                  25774	                               25405	                                         25405	
+matter/BrightStardb.txt          	           100	                52	            100	                       52	       1538	            829	        1538	                   829	                             8210	                                 4410	                              8210	                                        4410	                               9630	                                   5173	                                9630	                                          5173	
+matter/lemiremaclachlan_sdm05.pdf	           202	               202	            198	                      198	       4217	           4217	        4214	                  4214	                            19577	                                19577	                             19566	                                       19566	                              23513	                                  23513	                               23501	                                         23501	

@@ -1,0 +1,71 @@
+Why BrightstarDB?
+
+BrightstarDB is a unique and powerful data storage technology for the .NET platform. It combines flexibility, scalability and performance while allowing applications to be created using tools developers are familiar with.
+An Associative Model
+
+All databases adopt some fundamental world view about how data is stored. Relational databases use tables, and document stores use documents. BrightstarDB has adopted a very flexible, associative data model based on the W3C RDF data model.
+
+BrightstarDB uses the powerful and simple RDF graph data model to represent all the different kinds of models that are to be stored. The model is based on a concept of a triple. Each triple is the assignment of a property to an identified resource. This simple structure can be used to describe and represent data of any shape. This flexibility means that evolving systems, or creating systems that merge data together is very simple.
+
+Few existing NoSQL databases offer a data model that understands, and automatically manages relationships between data entities. Most NoSQL databases require the application developer to take care of updating ‘join’ documents, or adding redundant data into ‘document’ representations, or storing extra data in a key value store. This makes many NoSQL databases not particularly good at dealing with many real word data models, such as social networks, or any graph like data structure.
+Schema-less Data Store
+
+The associative model used in BrightstarDB means data can be inserted into a BrightstarDB database without the need to define a traditional database schema. This further enhances flexibility and supports solution evolution which is a critical feature of modern software solutions.
+
+While the schema-less data store enables data of any shape to be imported and linked together, application developers often need to work with a specific shape of data. BrightstarDB is unique in allowing application developers to map multiple .NET typed domain models over any BrightstarDB data store.
+A Semantic Data Model
+
+While many NoSQL databases are schema-less, few are inherently able to automatically merge together information about the same logical entity. BrightstarDB implements the W3C RDF data model. This is a directed graph data model that supports the merging of data from different sources without requiring any application intervention. All entities are identified by a URI. This means that all properties assigned to that identifier can be seen to constitute a partial representation of that thing.
+
+This unique property makes BrightstarDB ideal for building enterprise information integration solutions where there is a fundamental need to bring together data about a single entity from many different systems.
+Automatic Data caching
+
+Query results, and entity representations are cached to further improve performance for query intensive applications. Normally, data caching is done by applications but BrightstarDB provides this feature as a core capability.
+Full Historical Capabilities
+
+BrightstarDB uses a form of data storage that preserves full historical data at every transaction point. This allows applications to perform queries at any previous point in time, it ensures fully audit-able data and allows data stores to be returned to any previous state or snapshots taken at any point in time. This approach does increase the amount of disk space used, but BrightstarDB provides a feature to consolidate down to just the currently required data.
+Developer Friendly Toolset
+
+Most developers on .NET are accustomed to using objects and LINQ for building their applications. Database technologies that require a fundamental move away from this impose a large burden upon the developer. BrightstarDB provides a complete typed domain model interface to work with the data in the store. It adopts a unique position where the object model is an operational view onto the data. This means that many different object models can overlay the same semantic data model.
+Native .NET Semantic Web Database
+
+If you are working on .NET and want the power and flexibility of a semantic web data store. Then BrightstarDB is a great place to start. With support for the SPARQL query language and also the NTriples data format building semantic web based applications is simple and fun with BrightstarDB.
+RDF is great for powering Object Oriented solutions
+
+Objects are composed of properties, each property is either a literal value or a reference to another object. This creates a graph or related things with properties. ORM systems require that tables are organised in specific ways to facilitate storing object state. Changes to either the object model or the relational schema often require a reciprocal change. RDF on the other hand can ideally be used to store both literal properties and object relationships and if the object model needs to change then new property value can be added as there is no fixed schema. Similarly, if additional RDF data is added to the store the object model can either ignore or make use of this data. In this way the object model is an operational, read/write, view of the RDF data.
+
+
+Concepts
+Architecture
+
+BrightstarDB is a native .NET NoSQL semantic web database. It can be used as an embedded database or run as a service. When run as a service clients can connect using HTTP, TCP/IP or Named Pipes. While the core data model is RDF triples and the query language SPARQL BrightstarDB provides a code-first Entity Framework. The Entity Framework tools take .NET interfaces and generate concrete classes that persist their data in BrightstarDB. As well as the Entity Framework there is a low level RDF API for working with the underlying data. BrightstarDB (in the Enterprise and Server versions) also provides a management studio called Polaris for running queries and transactions against a BrightstarDB service.
+
+The following diagram provides an overview of the BrightstarDB architecture.
+../_images/Architecture.png
+Data Model
+
+BrightstarDB supports the W3C RDF and SPARQL 1.1 Query and Update. standards, the data model stored is triples with a graph context (often this is called a quad store). The triple data structure is very powerful, especially for creating associative data models, merging data from many sources, and for giving unique persistent and global identity to ‘things’.
+
+A triple is defined as having three parts: A subject URI, a predicate URI, and an object value. The subject URI is the identifier for some thing. A person, company, product etc. The predicate is an identifier for a property type and the object can either be the identifier for another thing, or a literal value. Literal values can also have data types.
+
+An example of a literal property assigned to some thing is:
+
+<http://www.brightstardb.com/companies/brightstardb> <http://www.w3.org/2000/01/rdf-schema#label> "BrightstarDB" .
+
+and a connection between two entities is described:
+
+<http://www.brightstardb.com/companies/brightstardb> <http://www.brightstardb.com/types/hasproduct> <http://www.brightstardb.com/products/brightstardb> .
+
+Storage Features
+
+BrightstarDB is a write once, read many store (WORM). Modifications to data are appended to the end of the storage file, no data is ever overwritten. It employs a single writer, concurrent reader model. This supports concurrent read with no possibility of reading dirty data. Reads are not blocked while writes occur. The WORM store approach supports rollback or querying of the complete database at any transaction point. The store can be periodically coalesced to manage file size growth at the expense of removing previous transaction points.
+Client APIs
+
+There are three different code layers with which to access BrightstarDB. The first of these is the RDF Client API. This is a low level API that allows developers to insert and delete triples, and run SPARQL queries. The second API layer is the Data Object Layer. This provides the ability to  treat a collection of triples with the same subject as a single unit and also provides support for RDF list structures and optimistic locking. The highest API layer is the BrightstarDB Entity Framework. BrightstarDB enables data-binding from items at the Data Object Layer to full .NET objects described by a programmer-defined interface. As well as storing object state BrightstarDB also allows developers to use LINQ expressions to query the data they have created.
+Supported RDF Syntaxes
+
+As BrightstarDB is built on the W3C RDF data model, we also provide the ability to import and export your data as RDF.
+
+BrightstarDB supports a number of different RDF syntaxes for file-based import. This list of supported file formats applies both to import jobs created using the BrightstarDB API (see RDF Client API for details), and to file import using Polaris (see Polaris Management Tool for details). To determine the parser to be used, BrightstarDB checks the file extension, so it is important to use the correct file extension for the syntax you are importing. The supported syntaxes and their file extensions are listed in the table below as shown, BrightstarDB also supports reading from files that are compressed with the GZip compression method.
+
+The table below also lists the MIME media types that are recognized by BrightstarDB for each of the supported RDF formats. Where more than one media type is listed, the first media type in the list is the preferred media type - this is the media type that BrightstarDB will use when emitting RDF in that particular format. We recommend that if you have a choice, you use the preferred media type - the other media types are supported for backwards compatibility and compatibility with media types used “in the wild”.
