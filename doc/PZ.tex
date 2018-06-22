@@ -70,44 +70,17 @@
 \newcommand\bottomrule{\noindent\vhrulefill{2pt}}
 \newcommand\midrule{\noindent\vhrulefill{2pt}}
 
-\newtotcounter{captionsnum}
-\def\oldcaption{} \let\oldcaption=\caption
-\def\caption{\stepcounter{captionsnum}\oldcaption}
+% \newtotcounter{captionsnum}
+% \def\oldcaption{} \let\oldcaption=\caption
+% \def\caption{\stepcounter{captionsnum}\oldcaption}
 
-\newtotcounter{bibitemnum}
-\def\oldbibitem{} \let\oldbibitem=\bibitem
-\def\bibitem{\stepcounter{bibitemnum}\oldbibitem}
+% \newtotcounter{bibitemnum}
+% \def\oldbibitem{} \let\oldbibitem=\bibitem
+% \def\bibitem{\stepcounter{bibitemnum}\oldbibitem}
 
-\newtotcounter{appsnum}
-\setcounter{appsnum}{1}
+% \newtotcounter{appsnum}
+% \setcounter{appsnum}{1}
 
-\newcommand\T{\rule{0pt}{2.6ex}}       % Top strut
-\newcommand\B{\rule[-1.2ex]{0pt}{0pt}} % Bottom strut
-\newcommand{\BA}[1]{%
-  \begin{minipage}[b]{0.4\textwidth}
-    \raggedright\T
-    #1
-  \end{minipage}
-}
-\let\BT\BA
-\newcommand{\BB}[1]{%
-  \begin{minipage}[t]{0.4\textwidth}
-    \raggedright\T
-    #1
-  \end{minipage}
-}
-\newcommand{\BC}[2]{%
-  \begin{minipage}[c]{#1}
-    \raggedright\T
-    #2
-  \end{minipage}
-}
-
-% Убрать марки и выделения.
-\providecommand\hl[1]{}
-\renewcommand\hl[1]{#1}
-\renewcommand\MA[2]{}
-\renewcommand\MB[2]{}
 \renewcommand{\bibname}{Список использованных источников}
 \providecommand\sfcpshape{\rmfamily}
 \newcommand{\capfont}{\Large\sffamily\sfcpshape\bfseries}
@@ -125,6 +98,8 @@
 \usepackage{minted} % пора заканчивать. завтра в 7 у меня другая срочная работа. Половина текста сделана.
 %\setmainfont{Brill} % Для разнообразия. Таймс задолбал.
 %\addfontfeature{Numbers=Lining}
+\usemintedstyle{bw}
+
 \begin{document}
 \renewcommand{\bibname}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
 \renewcommand{\chaptername}{}
@@ -395,17 +370,19 @@
 \label{sec:ex-retail}
 
 
-В \cite{b18} предложен проект системы управления недвижимым имуществом, где варианты объектов предлагаются на основе вывода на прецедентах (case-based reasoning). Задача подсистемы вывода – найти  прецедент в базе имеющихся прецедентов, похожий на запрос пользователя. Система помогает покупателям найти имущество, соответствующее их запросам. При этом система выводит суждения о свойствах объектов. Полученная информация затем используется в процессе фильтрации содержания и коллаборативной фильтрации. В дополнение к полученному списку выводится также наиболее популярные (most visited) варианты.
+В \cite{Alrawhani} предложен проект системы управления недвижимым имуществом, где варианты объектов предлагаются на основе вывода на прецедентах (case-based reasoning). Задача подсистемы вывода – найти  прецедент в базе имеющихся прецедентов, похожий на запрос пользователя. Система помогает покупателям найти имущество, соответствующее их запросам. При этом система выводит суждения о свойствах объектов. Полученная информация затем используется в процессе фильтрации содержания и коллаборативной фильтрации. В дополнение к полученному списку выводится также наиболее популярные (most visited) варианты.
 
 В теоретическом исследовании \cite{b15} в системе пользователи разделены на продавцов и покупателей. Продавцы "рекламируют" свое имущество, выставленное на продажу, выделяя те свойства недвижимости, которые сами считают важными. Предложена идея того, как получать данные для фильтрации содержания в задаче разработки РС управления имуществом: продавцы выступают в виде экспертов-оценщиков недвижимости, формируя информационную базу для фильтрации содержания. Предложенную идею можно дополнить, если ввести третий класс пользователей - экспертов-риелторов и позволить им дополнять базу данных прецедентов новыми суждениями.
 
-В \cite{b16} опытным путем показано, что использование Интернета не влияет значительно на эффективность поиска недвижимости с целью ее покупки по критериям времени поиска, его гибкости и "удовлетворенность результатом". Согласно исследованию Национальной ассоциации риелторов, проведенном в 2011 году, показано, что 88\% покупателей выбрали Интернет в качестве основного источника информации, но при этом среднее время на поиск жилья составило 12 недель, оно оказалось сравнимым с измерением, проведенным в 2009 году. Пользователь просматривает больше информации (как объектов, так и их свойств), но на анализ этой информации так же тратится много времени. Для повышения скорости выдачи результата авторами разработан алгоритм поиска на основе анализа поведения пользователей в процессе поиска объекта недвижимости, а также WEB-система, основанная на прецедентном выводе и онтологической концептуальной модели предметной области, ориентированная на пользователя.
+В \cite{Yuan} опытным путем показано, что использование Интернета не влияет значительно на эффективность поиска недвижимости с целью ее покупки по критериям времени поиска, его гибкости и "удовлетворенность результатом". Согласно исследованию Национальной ассоциации риелторов, проведенном в 2011 году, показано, что 88\% покупателей выбрали Интернет в качестве основного источника информации, но при этом среднее время на поиск жилья составило 12 недель, оно оказалось сравнимым с измерением, проведенным в 2009 году. Пользователь просматривает больше информации (как объектов, так и их свойств), но на анализ этой информации так же тратится много времени. Для повышения скорости выдачи результата авторами разработан алгоритм поиска на основе анализа поведения пользователей в процессе поиска объекта недвижимости, а также WEB-система, основанная на прецедентном выводе и онтологической концептуальной модели предметной области, ориентированная на пользователя.
 
-В \cite{b23} авторами выделены три ключевые характеристики объекта недвижимости, которые в значительной мере является определяющими в процессе принятия решения – это "расположение" (location), "потребительская характеристика" (housing unit property) и "цена" (price). Большинство РС используют именно эти характеристики для фильтрации содержания, причем для критерия "потребительская характеристика" задаются формальные параметры объекта (площадь, номер этажа, количество балконов, комнат-спален и т.п.). На окончательное решение также влияет окружение объекта - расстояние до магазинов, школ, детских садов. Для того, чтобы учесть эти характеристики в \cite{b16} построена онтологическая модель, связывающая различные характеристики недвижимости в три древовидные структуры, описывающие варианты терминов "расположение", "потребительская характеристика" и "цена". Например, как вариант, под "расположением" понимается "расстояние" до места работы "пешком", выраженное в минутах. Так же "расположение" - это наличие в "окружении" (environment) объекта недвижимости "услуг" "фитнеса". При помощи онтологии получена возможность сравнивать не вполне "схожие" объекты, что повышает точность обработки информации.
-Важным достижением авторов \cite{b16} является разработанный прототип РС, в котором пользователю предоставляется возможность указать на карте города область (окружность с заданным радиусом), в которой он хотел бы приобрести объект недвижимости, уточнить его потребительские характеристики и возможный диапазон цен.
+В \cite{Yuan} авторами выделены три ключевые характеристики объекта недвижимости, которые в значительной мере является определяющими в процессе принятия решения – это "расположение" (location), "потребительская характеристика" (housing unit property) и "цена" (price). Большинство РС используют именно эти характеристики для фильтрации содержания, причем для критерия "потребительская характеристика" задаются формальные параметры объекта (площадь, номер этажа, количество балконов, комнат-спален и т.п.). На окончательное решение также влияет окружение объекта - расстояние до магазинов, школ, детских садов. Для того, чтобы учесть эти характеристики в \cite{Yuan} построена онтологическая модель, связывающая различные характеристики недвижимости в три древовидные структуры, описывающие варианты терминов "расположение", "потребительская характеристика" и "цена". Например, как вариант, под "расположением" понимается "расстояние" до места работы "пешком", выраженное в минутах. Так же "расположение" - это наличие в "окружении" (environment) объекта недвижимости "услуг" "фитнеса". При помощи онтологии получена возможность сравнивать не вполне "схожие" объекты, что повышает точность обработки информации.
 
-Затем система выводит на карту варианты объектов недвижимости. Далее пользователь может уточнить другие характеристики, тем самым сужая количество предоставляемых вариантов. В сравнении с сервисами, подобным Avito.ru \cite{b17}, пользователю предлагается меньше вариантов, т.е. система оценивает интерес пользователя более точно, и сильнее сужает количество альтернатив.
-В \cite{b18} решается сложная логистическая задача организация процесса управления имуществом, в который вовлечены разнообразные группы людей в изменяющихся деловых и экономических условиях. В оценке учитываются не только экономические и бизнес-критерии, но и такие критерии, как "технологичность", "комфорт", "пространство", "административные" и "технические". Основная цель исследования - разработать модель, в которой различные группы людей будут максимально удовлетворены в "рациональной микро- и макро-среде".
+Важным достижением авторов \cite{Yuan} является разработанный прототип РС, в котором пользователю предоставляется возможность указать на карте города область (окружность с заданным радиусом), в которой он хотел бы приобрести объект недвижимости, уточнить его потребительские характеристики и возможный диапазон цен.
+
+Затем система выводит на карту варианты объектов недвижимости. Далее пользователь может уточнить другие характеристики, тем самым сужая количество предоставляемых вариантов. В сравнении с сервисами, подобным Avito.ru \cite{avito}, пользователю предлагается меньше вариантов, т.е. система оценивает интерес пользователя более точно, и сильнее сужает количество альтернатив.
+
+В \cite{Ginevichius} решается сложная логистическая задача организация процесса управления имуществом, в который вовлечены разнообразные группы людей в изменяющихся деловых и экономических условиях. В оценке учитываются не только экономические и бизнес-критерии, но и такие критерии, как "технологичность", "комфорт", "пространство", "административные" и "технические". Основная цель исследования - разработать модель, в которой различные группы людей будут максимально удовлетворены в "рациональной микро- и макро-среде".
 
 Эффективность использования имущества предлагается оценивать по целой системе критериев, включающей цену объекта, цену владения этим объектом, цену ремонта, возможности его использования (capasity), количеству операций, которые необходимо выполнить по передаче собственности, надежность, комфорт, срок физической и технической эксплуатации, и др. Авторы разрабатывают математический аппарат для оценивания каждого объекта недвижимости – цены, эргономики, стоимости ремонта, назначение и т.п. Математическое обеспечение РС предложено развивать в направлении ухода от поиска <<наиболее экономически выгодного управления недвижимостью>> к мультикритериальному выбору и тем самым повысить эффективность вычислительных процессов.
 
@@ -805,7 +782,7 @@ Accept: */*
 \begin{itemize}[label={},leftmargin=0pt]
 \item \verb|public string FileName| -- имя импортируемого файла (временный файл на сервере);
 \item \verb|public Stream InputStream| -- ссылка на входной поток байтов файла;
-\item \verb|public XDocument Document| -- документ библиотеки \verb|XDocument|, подобный структуре DOM2 \cite{dom2};
+\item \verb|public XDocument Document| -- документ библиотеки \verb|XDocument|, подобный структуре DOM2;
 \item \verb|public void Import(bool onlyLoad=false)| -- метод, осуществляющий импорт данных, его единственный параметр указывает, надо ли делать импорт или просто попытаться загрузить данные в \verb|Document|;
 \item \verb|public static Dictionary... buildingTypes| -- словарь отображения строковых значений на перечисление типов строений;
 \item \verb|public static Dictionary... categoryTypes| -- словарь отображения строковых значений на перечисление видов категорий;
@@ -1894,6 +1871,7 @@ Template Path:/home/eugeneai/projects/code/RSPO/design-studio_one-page-template/
 
 В рамках проекта не удалось разработать вычислительно-эффективную систему: некоторые алгоритмы могут быть адаптированы к процессу изменения данных, что значительно повысит их эффективность. Вторым направлением совершенствования системы является интеграция с существующими сервисами: автоматическая загрузка данных с сайтов непосредственно в РС, сбор информации о предпочтениях с других сайтов.
 
+Исходный код рекомендательной системы размещен на сайте по адресу \url{https://github.com/VapeNationGitHub/RSPO }. В приложении приводится код основных вычислительных модулей.
 \begin{thebibliography}{99}
 \bibitem{slopeone} Daniel Lemire, Anna Maclachlan. Slope One Predictors for Online Rating-Based Collaborative. [Электронный ресурс] URL:~\url{http://cogprints.org/4031/1/lemiremaclachlan_sdm05.pdf} (дата доступа: 10.05.2018)
 \bibitem{alglib} ALGLIB -- C++/C\# numerical analysis library. [Электронный ресурс] URL:~\url{http://www.alglib.net/} (дата доступа: 10.05.2018)
@@ -1917,13 +1895,18 @@ company/yandex/blog/241455/ (дата обращения: 12.12.2016).
 \bibitem{b13} С. А. Амелькин. Оценка эффективности рекомендательных систем. // Труды 14-й Всероссийской научной конференции «Электронные библиотеки: перспективные методы и технологии, электронные коллекции» — RCDL-2012, Переславль-Залесский, Россия, 15-18 октября 2012 г.
 \bibitem{b14} А. А. Правиков, В. А. Фомичев Разработка рекомендательной системы с естественно-языковым интерфейсом на основе математических моделей семантических объектов. // Бизнес-информатика № 4(14), 2010. с.3-11.
 \bibitem{b15} Е. В.Бритвина. Сегментирование рекомендательной системы с использованием метода организации соединения «клиент - сервер», основанного на программно-конфигурируемых сетях и применении протокола с быстрым перескоком IP-адреса. // Современные проблемы науки и образования. Электронный научный журнал. URL:https://www.science-education.ru/ru/article/view?id=16875 № 6. 2015.
+\bibitem{Ginevichius} T. Ginevičius, A. Kaklauskas, P. Kazokaitis, J. Alchimovienė. Recommender system for real estate management // Verslas: Teorija ir praktika (Business: Theory and Practice). 2011 12(3). p. 258–267 doi: 10.3846/btp.2011.26
+\bibitem{Alrawhani} E. M. Alrawhani, H. Basirona, Z. Sa’ayaa. Real estate recommender system using case-based reasoning approach. // Journal of Telecommunication, Electronic and Computer Engineering (JTEC). Vol. 8 No. 2. p. 177-182.
+\bibitem{Yuan} X. Yuan, J.-H. Lee, S.-J. Kim, Y.-H. Kim. Toward a user-oriented recommendation system for real estate websites. // Information Systems 38 (2013). p. 231–243.
+\bibitem{avito} Доска объявлений от частных лиц и компаний на Avito. [Электронный ресурс] URL:https://www.avito.ru/ (дата обращения:12.12.2016).
+\bibitem{mvc} Model-View-Controller -- Wikipedia [Электронный ресурс] URL:\url{https://ru.wikipedia.org/wiki/Model-View-Controller} (дата обращения:12.12.2016).
 
 \end{thebibliography}
 
 \appendix
 \renewcommand{\chaptername}{ПРИЛОЖЕНИЕ}
 \renewcommand{\thechapter}{\arabic{chapter}}
-\chapter{Листинг модуля библиотеки кластерного анализа \verb|ClusterAnalysis.cs|}
+\chapter{Листинг ClusterAnalysis.cs}
 \begin{minted}[breaklines,fontsize=\small]{csharp}
 using System;
 using System.Collections.Generic;
@@ -2105,6 +2088,656 @@ namespace RSPO
     }
 }
 \end{minted}
+\chapter{Листинг FlatClusterAnalysis.cs}
+\begin{minted}[breaklines,fontsize=\small]{csharp}
+using System;
+using System.Linq;
+
+namespace RSPO
+{
+	public class FlatClusterAnalyzer : ClusterAnalyzer<IObject>
+	{
+		public FlatClusterAnalyzer() : base() { }
+
+		protected double diff(double a, double b)
+		{
+			if (Math.Abs(a + b) < 0.01) return 0.0;
+			double res = Math.Abs(a - b) / (a + b);
+			return res;
+		}
+
+		protected override double compare(IObject o1, IObject o2)
+		{
+			if (o1 == o2) return 0.0; // Работа протестирована
+			// Надо сравнить два оюъекта по полям.
+			double s = 0.0; // Чем больше s, тем сильнее различаются объекты.
+			double q = 0.0; // Сумма максимумов важностей
+			double v = 0;
+
+			// Используем манхэттеновскую меру. |x1-x2| + |y1-y2| + ...
+
+			// + нам надо что-то вроде важности поля.
+			// (район города) - это очень важно.
+			v = 10;
+			if (o1.Location != o2.Location)
+			{
+				s += v;
+			}
+			q += v; // s суммируется не всегда.
+
+			// Address compare
+
+
+			v = 25;
+			s += diff(o1.Price, o2.Price) * v;
+			q += v;
+
+			v = 35;
+			s += diff(o1.Area, o2.Area) * v;
+			q += v;
+
+			v = 100;
+			bool r1 = o1.Rooms > 0, r2 = o2.Rooms > 0;
+			bool ro1 = o1.RoomsOffered > 0, ro2 = o2.RoomsOffered > 0;
+			if (r1 != r2)
+			{
+				s += 1 * v; // Разные объекты
+			}
+			else // Объекты похожи в смысле измерения комнат
+			{
+				if (!r1) // Оба объекта без комнат.
+				{
+					// Ничего не добавляем к s
+				}
+				else // Объекты с комнатами
+				{
+					double v1 = 100;
+					if (ro1 == ro2)
+					{
+						if (ro1) // Сдают комнаты.
+						{
+							s += diff(o1.RoomsOffered, o2.RoomsOffered) * v1;
+						}
+						// Иначе они одинаковы относительно доли комнат.
+					}
+					else
+					{
+						s += v1; // Один сдает комнаты, другой все сразу.
+					}
+
+					q += v1;
+
+					s += diff(o1.Rooms, o2.Rooms) * v1;
+				}
+			}
+			q += v; // Суммируем всегда
+
+			v = 10; // Размер здания не сильно важен.
+			bool f1 = o1.FloorTotal > 0, f2 = o2.FloorTotal > 0;
+			if (f1 == f2)
+			{
+				if (f1) // Здания с этажами
+				{
+					s += diff(o1.FloorTotal, o2.FloorTotal) * v;
+				}
+				// else Здания без этажей
+			}
+			else
+			{
+				s += v; // Один с этажами, др. нет.
+			}
+			q += v;
+
+			v = 30; // Этажы одни и те же.
+			f1 = o1.Floor > 0;
+			f2 = o2.Floor > 0;
+			if (f1 == f2)
+			{
+				if (f1)
+				{
+					s += diff(o1.Floor, o2.Floor) * v;
+				}
+			}
+			else
+			{
+				s += v;
+			}
+			q += v;
+
+			v = 30;
+			if (o1.BuildingType != o2.BuildingType) s += v;
+			q += v;
+
+			v = 30;
+			if (o1.BuildingSeries != o2.BuildingSeries) s += v;
+			q += v;
+
+			v = 30;
+			if (o1.PropertyType != o2.PropertyType) s += v;
+			q += v;
+
+			v = 100;
+			if (o1.Category != o2.Category) s += v;
+			q += v;
+
+			// v=20; // Один и тот же агент продает
+			// if (o1.Agents == o2.Agents) s+=v;
+			// q+=v;
+
+			double rate = s / q;
+
+			if (rate < 0.0 || rate > 1.0)
+				throw new Exception(string.Format("wrong rate {0}", rate));
+
+			// Console.WriteLine("R--->" + rate + " " + s + "/" + q);
+			return rate;
+		}
+
+		public static FlatClusterAnalyzer AnalyzeFlatWithCluster(int? cmax = 10)
+		{
+			FlatClusterAnalyzer fca = new FlatClusterAnalyzer();
+			MyEntityContext ctx = Application.Context;
+
+
+			Console.WriteLine("--> Adding data from database");
+
+			int counter = 0;
+			var allSet = ctx.Objects;
+			IQueryable<RSPO.IObject> qSet;
+
+			if (cmax != null)
+			{
+				qSet = allSet.Take((int)cmax);
+			}
+			else
+			{
+				qSet = allSet;
+			}
+
+			foreach (IObject o in qSet)
+			{
+				if (counter % 100 == 0)
+				{
+					Console.Write("" + counter + "     \r");
+				}
+				fca.Add(o);
+				counter++;
+			}
+
+			Console.WriteLine("\nStarting cluster analysis....");
+			if (!fca.Process())
+				throw new ProcessingException("cannot process data");
+			Console.WriteLine("Finished....");
+
+			return fca;
+		}
+
+		// Сохранить результат в базе данных
+
+		public bool Store(int k)
+		{
+            MyEntityContext ctx = Application.Context;
+
+            PrepareClusters(k);
+
+            ctx.ObjectClasss.ToList().ForEach(ctx.DeleteObject);
+            ctx.SaveChanges();
+
+            foreach (var cl in Cidx.Select((c, i) => new {c,i}))
+            {
+                IObjectClass c = ctx.ObjectClasss.Create();
+                c.Cluster = cl.c;
+                IObject ob = input[cl.i];
+                c.Object = ob;
+                Console.WriteLine("ob:"+ob.GUID+"->"+cl.c+"["+cl.i+"]");
+            }
+
+            ctx.SaveChanges();
+
+            ctx.ClassNames.ToList().ForEach(ctx.DeleteObject);
+
+            for(int i=0; i<k; i++) // Заготовки имен кластеров.
+            {
+                IClassName cn = ctx.ClassNames.Create();
+                cn.Name=i.ToString();
+                cn.Cluster=i;
+            }
+
+            ctx.SaveChanges();
+
+			return true;
+		}
+
+		// В винде сейчас перегенерю БД. // грузится ...
+	}
+
+	public class ProcessingException : Exception
+	{
+		public ProcessingException(string msg) : base(msg) { }
+	}
+}
+\end{minted}
+
+\chapter{Листинг SlopeOne.cs}
+\begin{minted}[breaklines,fontsize=\small]{csharp}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace RSPO
+{
+	public class SlopeOne : Analyzer<ILikes>
+	// Класс рассчитывает по квартирам в кластере (это фича будет)
+	// вес квартиры, которую пользователь еще не смотрел.
+	{
+		public SlopeOne() : base() { }
+
+		public List<int> Clusters; // Список кластеров, которые нас интересует
+
+		public List<ILikes> Likes = null;
+
+		public override bool Process()
+		{
+			// Итак, У нас список объектов ILikes, хранящихся в input;
+			// Надо рассчитать матрицу весов: сколько раз посещали квартирку.
+			// Для этого надо матрицу создать n x n, где n - это количество
+			// квартир в выборке элементов всех кластеров.
+			//
+
+			// Не, правильно я сделал. Иначе два раза запросы к БД делать.
+			PrepareInput(likes: Likes);  // Загрузка данных лайков.
+
+			calcMatrix();
+
+			return true;
+		}
+
+		private double[,] m = null; // Матрица оценок.
+		private double[,] d = null; // Differences
+		private int[] v = null; // Sum of votes per object
+
+		protected void calcMatrix()
+		{
+			m = new double[agents.Count, objects.Count]; // Все обнулено.
+
+			foreach (var i in input.Select((v, i) => new { v, i }))
+			{
+				m[agents[i.v.Agent], objects[i.v.Object]] += i.v.Value;
+				// https://ru.wikipedia.org/wiki/Slope_One#Коллаборативная_фильтрация_Slope_One_для_предметов_с_оценками
+			}
+
+			d = new double[objects.Count, objects.Count];
+			v = new int[objects.Count];
+
+			for (int row = 0; row < objects.Count; row++)
+			{
+				int col = row + 1;
+				while (col < objects.Count)
+				{
+					double s = 0;
+					int num = 0;
+					for (int ag = 0; ag < agents.Count; ag++)
+					{
+						double a = m[ag, row], b = m[ag, col];
+						if (a > 0 && b > 0)
+						{
+							s += a - b;
+							num++;
+						}
+					}
+					s /= num;
+					d[row, col] = s;
+					d[col, row] = -s;
+					col++;
+				}
+
+				int agnum = 0;
+				for (int ag = 0; ag < agents.Count; ag++)
+				{
+					if (m[ag, row] > 0) agnum++;
+				}
+				v[row] = agnum;
+			}
+			if (DEBUG)
+			{
+				Console.WriteLine("-------Indexes-----------");
+				foreach (KeyValuePair<IAgent, int> kvp in agents)
+				{
+					Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key.Name, kvp.Value));
+				}
+
+				foreach (KeyValuePair<IObject, int> kvp in objects)
+				{
+					Console.WriteLine(string.Format("Key = {0}, Value = {1}", kvp.Key.Name, kvp.Value));
+				} // A bug found.
+
+				Console.WriteLine("----- Source matix ------");
+				int rowLength = m.GetLength(0);
+				int colLength = m.GetLength(1);
+
+				for (int i = 0; i < rowLength; i++)
+				{
+					for (int j = 0; j < colLength; j++)
+					{
+						Console.Write(string.Format("{0} ", m[i, j]));
+					}
+					Console.WriteLine();
+				}
+
+				Console.WriteLine("----- distance matix ------");
+				rowLength = d.GetLength(0);
+				colLength = d.GetLength(1);
+
+				for (int i = 0; i < rowLength; i++)
+				{
+					for (int j = 0; j < colLength; j++)
+					{
+						Console.Write(string.Format("{0:f} ", d[i, j]));
+					}
+					Console.WriteLine();
+				}
+
+				Console.WriteLine("----- Sum values vector -------");
+				for (int i = 0; i < v.GetLength(0); i++)
+				{
+					Console.Write(string.Format("{0} ", v[i]));
+				}
+				Console.WriteLine();
+			}
+		}
+
+		public List<ILikes> Estimate(IAgent agent, int cluster)
+		// Оценивает все квартиры в клатере cluster
+		// для агента agent
+		{
+			List<ILikes> res = new List<ILikes>();
+			MyEntityContext ctx = Application.Context;
+			foreach (IObjectClass oc in ctx.ObjectClasss.Where(x => x.Cluster == cluster).ToList())
+			{
+				ILikes like = ctx.Likess.Create();
+				double? eval = Estimate(agent, oc.Object); // Оценить данный объект
+				if (eval != null)
+				{
+					like.Agent = agent;
+					like.Object = oc.Object;
+					like.Value = (double)eval;
+					like.Quality = OriginatingEnum.Evaluated;
+					res.Add(like);
+					// Эти лайки мы не записываем в БД.!!
+				}
+			}
+			// Теперь надо упорядочить по убфывнию Value
+			res.Sort(delegate (ILikes x, ILikes y)
+					 {
+						 if (x.Value == y.Value) return 0;
+						 if (x.Value > y.Value) return 1;
+						 return -1;
+					 });
+			return res;
+		}
+
+		public double? Estimate(IAgent agent, IObject obj)
+		// Оценка одного объекта.
+		{
+			if (m == null) throw new EstimationException("matrix is not constructed");
+			int ia, io;
+			if (!agents.TryGetValue(agent, out ia))
+			{
+				return null;
+			}
+			if (!objects.TryGetValue(obj, out io))
+			{
+				return null;
+			}
+
+
+			if (m[ia, io] > 0)
+			{
+				// Оценка им самим уже есть, вернуть ее
+				return m[ia, io];
+			}
+
+			double value = 0;
+			int num = 0;
+
+			for (int row = 0; row < objects.Count; row++)
+			{
+				double a = d[io, row];
+				if (!(a > 0)) continue;
+				double theirest = m[ia, row]; // Моя оценка квартиры, с кот. сравниваем
+				if (!(theirest > 0)) continue;
+				theirest += a; // Добавить среднюю оценку FIXME: Проверить знак.
+				int cnt = v[row];
+				num += cnt;
+				theirest *= cnt;
+				value += theirest;
+			}
+
+			if (num == 0) return null; // Никто не голосовал за эту квартиру вообще
+
+			return value / num;
+		}
+
+		protected void addLike(ILikes like)
+		{
+			agents.SetDefault(like.Agent, agents.Count);
+			objects.SetDefault(like.Object, objects.Count);
+			Add(like); // in input
+		}
+
+
+		protected void PrepareInput(int? cluster = null, List<ILikes> likes = null)
+		{
+			MyEntityContext ctx = Application.Context;
+			Console.WriteLine(" RS: importing data ");
+
+			agents = new Dictionary<IAgent, int>();
+			objects = new Dictionary<IObject, int>();
+			if (likes != null)
+			{
+				foreach (ILikes like in likes)
+				{
+					addLike(like);
+				}
+				return; // Этот вариант задуман для тестирования.
+			}
+
+			if (cluster != null)
+			{
+				foreach (IObjectClass oc in ctx.ObjectClasss.Where(x => x.Cluster == cluster).ToList())
+				{
+					foreach (ILikes l in ctx.Likess.Where(x => x.Object.GUID == oc.Object.GUID).ToList())
+					{
+						addLike(l);
+					}
+				}
+			}
+			else
+			{
+				foreach (int c in Clusters)
+				{
+					PrepareInput(c); // Да. Сие является рекурсией.
+				}
+			}
+		}
+
+		Dictionary<IAgent, int> agents; // Отображение агента на его индекс в матрице.
+		Dictionary<IObject, int> objects; // Аналогично... для квартирке.
+	}
+
+	public class EstimationException : Exception
+	{
+		public EstimationException(string msg) : base(msg) { }
+	}
+
+}
+\end{minted}
+% \chapter{Листинг модуля моделей Models.cs}
+% \begin{minted}[breaklines,fontsize=\small]{csharp}
+% using System;
+% using System.Collections.Generic;
+% using System.Linq;
+
+% namespace RSPO
+% {
+% 	public class ApplicationModel
+% 	{
+% 		public ApplicationModel(string Name = "Рекомендательная система по рынку недвижимости Иркутской области")
+% 		{
+% 			this.Name = Name;
+% 		}
+% 		public string Name;
+% 	}
+
+%     public class LoginObject // FIXME: Использован как заглушка.
+%     {
+%         public LoginObject() {}
+%     }
+
+%     [Serializable]
+%     public class MessageModel // Класс, показывающий сообщения
+%     {
+%         public MessageModel(string message=null, string msg="", AlertType alert=AlertType.Info)
+%         {
+%             Message = message;
+%             Msg   = msg;
+%             this.alert = alert;
+%         }
+
+%         public readonly string Msg = null;
+%         protected readonly AlertType alert = AlertType.Info;
+%         public readonly string Message = null;
+
+%         public string Alert
+%         {
+%             get
+%             {
+%                 return alerts[alert];
+%             }
+%         }
+
+%         public bool Exists
+%         {
+%             get
+%             {
+%                 return ! String.IsNullOrEmpty(Message);
+%             }
+%         }
+
+%         private Dictionary<AlertType,string> alerts = new Dictionary<AlertType,string>
+%         {
+%             {AlertType.Primary, "primary"},
+%             {AlertType.Secondary, "secondary"},
+%             {AlertType.Success, "success"},
+%             {AlertType.Danger, "danger"},
+%             {AlertType.Warning, "warning"},
+%             {AlertType.Info, "info"},
+%             {AlertType.Light, "light"},
+%             {AlertType.Dark, "dark"}
+%         };
+%     }
+
+%     public enum AlertType
+%     {
+%         Primary,
+%         Secondary,
+%         Success,
+%         Danger,
+%         Warning,
+%         Info,
+%         Light,
+%         Dark
+%     }
+
+%     public class SessionModel : Dictionary<string, object> // Ничего особенного, просто словарь
+%     {
+%         public SessionModel(): base() {}
+
+%         public string GUID
+%         {
+%             set
+%             {
+%                 this["GUID"] = value;
+%             }
+
+%             get
+%             {
+%                 return (string) this["GUID"];
+%             }
+%         }
+
+%         public bool Valid // Переделываем объект-сессию.
+%         {
+%             get
+%             {
+%                 IAgent a=Agent;
+%                 return a.Role != RoleEnum.Invalid &&
+%                     a.Role != RoleEnum.Unknown;
+%             }
+%         }
+
+%         public IAgent Agent // Agent in the session
+%         {
+%             get
+%             {
+%                 object o = null;
+%                 bool s = TryGetValue("agent", out o);
+%                 if (s) return (IAgent) o;
+%                 return createAnonymousAgent();
+%             }
+%             set
+%             {
+%                 this["agent"] = value;
+%             }
+%         }
+
+%         private IAgent createAnonymousAgent()
+%         {
+%             MyEntityContext ctx = Application.Context;
+%             if (GUID == null)
+%             {
+%                 GUID = ImportFromAtlcomru.GetGUID();
+%             }
+%             else
+%             {
+%                 // Try load from database
+%                 IAgent agent = ctx.Agents.Where(x => x.GUID == GUID).FirstOrDefault();
+%                 if (agent != null) Agent = agent;
+%             }
+
+%             IAgent anonym = ctx.Agents.Create();
+%             anonym.GUID = GUID;
+%             anonym.Role = RoleEnum.Unknown;
+%             this.Agent = anonym;
+%             ctx.Add(this.Agent);
+%             ctx.SaveChanges();
+
+%             return this.Agent;
+%         }
+
+%         public SessionModel Prev = null;
+
+%         public SessionModel Invalidate()
+%             // Метод отменяет сессию зарегистрированного пользователя
+%             // и заменяет ее анонимной, причем предыдущей, если она записалась,
+%             // или новой анонимной, если нет.
+%         {
+%             SessionModel prev = Prev;
+%             if (Valid) // Была валидная сессия?
+%             {
+%                 WebModule.activeSessions.Remove(GUID); // Remove self from active sessions.
+
+%                 if (prev!=null) return prev;
+
+%                 this.GUID=null;
+%                 createAnonymousAgent();
+%                 return this;
+%             }
+%             else return this; // Сессия уже была анонимная;
+%         }
+%     }
+% }
+% \end{minted}
 \end{document}
 
 %%% Local Variables:
