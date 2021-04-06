@@ -56,3 +56,8 @@ _minted-*/
 doc/auto/*
 /doc/omegat/omegat/project_save.tmx.*.bak
 /doc/omegat/omegat/project_save.tmx.bak
+
+Paket dependency manager
+.paket/
+paket-files/
+
