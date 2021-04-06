@@ -380,15 +380,15 @@ namespace RSPO
 			}
 		}
 
-		string IAgent.Name { get => "Invalid User"; set => throw new NotImplementedException(); }
-		string IAgent.NickName { get => "undefined"; set => throw new NotImplementedException(); }
-		string IAgent.PasswordHash { get => ""; set => throw new NotImplementedException(); }
-		string IAgent.Phone { get => ""; set => throw new NotImplementedException(); }
-		string IAgent.Email { get => ""; set => throw new NotImplementedException(); }
-		RoleEnum IAgent.Role { get => RoleEnum.Unknown; set => throw new NotImplementedException(); }
-		string IAgent.GUID { get => ""; set => throw new NotImplementedException(); }
-		ICollection<IProperty> IAgent.Properties { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		bool IAgent.Valid { get => false; }
+		string IAgent.Name { get { return "Invalid User";  } set { throw new NotImplementedException(); } }
+		string IAgent.NickName { get { return "undefined"; } set { throw new NotImplementedException(); } }
+		string IAgent.PasswordHash { get { return ""; } set { throw new NotImplementedException(); } }
+		string IAgent.Phone { get { return ""; } set { throw new NotImplementedException(); } }
+		string IAgent.Email { get { return ""; } set {  throw new NotImplementedException(); } }
+		RoleEnum IAgent.Role { get { return RoleEnum.Unknown; }  set { throw new NotImplementedException(); } }
+		string IAgent.GUID { get { return ""; }  set {  throw new NotImplementedException(); } }
+		ICollection<IProperty> IAgent.Properties { get { throw new NotImplementedException(); }  set { throw new NotImplementedException(); } }
+		bool IAgent.Valid { get { return false; } }
 	}
 
 	public class RenderException : Exception
